@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import "./../buttons.css";
 
-const SuccessBtn = ({ onClick, text, fill }) => {
+const SuccessBtn = ({ onClick, children, fill }) => {
   return (
     <button
       onClick={onClick}
       className={fill ? "btn success-fill" : "btn success"}
     >
-      {text}
+      {children}
     </button>
   );
 };

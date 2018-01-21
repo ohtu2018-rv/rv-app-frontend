@@ -8,17 +8,14 @@ import SuccessBtn from "./../components/SuccessBtn";
 
 storiesOf("Danger button", module)
   .add("With fill", () => (
-    <DangerBtn
-      fill={true}
-      onClick={action("clicked danger button with fill")}
-      text="Danger button"
-    />
+    <DangerBtn fill={true} onClick={action("clicked danger button with fill")}>
+      Danger button
+    </DangerBtn>
   ))
   .add("Without fill", () => (
-    <DangerBtn
-      onClick={action("clicked danger button without fill")}
-      text="Danger button"
-    />
+    <DangerBtn onClick={action("clicked danger button without fill")}>
+      Danger button
+    </DangerBtn>
   ));
 
 storiesOf("Success button", module)
@@ -26,12 +23,12 @@ storiesOf("Success button", module)
     <SuccessBtn
       fill={true}
       onClick={action("clicked success button with fill")}
-      text="Success button"
-    />
+    >
+      Success button
+    </SuccessBtn>
   ))
   .add("Without fill", () => (
-    <SuccessBtn
-      onClick={action("clicked success button without fill")}
-      text="Success button"
-    />
+    <SuccessBtn onClick={action("clicked success button without fill")}>
+      Success button
+    </SuccessBtn>
   ));
