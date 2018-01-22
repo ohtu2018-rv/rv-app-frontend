@@ -13,7 +13,7 @@ const SuccessBtn = ({ onClick, children, fill, hover, loader, ...props }) => {
 
   return (
     <button {...props} onClick={onClick} className={className}>
-      {!loader ? children : <Loader/>}
+      {!loader ? <span className="btnContent">{children}</span> : <Loader />}
     </button>
   );
 };
