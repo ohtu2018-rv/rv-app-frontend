@@ -17,6 +17,9 @@ export class Header extends React.Component {
               <div style={styles.logout}>
                 <DangerBtn>Kirjaudu ulos (ENTER)</DangerBtn >
               </div>
+              <div style={styles.asetukset}>
+                <SuccessBtn>Asetukset</SuccessBtn>
+              </div>
             </div>
         )
     }
@@ -36,6 +39,10 @@ const styles = {
     },
     logout: {
         marginRight: 10,
+        float: 'right',
+    },
+    asetukset: {
+        marginRight: 5,
         float: 'right',
     },
 }
