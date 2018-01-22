@@ -8,7 +8,7 @@
   transition: background-color 0.1s;
 }
 
-.danger:hover {
+.danger-hover:hover {
   color: white;
   background-color: red;
   border-color: red;
@@ -23,7 +23,7 @@
   transition: background-color 0.1s;
 }
 
-.danger-fill:hover {
+.danger-fill-hover:hover {
   color: red;
   background-color: transparent;
   border-color: red;

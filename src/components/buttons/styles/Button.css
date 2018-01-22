@@ -4,6 +4,7 @@ button:focus {
 
 .btn {
   height: 40px;
+  min-width: 130px;
   font-size: 11pt;
   border-radius: 5px;
   border: 1px solid;

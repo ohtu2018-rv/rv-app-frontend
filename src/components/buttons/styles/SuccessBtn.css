@@ -5,7 +5,7 @@
   transition: background-color 0.1s;
 }
 
-.success:hover {
+.success-hover:hover {
   color: white;
   background-color: green;
   border-color: green;
@@ -20,7 +20,7 @@
   transition: background-color 0.1s;
 }
 
-.success-fill:hover {
+.success-fill-hover:hover {
   color: green;
   background-color: transparent;
   border-color: green;
