@@ -1,0 +1,31 @@
+/*
+  Danger buttons
+  */
+
+.danger {
+  color: red;
+  -webkit-transition: background-color 0.1s; /* Safari */
+  transition: background-color 0.1s;
+}
+
+.danger:hover {
+  color: white;
+  background-color: red;
+  border-color: red;
+  cursor: pointer;
+}
+
+.danger-fill {
+  color: white;
+  background-color: red;
+  border-color: red;
+  -webkit-transition: background-color 0.1s; /* Safari */
+  transition: background-color 0.1s;
+}
+
+.danger-fill:hover {
+  color: red;
+  background-color: transparent;
+  border-color: red;
+  cursor: pointer;
+}

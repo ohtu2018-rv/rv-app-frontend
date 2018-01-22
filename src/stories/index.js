@@ -3,8 +3,9 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import DangerBtn from "./../components/DangerBtn";
-import SuccessBtn from "./../components/SuccessBtn";
+import DangerBtn from "./../components/buttons/DangerBtn";
+import SuccessBtn from "./../components/buttons/SuccessBtn";
+import PurchaseNotification from "../components/notifications/PurchaseNotification";
 
 storiesOf("Danger button", module)
   .add("With fill", () => (
@@ -32,3 +33,15 @@ storiesOf("Success button", module)
       Success button
     </SuccessBtn>
   ));
+
+storiesOf("Purchase notification (with shadow)", module).add(
+  "Coca-Cola Zero, 1.85 eur",
+  () => (
+    <PurchaseNotification shadow={true} product="Coca-Cola Zero" price={1.85} />
+  )
+);
+
+storiesOf("Purchase notification (without shadow)", module).add(
+  "Coca-Cola Zero, 1.85 eur",
+  () => <PurchaseNotification product="Coca-Cola Zero" price={1.85} />
+);
