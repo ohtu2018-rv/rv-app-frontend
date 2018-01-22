@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./styles/Button.css";
 import "./styles/SuccessBtn.css";
 import Loader from "./../loaders/Loader";
