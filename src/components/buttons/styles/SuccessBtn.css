@@ -1,0 +1,28 @@
+/* Success buttons */
+.success {
+  color: green;
+  -webkit-transition: background-color 0.1s; /* Safari */
+  transition: background-color 0.1s;
+}
+
+.success-hover:hover {
+  color: white;
+  background-color: green;
+  border-color: green;
+  cursor: pointer;
+}
+
+.success-fill {
+  color: white;
+  background-color: green;
+  border-color: green;
+  -webkit-transition: background-color 0.1s; /* Safari */
+  transition: background-color 0.1s;
+}
+
+.success-fill-hover:hover {
+  color: green;
+  background-color: transparent;
+  border-color: green;
+  cursor: pointer;
+}

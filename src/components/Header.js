@@ -1,6 +1,6 @@
 import React from 'react';
-import DangerBtn from './DangerBtn';
-import SuccessBtn from './SuccessBtn';
+import DangerBtn from './buttons/DangerBtn';
+import SuccessBtn from './buttons/SuccessBtn';
 
 export class Header extends React.Component {
     constructor(props) {
@@ -24,17 +24,18 @@ export class Header extends React.Component {
 
 const styles = {
     header: {
+        paddingTop: 5,
+        paddingLeft: 5,
+        paddingBottom: 5,
         width: '100%',
         height: '5%',
         display: 'inline-block'
     },
     selaa: {
-        paddingTop: 5,
         float: 'left',
     },
     logout: {
-        paddingTop: 5,
-        paddingRight: 5,
+        marginRight: 10,
         float: 'right',
     },
 }
