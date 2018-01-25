@@ -10,7 +10,7 @@ export class Header extends React.Component {
                 <SuccessBtn>Selaa valikoimaa</SuccessBtn>
               </div>
               <div style={styles.logout}>
-                <DangerBtn>Kirjaudu ulos (ENTER)</DangerBtn >
+                <DangerBtn onClick={this.props.logout}>Kirjaudu ulos (ENTER)</DangerBtn >
               </div>
               <div style={styles.asetukset}>
                 <SuccessBtn>Asetukset</SuccessBtn>
