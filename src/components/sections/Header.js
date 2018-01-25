@@ -15,6 +15,7 @@ export class Header extends React.Component {
               <div style={styles.asetukset}>
                 <SuccessBtn>Asetukset</SuccessBtn>
               </div>
+              <span style={styles.clientInfo}>Tuure Onnela: 15.4e</span>
             </div>
         )
     }
@@ -39,4 +40,11 @@ const styles = {
         marginRight: 5,
         float: 'right',
     },
+    clientInfo: {
+        marginTop: 11,
+        marginRight: 15,
+        float: 'right',
+        verticalAlign: 'center',
+        fontWeight: 'bold'
+    }
 }
