@@ -1,13 +1,8 @@
 import React from 'react';
-import DangerBtn from './buttons/DangerBtn';
-import SuccessBtn from './buttons/SuccessBtn';
+import DangerBtn from '../buttons/DangerBtn';
+import SuccessBtn from '../buttons/SuccessBtn';
 
 export class Header extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
     render() {
         return (
             <div style={styles.header}>
@@ -29,8 +24,7 @@ const styles = {
     header: {
         paddingTop: 5,
         paddingLeft: 5,
-        paddingBottom: 5,
-        width: '100%',
+        width: '99%',
         height: '5%',
         display: 'inline-block'
     },
@@ -38,7 +32,7 @@ const styles = {
         float: 'left',
     },
     logout: {
-        marginRight: 10,
+        marginRight: 5,
         float: 'right',
     },
     asetukset: {

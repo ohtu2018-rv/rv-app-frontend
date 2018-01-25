@@ -6,6 +6,7 @@ import { action } from "@storybook/addon-actions";
 import DangerBtn from "./../components/buttons/DangerBtn";
 import SuccessBtn from "./../components/buttons/SuccessBtn";
 import PurchaseNotification from "../components/notifications/PurchaseNotification";
+import { Header } from "./../components/sections/Header";
 import Loader from "../components/loaders/Loader";
 
 storiesOf("Danger button", module)
@@ -71,3 +72,9 @@ storiesOf("Purchase notification (without shadow)", module).add(
   "Coca-Cola Zero, 1.85 eur",
   () => <PurchaseNotification product="Coca-Cola Zero" price={1.85} />
 );
+
+storiesOf("Header", module)
+.add("Initial", () => (
+  <Header />
+));
+
