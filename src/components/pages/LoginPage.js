@@ -5,7 +5,7 @@ export class LoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = { username: "user", password: "pass" };
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleInputEvent = this.handleInputEvent.bind(this);
         this.authenticate = this.authenticate.bind(this);
     }
 
@@ -31,7 +31,7 @@ export class LoginPage extends React.Component {
         }
     }
 
-    handleInputChange(event) {
+    handleInputEvent(event) {
         const target = event.target;
         this.setState({ [target.name]: target.value });
     }
@@ -57,7 +57,7 @@ export class LoginPage extends React.Component {
                                 type="text" 
                                 name="username" 
                                 value={this.state.username} 
-                                onChange={this.handleInputChange}
+                                onChange={this.handleInputEvent}
                                 autoFocus />
                         </label>
                         <br />
@@ -66,7 +66,7 @@ export class LoginPage extends React.Component {
                                 type="text" 
                                 name="password" 
                                 value={this.state.password}
-                                onChange={this.handleInputChange} />
+                                onChange={this.handleInputEvent} />
                         </label>
                     </form>
                 </div>
