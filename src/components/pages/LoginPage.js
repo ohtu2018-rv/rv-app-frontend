@@ -4,21 +4,20 @@ import SuccessBtn from '../buttons/SuccessBtn';
 export class LoginPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { username: "admin", password: "admin" };
+        this.state = { username: "user", password: "pass" };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.authenticate = this.authenticate.bind(this);
     }
 
     authenticate() {
         /* TODO: DB-Search here, backend url? */
-        const loggedIn = this.state.username === "admin" && this.state.password === "admin";
+        const loggedIn = this.state.username === "user" && this.state.password === "pass";
         if (loggedIn) {
             this.props.login()
         } else {
             alert("Wrong username/password.");
-            this.setState({ username: "admin", password: "admin" });
+            this.setState({ username: "user", password: "pass" });
         }
-        
     }
 
     handleKeyPress = (event) => {
@@ -47,22 +46,29 @@ export class LoginPage extends React.Component {
     render() {
         return (
             <div id="logincontent" style={styles.content}>
-                <div style={styles.login}>
+                <div style={styles.loginButton}>
                     <SuccessBtn onClick={this.props.login}>Kirjaudu sisään (ENTER)</SuccessBtn>
                 </div>
-                <form>
-                    <input 
-                        type="text" 
-                        name="username" 
-                        value={this.state.username} 
-                        onChange={this.handleInputChange}
-                        autoFocus />
-                    <input 
-                        type="text" 
-                        name="password" 
-                        value={this.state.password}
-                        onChange={this.handleInputChange} />
-                </form>
+                <div style={styles.loginForm}>
+                    <form>
+                        <label>
+                            <input 
+                                type="text" 
+                                name="username" 
+                                value={this.state.username} 
+                                onChange={this.handleInputChange}
+                                autoFocus />
+                        </label>
+                        <br />
+                        <label>
+                            <input 
+                                type="text" 
+                                name="password" 
+                                value={this.state.password}
+                                onChange={this.handleInputChange} />
+                        </label>
+                    </form>
+                </div>
             </div>
         )
     }
@@ -74,9 +80,14 @@ const styles = {
         width: '100%',
         position: 'absolute'
     },
-    login: {
+    loginButton: {
         marginTop: 5,
         marginRight: 5,
         float: 'right',
+    },
+    loginForm: {
+        marginTop: 5,
+        marginLeft: 5,
+        float: 'left'
     }
 }
