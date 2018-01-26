@@ -12,6 +12,7 @@ export class LoginPage extends React.Component {
     authenticate() {
         /* TODO: DB-Search here, backend url? */
         const loggedIn = this.state.username === "user" && this.state.password === "pass";
+        
         if (loggedIn) {
             this.props.login()
         } else {

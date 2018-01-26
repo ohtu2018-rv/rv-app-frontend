@@ -11,7 +11,8 @@ export class ContentRight extends React.Component {
 
 const styles = {
     content: {
-        height: '100%',
+        marginTop: '-3.22%',
+        height: '100.1%',
         width: '50%',
         float: 'right'
     }

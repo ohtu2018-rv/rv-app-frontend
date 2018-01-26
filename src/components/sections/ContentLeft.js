@@ -11,8 +11,9 @@ export class ContentLeft extends React.Component {
 
 const styles = {
     content: {
-        height: '100%',
+        marginTop: '-3.26%',
+        height: '100.1%',
         width: '50%',
-        float: 'left'
+        float: 'left',
     }
 }
