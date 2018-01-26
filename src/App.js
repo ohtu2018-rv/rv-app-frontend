@@ -15,7 +15,9 @@ class App extends Component {
   }
 
   render() {
-    let page = this.state.loggedIn ? <MainPage logout={this.changeUserState} /> : <LoginPage login={this.changeUserState}/>; 
+    let page = this.state.loggedIn ?
+        <MainPage logout={this.changeUserState} /> : 
+        <LoginPage login={this.changeUserState}/>; 
     return (
       <div className="App">
         {page}
