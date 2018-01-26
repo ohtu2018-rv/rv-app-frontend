@@ -19,7 +19,6 @@ export class MainPage extends Component {
 
   componentWillUnmount() {
       document.removeEventListener("keypress", this.handleKeyPress)
-      console.log("removed eventListener mainPage")
   }
 
   render() {
