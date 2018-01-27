@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import { Header } from '../sections/Header';
-import { Content } from '../sections/Content';  
+import React, { Component } from "react";
+import { Header } from "../sections/Header";
+import { Content } from "../sections/Content";
 
-export class MainPage extends Component {
-  handleKeyPress = (event) => {
-      switch(event.keyCode) {
-          case 13:
-              this.props.logout();
-              break;
-          default:
-              console.log(event.keyCode);
-      }
-  }
+class MainPage extends Component {
+  handleKeyPress = event => {
+    switch (event.keyCode) {
+      case 13:
+        this.props.logout();
+        break;
+      default:
+        console.log(event.keyCode);
+    }
+  };
 
-  componentDidMount(){
-      document.addEventListener("keypress", this.handleKeyPress);
+  componentDidMount() {
+    document.addEventListener("keypress", this.handleKeyPress);
   }
 
   componentWillUnmount() {
-      document.removeEventListener("keypress", this.handleKeyPress)
+    document.removeEventListener("keypress", this.handleKeyPress);
   }
 
   render() {
@@ -31,3 +31,4 @@ export class MainPage extends Component {
   }
 }
 
+export default MainPage;

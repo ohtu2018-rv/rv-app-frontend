@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import './App.css';
-import { MainPage } from './components/pages/MainPage';
-import { LoginPage } from './components/pages/LoginPage';   
+import React, { Component } from "react";
+import "./App.css";
+import MainPage from "./components/pages/MainPage";
+import LoginPage from "./components/pages/LoginPage";
 
 class App extends Component {
   constructor(props) {
@@ -15,14 +15,12 @@ class App extends Component {
   }
 
   render() {
-    let page = this.state.loggedIn ?
-        <MainPage logout={this.changeUserState} /> : 
-        <LoginPage login={this.changeUserState}/>; 
-    return (
-      <div className="App">
-        {page}
-      </div>
+    let page = this.state.loggedIn ? (
+      <MainPage logout={this.changeUserState} />
+    ) : (
+      <LoginPage login={this.changeUserState} />
     );
+    return <div className="App">{page}</div>;
   }
 }
 

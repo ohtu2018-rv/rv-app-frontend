@@ -1,94 +1,116 @@
-import React from 'react';
-import SuccessBtn from '../buttons/SuccessBtn';
+import React from "react";
+import SuccessBtn from "../buttons/SuccessBtn";
+import LoginForm from "../inputs/LoginForm";
+import "./styles/LoginPage.css";
 
-export class LoginPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { username: "user", password: "pass" };
-        this.handleInputEvent = this.handleInputEvent.bind(this);
-        this.authenticate = this.authenticate.bind(this);
-    }
+class LoginPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      minUsernameLength: 8,
+      password: "",
+      minPasswordLength: 2,
+      usernameDisabled: false,
+      passwordDisabled: true,
+      submitDisabled: true,
+      loginStep: 1
+    };
+    this.handleInputEvent = this.handleInputEvent.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+  }
 
-    authenticate() {
-        /* TODO: DB-Search here, backend url? */
-        const loggedIn = this.state.username === "user" && this.state.password === "pass";
-        
-        if (loggedIn) {
-            this.props.login()
-        } else {
-            alert("Wrong username/password.");
-            this.setState({ username: "user", password: "pass" });
-        }
-    }
+  authenticate() {
+    /* TODO: DB-Search here, backend url? */
+    /* Dispatch Redux action here that tries to authenticate the user */
+    const loggedIn =
+      this.state.username === "user" && this.state.password === "pass";
 
-    handleKeyPress = (event) => {
-        switch(event.keyCode) {
-            case 13:
-                this.authenticate();
-                break;
-            default:
-                console.log(event.keyCode);
-        }
+    if (loggedIn) {
+      this.props.login();
+    } else {
+      alert("Wrong username/password.");
+      this.setState({ username: "user", password: "pass" });
     }
+  }
 
-    handleInputEvent(event) {
-        const target = event.target;
-        this.setState({ [target.name]: target.value });
+  handleKeyPress = event => {
+    console.log("handleKeyPress", event.keyCode);
+    switch (event.keyCode) {
+      case 13:
+        event.preventDefault();
+        this.nextStep();
+        break;
+      case 9:
+        event.preventDefault();
+        this.nextStep();
+        break;
+      default:
+        break;
     }
+  };
 
-    componentDidMount(){
-        document.addEventListener("keypress", this.handleKeyPress);
+  nextStep = () => {
+    if (this.state.loginStep == 1) {
+      this.setState({
+        loginStep: 2,
+        usernameDisabled: true,
+        passwordDisabled: false,
+        submitDisabled: false
+      });
+    } else if (this.state.loginStep == 2) {
+      // Do login
+      this.authenticate();
+      this.setState({
+        loginStep: 1,
+        usernameDisabled: false,
+        passwordDisabled: true,
+        submitDisabled: true,
+        username: "",
+        password: ""
+      });
     }
+  };
 
-    componentWillUnmount() {
-        document.removeEventListener("keypress", this.handleKeyPress)
-    }
+  handleInputEvent(event) {
+    const target = event.target;
+    this.setState({ [target.name]: target.value });
+  }
 
-    render() {
-        return (
-            <div id="logincontent" style={styles.content}>
-                <div style={styles.loginButton}>
-                    <SuccessBtn onClick={this.props.login}>Kirjaudu sisään (ENTER)</SuccessBtn>
-                </div>
-                <div style={styles.loginForm}>
-                    <form>
-                        <label>
-                            <input 
-                                type="text" 
-                                name="username" 
-                                value={this.state.username} 
-                                onChange={this.handleInputEvent}
-                                autoFocus />
-                        </label>
-                        <br />
-                        <label>
-                            <input 
-                                type="text" 
-                                name="password" 
-                                value={this.state.password}
-                                onChange={this.handleInputEvent} />
-                        </label>
-                    </form>
-                </div>
-            </div>
-        )
-    }
+  handleSubmit = e => {
+    e.preventDefault();
+  };
+
+  componentDidMount() {
+    document.addEventListener("keypress", this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keypress", this.handleKeyPress);
+  }
+
+  render() {
+    return (
+      <div className="loginWrap">
+        <LoginForm
+          usernameDisabled={this.state.usernameDisabled}
+          passwordDisabled={this.state.passwordDisabled}
+          submitDisabled={
+            !(
+              !this.state.submitDisabled &&
+              this.state.password.length > this.state.minPasswordLength
+            )
+          }
+          handleInputEvent={this.handleInputEvent}
+          username={this.state.username}
+          password={this.state.password}
+          handleSubmit={this.handleSubmit}
+          shadow={true}
+          handleKeyUp={this.handleKeyPress}
+        />
+      </div>
+    );
+  }
 }
 
-const styles = {
-    content: {
-        height: '100%',
-        width: '100%',
-        position: 'absolute'
-    },
-    loginButton: {
-        marginTop: 5,
-        marginRight: 5,
-        float: 'right',
-    },
-    loginForm: {
-        marginTop: 5,
-        marginLeft: 5,
-        float: 'left'
-    }
-}
+export default LoginPage;

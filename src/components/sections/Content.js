@@ -1,6 +1,7 @@
 import React from 'react';
 import { ContentLeft } from './ContentLeft';
 import { ContentRight } from './ContentRight';
+import PurchaseNotification from './../notifications/PurchaseNotification';
 
 export class Content extends React.Component {
     render() {
@@ -9,6 +10,7 @@ export class Content extends React.Component {
                 <p style={styles.infoText}>Osta leimaamalla.</p>
                 <ContentLeft />
                 <ContentRight />
+                <PurchaseNotification price={1.85} product="Coca-cola Zero" shadow={true}/>
             </div>
         )
     }
