@@ -1,0 +1,17 @@
+.loginHeader {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.loginHeader h1 {
+  display: inline-block;
+}
+
+.loginHeader img {
+  display: inline-block;
+}
+
+.loginHeader h1 {
+  font-weight: bold;
+  font-size: 24pt;
+}

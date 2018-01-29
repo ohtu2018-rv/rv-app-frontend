@@ -1,4 +1,5 @@
 import React from "react";
+import "../reset.css";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -15,6 +16,8 @@ import LoginPage from "./../components/pages/LoginPage";
 import MainPage from "./../components/pages/MainPage";
 import LoginForm from "./../components/forms/LoginForm";
 import TopBalanceUsers from "./../components/ui/TopBalanceUsers";
+
+import "../index.css";
 
 storiesOf("Danger button", module)
   .add("With fill", () => (

@@ -2,6 +2,7 @@ import React from "react";
 import SuccessBtn from "../buttons/SuccessBtn";
 import { Grid, Row, Col } from "react-flexbox-grid";
 import LoginForm from "../forms/LoginForm";
+import LoginHeader from "../sections/LoginHeader";
 import TopBalanceUsers from "../ui/TopBalanceUsers";
 import "./styles/LoginPage.css";
 
@@ -33,9 +34,13 @@ export default class LoginPage extends React.Component {
         <Grid fluid>
           <Row>
             <Col xs>
+              <LoginHeader />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs>
               <TopBalanceUsers />
             </Col>
-            <Col xs>Aktiivisimmat käyttäjät</Col>
             <Col xs>
               <LoginForm
                 handleSubmit={this.handleSubmit}

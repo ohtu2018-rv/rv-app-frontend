@@ -31,7 +31,9 @@ class LoginForm extends React.Component {
     document.removeEventListener("keypress", this.handleKeyPress);
   }
 
-  nextStep = () => {
+  wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+
+  nextStep = async () => {
     if (this.state.loginStep == 1) {
       this.setState({
         loginStep: 2,
@@ -44,9 +46,9 @@ class LoginForm extends React.Component {
       this.setState({
         usernameDisabled: true,
         passwordDisabled: true,
-        submitDisabled: true,
         loader: true
       });
+      await this.wait(1000);
       // Do login
       this.props.authenticate({
         username: this.state.username,
@@ -94,7 +96,7 @@ class LoginForm extends React.Component {
         }
       >
         <form onSubmit={this.props.handleSubmit}>
-          <legend>Ruokavälitys</legend>
+          <legend>Log in</legend>
           <div className="formControl">
             <input
               type="text"
