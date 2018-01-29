@@ -109,7 +109,7 @@ class LoginForm extends React.Component {
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
-              className="input"
+              className="input fullWidth"
               disabled={this.state.usernameDisabled}
               ref={input => {
                 this.usernameInput = input;
@@ -125,7 +125,7 @@ class LoginForm extends React.Component {
               value={this.state.password}
               onChange={this.handleInputEvent}
               onKeyDown={this.handleKeyUp}
-              className="input"
+              className="input fullWidth"
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"

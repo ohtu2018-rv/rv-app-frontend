@@ -45,7 +45,7 @@ export default class LoginPage extends React.Component {
                 authenticate={this.authenticate}
               />
             </Col>
-            <Col xs={9}>
+            <Col xs={9} style={{textAlign: 'center'}}>
               <TopBalanceUsers />
             </Col>
           </Row>
