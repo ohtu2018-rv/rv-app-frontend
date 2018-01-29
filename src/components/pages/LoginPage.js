@@ -38,15 +38,15 @@ export default class LoginPage extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col xs>
-              <TopBalanceUsers />
-            </Col>
-            <Col xs>
+            <Col xs={3}>
               <LoginForm
                 handleSubmit={this.handleSubmit}
                 shadow={true}
                 authenticate={this.authenticate}
               />
+            </Col>
+            <Col xs={9}>
+              <TopBalanceUsers />
             </Col>
           </Row>
         </Grid>

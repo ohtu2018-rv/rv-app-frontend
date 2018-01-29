@@ -138,7 +138,7 @@ class LoginForm extends React.Component {
           <div className="formControl">
             <SuccessBtn
               fill
-              loader={this.state.loader}
+              loader={this.state.loader || this.props.loader}
               disabled={
                 !(
                   !this.state.submitDisabled &&
