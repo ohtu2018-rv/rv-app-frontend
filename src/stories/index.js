@@ -104,6 +104,10 @@ storiesOf("TopBalanceUsers", module)
     return <TopBalanceUsers users={users} />;
   });
 
+  /**
+   * Authentication mock
+   * @param {*} user 
+   */
 const authenticate = user => {
   console.log(user);
 };
