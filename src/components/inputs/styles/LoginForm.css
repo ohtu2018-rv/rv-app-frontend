@@ -1,0 +1,72 @@
+.form {
+  padding: 15px;
+  display: inline-block;
+  font-family: Arial;
+}
+
+.form-shadow {
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.form legend {
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+.input {
+  height: 40px;
+  min-width: 80px;
+  font-size: 15pt;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: transparent;
+  text-align: center;
+}
+
+.input:disabled {
+  opacity: 0.2;
+  -webkit-transition: opacity 0.25s ease-in-out;
+  -moz-transition: opacity 0.25s ease-in-out;
+  -ms-transition: opacity 0.25s ease-in-out;
+  -o-transition: opacity 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.input::placeholder {
+  font-size: 12pt;
+}
+
+.input:disabled::placeholder {
+  color: grey;
+}
+
+.input[disabled]:hover {
+  cursor: default;
+}
+
+.input:focus {
+  outline: 0;
+}
+
+.formLabel {
+  text-align: left;
+}
+
+.formControl {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.formControl:first-child {
+  margin-top: 5px;
+}
+
+.formControl:last-child {
+  margin-bottom: 0px;
+}
+
+.formControl label {
+  display: block;
+}

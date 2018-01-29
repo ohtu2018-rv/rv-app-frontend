@@ -1,19 +1,28 @@
 import React from "react";
 import SuccessBtn from "../buttons/SuccessBtn";
+import LoginForm from "../inputs/LoginForm";
 import "./styles/LoginPage.css";
-import { Grid, Row, Col } from "react-flexbox-grid";
-import LoginForm from "./../inputs/LoginForm";
 
-export class LoginPage extends React.Component {
+class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: "user", password: "pass" };
+    this.state = {
+      username: "",
+      minUsernameLength: 8,
+      password: "",
+      minPasswordLength: 2,
+      usernameDisabled: false,
+      passwordDisabled: true,
+      submitDisabled: true,
+      loginStep: 1
+    };
     this.handleInputEvent = this.handleInputEvent.bind(this);
     this.authenticate = this.authenticate.bind(this);
   }
 
   authenticate() {
     /* TODO: DB-Search here, backend url? */
+    /* Dispatch Redux action here that tries to authenticate the user */
     const loggedIn =
       this.state.username === "user" && this.state.password === "pass";
 
@@ -26,12 +35,40 @@ export class LoginPage extends React.Component {
   }
 
   handleKeyPress = event => {
+    console.log("handleKeyPress", event.keyCode);
     switch (event.keyCode) {
       case 13:
-        this.authenticate();
+        event.preventDefault();
+        this.nextStep();
+        break;
+      case 9:
+        event.preventDefault();
+        this.nextStep();
         break;
       default:
-        console.log(event.keyCode);
+        break;
+    }
+  };
+
+  nextStep = () => {
+    if (this.state.loginStep == 1) {
+      this.setState({
+        loginStep: 2,
+        usernameDisabled: true,
+        passwordDisabled: false,
+        submitDisabled: false
+      });
+    } else if (this.state.loginStep == 2) {
+      // Do login
+      this.authenticate();
+      this.setState({
+        loginStep: 1,
+        usernameDisabled: false,
+        passwordDisabled: true,
+        submitDisabled: true,
+        username: "",
+        password: ""
+      });
     }
   };
 
@@ -39,6 +76,10 @@ export class LoginPage extends React.Component {
     const target = event.target;
     this.setState({ [target.name]: target.value });
   }
+
+  handleSubmit = e => {
+    e.preventDefault();
+  };
 
   componentDidMount() {
     document.addEventListener("keypress", this.handleKeyPress);
@@ -56,7 +97,22 @@ export class LoginPage extends React.Component {
             <Col>Rikkaimmat käyttäjät</Col>
             <Col>Aktiivisimmat käyttäjät</Col>
             <Col>
-              <LoginForm />
+              <LoginForm
+                usernameDisabled={this.state.usernameDisabled}
+                passwordDisabled={this.state.passwordDisabled}
+                submitDisabled={
+                  !(
+                    !this.state.submitDisabled &&
+                    this.state.password.length > this.state.minPasswordLength
+                  )
+                }
+                handleInputEvent={this.handleInputEvent}
+                username={this.state.username}
+                password={this.state.password}
+                handleSubmit={this.handleSubmit}
+                shadow={true}
+                handleKeyUp={this.handleKeyPress}
+              />
             </Col>
           </Row>
         </Grid>
@@ -64,21 +120,3 @@ export class LoginPage extends React.Component {
     );
   }
 }
-
-const styles = {
-  content: {
-    height: "100%",
-    width: "100%",
-    position: "absolute"
-  },
-  loginButton: {
-    marginTop: 5,
-    marginRight: 5,
-    float: "right"
-  },
-  loginForm: {
-    marginTop: 5,
-    marginLeft: 5,
-    float: "left"
-  }
-};
