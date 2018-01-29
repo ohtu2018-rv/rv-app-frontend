@@ -1,94 +1,84 @@
-import React from 'react';
-import SuccessBtn from '../buttons/SuccessBtn';
+import React from "react";
+import SuccessBtn from "../buttons/SuccessBtn";
+import "./styles/LoginPage.css";
+import { Grid, Row, Col } from "react-flexbox-grid";
+import LoginForm from "./../inputs/LoginForm";
 
 export class LoginPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { username: "user", password: "pass" };
-        this.handleInputEvent = this.handleInputEvent.bind(this);
-        this.authenticate = this.authenticate.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.state = { username: "user", password: "pass" };
+    this.handleInputEvent = this.handleInputEvent.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+  }
 
-    authenticate() {
-        /* TODO: DB-Search here, backend url? */
-        const loggedIn = this.state.username === "user" && this.state.password === "pass";
-        
-        if (loggedIn) {
-            this.props.login()
-        } else {
-            alert("Wrong username/password.");
-            this.setState({ username: "user", password: "pass" });
-        }
-    }
+  authenticate() {
+    /* TODO: DB-Search here, backend url? */
+    const loggedIn =
+      this.state.username === "user" && this.state.password === "pass";
 
-    handleKeyPress = (event) => {
-        switch(event.keyCode) {
-            case 13:
-                this.authenticate();
-                break;
-            default:
-                console.log(event.keyCode);
-        }
+    if (loggedIn) {
+      this.props.login();
+    } else {
+      alert("Wrong username/password.");
+      this.setState({ username: "user", password: "pass" });
     }
+  }
 
-    handleInputEvent(event) {
-        const target = event.target;
-        this.setState({ [target.name]: target.value });
+  handleKeyPress = event => {
+    switch (event.keyCode) {
+      case 13:
+        this.authenticate();
+        break;
+      default:
+        console.log(event.keyCode);
     }
+  };
 
-    componentDidMount(){
-        document.addEventListener("keypress", this.handleKeyPress);
-    }
+  handleInputEvent(event) {
+    const target = event.target;
+    this.setState({ [target.name]: target.value });
+  }
 
-    componentWillUnmount() {
-        document.removeEventListener("keypress", this.handleKeyPress)
-    }
+  componentDidMount() {
+    document.addEventListener("keypress", this.handleKeyPress);
+  }
 
-    render() {
-        return (
-            <div id="logincontent" style={styles.content}>
-                <div style={styles.loginButton}>
-                    <SuccessBtn onClick={this.props.login}>Kirjaudu sisään (ENTER)</SuccessBtn>
-                </div>
-                <div style={styles.loginForm}>
-                    <form>
-                        <label>
-                            <input 
-                                type="text" 
-                                name="username" 
-                                value={this.state.username} 
-                                onChange={this.handleInputEvent}
-                                autoFocus />
-                        </label>
-                        <br />
-                        <label>
-                            <input 
-                                type="text" 
-                                name="password" 
-                                value={this.state.password}
-                                onChange={this.handleInputEvent} />
-                        </label>
-                    </form>
-                </div>
-            </div>
-        )
-    }
+  componentWillUnmount() {
+    document.removeEventListener("keypress", this.handleKeyPress);
+  }
+
+  render() {
+    return (
+      <div>
+        <Grid fluid>
+          <Row>
+            <Col>Rikkaimmat käyttäjät</Col>
+            <Col>Aktiivisimmat käyttäjät</Col>
+            <Col>
+              <LoginForm />
+            </Col>
+          </Row>
+        </Grid>
+      </div>
+    );
+  }
 }
 
 const styles = {
-    content: {
-        height: '100%',
-        width: '100%',
-        position: 'absolute'
-    },
-    loginButton: {
-        marginTop: 5,
-        marginRight: 5,
-        float: 'right',
-    },
-    loginForm: {
-        marginTop: 5,
-        marginLeft: 5,
-        float: 'left'
-    }
-}
+  content: {
+    height: "100%",
+    width: "100%",
+    position: "absolute"
+  },
+  loginButton: {
+    marginTop: 5,
+    marginRight: 5,
+    float: "right"
+  },
+  loginForm: {
+    marginTop: 5,
+    marginLeft: 5,
+    float: "left"
+  }
+};

@@ -2,20 +2,22 @@ import React from 'react';
 
 /* TODO */
 
-const LoginForm = (props) => {
+const LoginForm = ({username, password, handleInputChange}) => {
     return (
         <form>
             <input 
                 type="text" 
                 name="username" 
-                value={this.state.username} 
-                onChange={this.handleInputChange}
+                value={username} 
+                onChange={handleInputChange}
                 autoFocus />
             <input 
                 type="text" 
                 name="password" 
-                value={this.state.password}
-                onChange={this.handleInputChange} />
+                value={password}
+                onChange={handleInputChange} />
         </form>
     )
 }
+
+export default LoginForm;
