@@ -1,5 +1,4 @@
 import React from "react";
-import TkoAlyLogo from "../logos/TkoAlyLogo";
 import "./styles/LoginHeader.css";
 
 const LoginHeader = props => (

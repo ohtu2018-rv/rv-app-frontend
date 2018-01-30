@@ -1,50 +1,39 @@
-import React from 'react';
-import DangerBtn from '../buttons/DangerBtn';
-import SuccessBtn from '../buttons/SuccessBtn';
+import React from "react";
+import DangerBtn from "../buttons/DangerBtn";
+import SuccessBtn from "../buttons/SuccessBtn";
+import BasicBtn from "../buttons/BasicBtn";
+import Margin from "../helpers/Margin";
+
+import "./styles/Header.css";
 
 export class Header extends React.Component {
-    render() {
-        return (
-            <div style={styles.header}>
-              <div style={styles.selaa}>
-                <SuccessBtn>Selaa valikoimaa</SuccessBtn>
-              </div>
-              <div style={styles.logout}>
-                <DangerBtn onClick={this.props.logout}>Kirjaudu ulos (ENTER)</DangerBtn >
-              </div>
-              <div style={styles.asetukset}>
-                <SuccessBtn>Asetukset</SuccessBtn>
-              </div>
-              <span style={styles.clientInfo}>Tuure Onnela: 15.4e</span>
-            </div>
-        )
-    }
-}
-
-const styles = {
-    header: {
-        paddingTop: 5,
-        paddingLeft: 5,
-        width: '99%',
-        height: '5%',
-        display: 'inline-block'
-    },
-    selaa: {
-        float: 'left',
-    },
-    logout: {
-        marginRight: 5,
-        float: 'right',
-    },
-    asetukset: {
-        marginRight: 5,
-        float: 'right',
-    },
-    clientInfo: {
-        marginTop: 11,
-        marginRight: 15,
-        float: 'right',
-        verticalAlign: 'center',
-        fontWeight: 'bold'
-    }
+  render() {
+    return (
+      <header>
+        <div className="header-left">
+          <Margin margin={5} inlineBlock>
+            <BasicBtn
+              hover
+              onClick={() => alert("Testiostoksen handler tähän")}
+            >
+              Testiostos (1,85 &euro;)
+            </BasicBtn>
+          </Margin>
+        </div>
+        <div className="header-right">
+          <Margin margin={5} inlineBlock>
+            <span><b>Tuure Onnela</b> 15,40 &euro;</span>
+          </Margin>
+          <Margin margin={5} inlineBlock>
+            <SuccessBtn hover>Asetukset</SuccessBtn>
+          </Margin>
+          <Margin margin={5} inlineBlock>
+            <DangerBtn onClick={this.props.logout} hover>
+              Kirjaudu ulos (ENTER)
+            </DangerBtn>
+          </Margin>
+        </div>
+      </header>
+    );
+  }
 }

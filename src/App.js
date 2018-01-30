@@ -6,7 +6,7 @@ import LoginPage from "./components/pages/LoginPage";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { loggedIn: false };
+    this.state = { loggedIn: true };
     this.changeUserState = this.changeUserState.bind(this);
   }
 
