@@ -27,7 +27,7 @@ class LoginForm extends React.Component {
   }
 
   componentWillUnmount() {
-    document.addEventListener("keydown", this.handleKeyPress);
+    document.removeEventListener("keydown", this.handleKeyPress);
     document.removeEventListener("keypress", this.handleKeyPress);
   }
 
