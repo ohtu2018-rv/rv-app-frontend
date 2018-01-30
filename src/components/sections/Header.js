@@ -28,8 +28,8 @@ export class Header extends React.Component {
         <div className="header-right">
           <Margin margin={5} inlineBlock>
             <span>
-              <b>{this.props.user.full_name}</b>{" "}
-              {this.props.user.account_balance} &euro;
+              {"👤 "}<b>{this.props.user.full_name}</b>{" "}
+              {parseFloat(this.props.user.account_balance).toFixed(2)} &euro;
             </span>
           </Margin>
           <Margin margin={5} inlineBlock>
