@@ -1,28 +1,17 @@
 import React from "react";
-import { ContentLeft } from "./ContentLeft";
-import { ContentRight } from "./ContentRight";
-
+import "./styles/Content.css";
+import { Grid, Col, Row } from "react-flexbox-grid";
 export class Content extends React.Component {
   render() {
     return (
-      <div style={styles.content}>
-        <p style={styles.infoText}>Osta leimaamalla.</p>
-        <ContentLeft buy={this.props.buy}/>
-        <ContentRight />
-      </div>
+      <main>
+        <Grid>
+          <Row>
+            <Col xs={8}>Featured products</Col>
+            <Col xs={3}>Shopping cart</Col>
+          </Row>
+        </Grid>
+      </main>
     );
   }
 }
-
-const styles = {
-  content: {
-    height: "94.8%",
-    width: "100%",
-    position: "absolute"
-  },
-  infoText: {
-    top: "25%",
-    textAlign: "center",
-    position: "relative"
-  }
-};

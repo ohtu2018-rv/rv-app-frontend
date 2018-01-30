@@ -72,8 +72,8 @@ class MainPage extends Component {
   render() {
     return (
       <div>
-        <Header logout={this.props.logout} user={this.state.user}/>
-        <Content buy={this.buy} />
+        <Header logout={this.props.logout} user={this.state.user} buy={this.buy}/>
+        <Content />
       </div>
     );
   }

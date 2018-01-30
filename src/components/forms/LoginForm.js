@@ -50,20 +50,23 @@ class LoginForm extends React.Component {
       });
       await this.wait(1000);
       // Do login
-      this.props.authenticate({
+      if(!(this.props.authenticate({
         username: this.state.username,
         password: this.state.password
-      });
-      this.setState({
-        loginStep: 1,
-        usernameDisabled: false,
-        passwordDisabled: true,
-        submitDisabled: true,
-        username: "",
-        password: "",
-        loader: false
-      });
-      this.usernameInput.focus();
+      }))) {
+        this.setState({
+          loginStep: 1,
+          usernameDisabled: false,
+          passwordDisabled: true,
+          submitDisabled: true,
+          username: "",
+          password: "",
+          loader: false
+        });
+        this.usernameInput.focus();
+      } else {
+        this.props.login();
+      }
     }
   };
 
