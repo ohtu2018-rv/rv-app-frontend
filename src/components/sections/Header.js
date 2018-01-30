@@ -14,15 +14,23 @@ export class Header extends React.Component {
           <Margin margin={5} inlineBlock>
             <BasicBtn
               hover
-              onClick={() => this.props.buy(20)}
+              onClick={() =>
+                this.props.buy({
+                  price: 2,
+                  name: "Coca-Cola Zero 0.5l"
+                })
+              }
             >
-              Testiostos (20 &euro;)
+              Testiostos (2 &euro;)
             </BasicBtn>
           </Margin>
         </div>
         <div className="header-right">
           <Margin margin={5} inlineBlock>
-            <span><b>{this.props.user.full_name}</b> {this.props.user.account_balance} &euro;</span>
+            <span>
+              <b>{this.props.user.full_name}</b>{" "}
+              {this.props.user.account_balance} &euro;
+            </span>
           </Margin>
           <Margin margin={5} inlineBlock>
             <SuccessBtn hover>Asetukset</SuccessBtn>
