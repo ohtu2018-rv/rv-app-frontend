@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./styles/PurchaseNotification.css";
 
-const PurchaseNotification = ({ product, price, shadow }) => {
+const PurchaseNotification = ({ product, price, shadow, deposit }) => {
   return (
     <div
       className={
@@ -41,7 +41,13 @@ const PurchaseNotification = ({ product, price, shadow }) => {
           />
         </svg>
         <div className="bought-item">
-          Ostettu <b>{product}</b> ({parseFloat(price / 100).toFixed(2)} &euro;)
+          {deposit ? "Talletettu " : "Ostettu "}
+          {deposit || <b>{product}</b>}
+          <b>
+            {deposit || " ("}
+            {parseFloat(price / 100).toFixed(2)} &euro;
+            {deposit || ")"}
+          </b>
         </div>
       </div>
     </div>

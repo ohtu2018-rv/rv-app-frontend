@@ -7,15 +7,15 @@ import Margin from "../helpers/Margin";
 import "./styles/Header.css";
 
 const items = [
-{
-  price: 180,
-  name: "Coca-Cola Zero 0.5l"
-},
-{
-  price: 500,
-  name: "Talletus"
-}
-]
+  {
+    price: 180,
+    name: "Coca-Cola Zero 0.5l"
+  },
+  {
+    price: 500,
+    name: "deposit"
+  }
+];
 
 export class Header extends React.Component {
   render() {
@@ -29,7 +29,8 @@ export class Header extends React.Component {
           </Margin>
           <Margin margin={5} inlineBlock>
             <BasicBtn hover onClick={() => this.props.store(items[1])}>
-              Testitalletus ({parseFloat(items[1].price / 100).toFixed(2)} &euro;)
+              Testitalletus ({parseFloat(items[1].price / 100).toFixed(2)}{" "}
+              &euro;)
             </BasicBtn>
           </Margin>
         </div>

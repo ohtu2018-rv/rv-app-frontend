@@ -20,6 +20,7 @@ export class Content extends React.Component {
               price={this.props.product.price}
               shadow
               product={this.props.product.name}
+              deposit={this.props.product.name === "deposit"}
             />
           </Centered>
         )}
