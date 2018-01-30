@@ -3,7 +3,7 @@ import "./styles/Button.css";
 import "./styles/BasicBtn.css";
 import Loader from "./../loaders/Loader";
 
-const SuccessBtn = ({ onClick, children, fill, hover, loader, ...props }) => {
+const BasicBtn = ({ onClick, children, fill, hover, loader, ...props }) => {
   let className = "btn";
   fill ? (className += " basic-fill") : (className += " basic");
   hover &&
@@ -16,4 +16,4 @@ const SuccessBtn = ({ onClick, children, fill, hover, loader, ...props }) => {
   );
 };
 
-export default SuccessBtn;
+export default BasicBtn;
