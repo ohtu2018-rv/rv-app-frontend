@@ -41,7 +41,7 @@ const PurchaseNotification = ({ product, price, shadow }) => {
           />
         </svg>
         <div className="bought-item">
-          Ostettu <b>{product}</b> ({price} &euro;)
+          Ostettu <b>{product}</b> ({parseFloat(price / 100).toFixed(2)} &euro;)
         </div>
       </div>
     </div>
