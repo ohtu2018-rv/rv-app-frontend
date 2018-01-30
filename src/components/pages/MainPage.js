@@ -23,7 +23,7 @@ class MainPage extends Component {
   }
 
   getUser() {
-    return fetch("http://rv-backend.herokuapp.com/api/v1/user/account", {
+    return fetch("https://rv-backend.herokuapp.com/api/v1/user/account", {
       headers: new Headers({
         Authorization: `Bearer ${
           this.state.token
@@ -55,7 +55,7 @@ class MainPage extends Component {
   }
 
   reduceBalance(product) {
-    return fetch("http://rv-backend.herokuapp.com/api/v1/user/account/debit", {
+    return fetch("https://rv-backend.herokuapp.com/api/v1/user/account/debit", {
       method: "POST",
       headers: new Headers({
         Authorization: `Bearer ${
@@ -70,7 +70,7 @@ class MainPage extends Component {
   }
 
   increaseBalance(product) {
-    return fetch("http://rv-backend.herokuapp.com/api/v1/user/account/credit", {
+    return fetch("https://rv-backend.herokuapp.com/api/v1/user/account/credit", {
       method: "POST",
       headers: new Headers({
         Authorization: `Bearer ${
