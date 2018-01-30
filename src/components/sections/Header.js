@@ -27,13 +27,12 @@ export class Header extends React.Component {
         </div>
         <div className="header-right">
           <Margin margin={5} inlineBlock>
-            <span>
-              {"👤 "}<b>{this.props.user.full_name}</b>{" "}
-              {parseFloat(this.props.user.account_balance).toFixed(2)} &euro;
-            </span>
-          </Margin>
-          <Margin margin={5} inlineBlock>
-            <SuccessBtn hover>Asetukset</SuccessBtn>
+            <BasicBtn>
+              <span>
+                <b>{this.props.user.full_name}</b>{" "}
+                {parseFloat(this.props.user.account_balance).toFixed(2)} &euro;
+              </span>
+            </BasicBtn>
           </Margin>
           <Margin margin={5} inlineBlock>
             <DangerBtn onClick={this.props.logout} hover>
