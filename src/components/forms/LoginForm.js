@@ -34,7 +34,7 @@ class LoginForm extends React.Component {
   wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
   nextStep = async () => {
-    if (this.state.loginStep == 1) {
+    if (this.state.loginStep === 1) {
       this.setState({
         loginStep: 2,
         usernameDisabled: true,
@@ -42,7 +42,7 @@ class LoginForm extends React.Component {
         submitDisabled: false
       });
       this.passwordInput.focus();
-    } else if (this.state.loginStep == 2) {
+    } else if (this.state.loginStep === 2) {
       this.setState({
         usernameDisabled: true,
         passwordDisabled: true,

@@ -7,7 +7,7 @@ export class Content extends React.Component {
     return (
       <div style={styles.content}>
         <p style={styles.infoText}>Osta leimaamalla.</p>
-        <ContentLeft />
+        <ContentLeft buy={this.props.buy}/>
         <ContentRight />
       </div>
     );

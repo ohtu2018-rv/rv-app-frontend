@@ -1,5 +1,4 @@
 import React from "react";
-import SuccessBtn from "../buttons/SuccessBtn";
 import { Grid, Row, Col } from "react-flexbox-grid";
 import LoginForm from "../forms/LoginForm";
 import LoginHeader from "../sections/LoginHeader";
