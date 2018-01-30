@@ -22,7 +22,7 @@ export class Header extends React.Component {
         </div>
         <div className="header-right">
           <Margin margin={5} inlineBlock>
-            <span><b>Tuure Onnela</b> {this.props.user.account_balance} &euro;</span>
+            <span><b>{this.props.user.full_name}</b> {this.props.user.account_balance} &euro;</span>
           </Margin>
           <Margin margin={5} inlineBlock>
             <SuccessBtn hover>Asetukset</SuccessBtn>
