@@ -3,6 +3,8 @@ import "./styles/Content.css";
 import { Grid, Col, Row } from "react-flexbox-grid";
 import PurchaseNotification from "./../notifications/PurchaseNotification";
 import Centered from "./../helpers/Centered";
+import FeaturedProducts from "./FeaturedProducts";
+import ShoppingCart from "./ShoppingCart";
 
 export class Content extends React.Component {
   render() {
@@ -10,8 +12,12 @@ export class Content extends React.Component {
       <main>
         <Grid>
           <Row>
-            <Col xs={8}>Featured products</Col>
-            <Col xs={3}>Shopping cart</Col>
+            <Col xs={6}>
+              <FeaturedProducts/>
+            </Col>
+            <Col xs={6}>
+              <ShoppingCart/>
+            </Col>
           </Row>
         </Grid>
         {this.props.product && (
