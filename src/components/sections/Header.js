@@ -16,12 +16,25 @@ export class Header extends React.Component {
               hover
               onClick={() =>
                 this.props.buy({
-                  price: 2,
+                  price: 180,
                   name: "Coca-Cola Zero 0.5l"
                 })
               }
             >
-              Testiostos (2 &euro;)
+              Testiostos (1.8 &euro;)
+            </BasicBtn>
+          </Margin>
+          <Margin margin={5} inlineBlock>
+            <BasicBtn
+              hover
+              onClick={() =>
+                this.props.store({
+                  price: 500,
+                  name: "Talletus"
+                })
+              }
+            >
+              Testitalletus (5 &euro;)
             </BasicBtn>
           </Margin>
         </div>
@@ -29,7 +42,7 @@ export class Header extends React.Component {
           <Margin margin={5} inlineBlock>
             <span>
               <b>{this.props.user.full_name}</b>{" "}
-              {this.props.user.account_balance} &euro;
+              {this.props.user.account_balance / 100} &euro;
             </span>
           </Margin>
           <Margin margin={5} inlineBlock>

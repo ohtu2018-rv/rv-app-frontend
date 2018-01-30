@@ -19,6 +19,7 @@ class MainPage extends Component {
       product: null
     };
     this.buy = this.buy.bind(this);
+    this.store = this.store.bind(this);
   }
 
   getUser() {
@@ -68,8 +69,33 @@ class MainPage extends Component {
     }).then(res => res.json());
   }
 
+  increaseBalance(product) {
+    return fetch("http://rv-backend.herokuapp.com/api/v1/user/account/credit", {
+      method: "POST",
+      headers: new Headers({
+        Authorization: `Bearer ${
+          this.state.token
+        }` /* HUOM fancyt ` -sulut, "hipsusulut" */,
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify({
+        amount: product.price
+      })
+    }).then(res => res.json());
+  }
+
   buy(product) {
     this.reduceBalance(product).then(updatedUser => {
+      let user = Object.assign(this.state.user);
+      user.account_balance = updatedUser.account_balance;
+      this.setState({ user: user });
+      this.notifyPurchase(product);
+      console.log(this.state.user);
+    });
+  }
+
+  store(product) {
+    this.increaseBalance(product).then(updatedUser => {
       let user = Object.assign(this.state.user);
       user.account_balance = updatedUser.account_balance;
       this.setState({ user: user });
@@ -90,6 +116,7 @@ class MainPage extends Component {
           logout={this.props.logout}
           user={this.state.user}
           buy={this.buy}
+          store={this.store}
         />
         <Content product={this.state.product} />
       </div>
