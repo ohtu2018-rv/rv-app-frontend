@@ -15,7 +15,7 @@ class MainPage extends Component {
         account_balance: 0
       },
       token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTczNTI1ODgsImRhdGEiOnsidXNlcm5hbWUiOiJub3JtYWxfdXNlciIsInJvbGVzIjpbInVzZXIiXX0sImlhdCI6MTUxNzI2ODA0MX0.ooZfzrRnQX2NH3VrblVdUvmL8gP2eOxi2e-W9szZPdQ",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTc0ODE0MjYsImRhdGEiOnsidXNlcm5hbWUiOiJub3JtYWxfdXNlciIsInJvbGVzIjpbInVzZXIiXX0sImlhdCI6MTUxNzM5NTAyOH0.j3U33vPMvaca6uyNPZ3dwDdgrnCkqNKtzNYyeOoVs-g",
       product: null
     };
     this.buy = this.buy.bind(this);
