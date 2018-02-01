@@ -62,9 +62,9 @@ Version tag prefix? []
 
 `git flow feature start FEATURE-NAME` will create a new branch called `feature/FEATURE-NAME`, based on the `develop` branch.
 
-Make your commits, and finalize the feature by running `git flow feature finish FEATURE-NAME`. This will merge the branch `feature/FEATURE-NAME` to `develop` branch. **Note: you still need to push the `develop` branch to GitHub after merging the feature to `develop` !**
+Make your commits, and finalize the feature by running `git flow feature finish FEATURE-NAME`. This will merge the branch `feature/FEATURE-NAME` to `develop` branch.  **Note: you still need to push the `develop` branch to the server after merging the feature to `develop` !**
 
-Optionally, you can push the branch with command `git flow feature publish FEATURE-NAME` (Run this before the `git flow feature finish FEATURE-NAME` command.)
+Optionally, you can push the branch to the server with command `git flow feature publish FEATURE-NAME` to allow other people to develop the feature. After this command, you can just run `git push` to push local changes to the remote feature branch.
 
 ### I want to create a new hotfix
 
