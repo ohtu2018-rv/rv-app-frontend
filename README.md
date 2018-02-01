@@ -55,7 +55,6 @@ Branch name for production releases: [master]
 
 Which branch should be used for integration of the "next release"?
    - develop
-   - release
 Branch name for "next release" development: [develop]
 
 How to name your supporting branch prefixes?
