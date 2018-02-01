@@ -34,6 +34,15 @@ When developing the project, please use **Git flow**.
 
 1. Clone the project
 2. Make sure that your local repository contains three repositories: `develop`, `master`, `release`. You can check your local branches using `git branch`
+
+#### Bash commands to fetch all remote branches to your local repository:
+
+```
+git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+git fetch --all
+git pull --all
+```
+
 3. Run `git flow init` in the repository root. Correct configuration below:
 
 ```
