@@ -51,7 +51,6 @@ git flow init
 Which branch should be used for bringing forth production releases?
    - develop
    - master
-   - release
 Branch name for production releases: [master]
 
 Which branch should be used for integration of the "next release"?
