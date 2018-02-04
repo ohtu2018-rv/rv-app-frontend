@@ -46,7 +46,7 @@ export default class ShoppingCart extends React.Component {
 
     render() {
         const cartItems = placeholderCart.map(item => (
-            <ShoppingCartItem item={item} />
+            <ShoppingCartItem key={item.barcode} item={item} />
         ));
 
         return (

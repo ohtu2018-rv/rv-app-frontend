@@ -45,7 +45,7 @@ class FeaturedProductInfo extends React.Component {
 export default class FeaturedProducts extends React.Component {
     render() {
         const productList = placeholderProducts.map(product => (
-            <FeaturedProductInfo product={product} />
+            <FeaturedProductInfo key={product.barcode} product={product} />
         ));
 
         return (
