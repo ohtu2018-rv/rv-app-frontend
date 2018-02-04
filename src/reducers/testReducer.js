@@ -1,9 +1,9 @@
 // Test reducer
 
-const initialState = "";
+const initialState = '';
 
 const testReducer = (state = initialState, action) => {
-  return state;
+    return state;
 };
 
 export default testReducer;

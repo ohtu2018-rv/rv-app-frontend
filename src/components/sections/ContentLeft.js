@@ -5,15 +5,15 @@ export class ContentLeft extends React.Component {
     render() {
         return (
             <div style={styles.content}>
-
                 {/* REMOVE after sprint 1 */}
 
                 <div style={styles.demoButton}>
-                    <SuccessBtn onClick={() => this.props.buy(20)}>Osta, 20e</SuccessBtn>
+                    <SuccessBtn onClick={() => this.props.buy(20)}>
+                        Osta, 20e
+                    </SuccessBtn>
                 </div>
-
             </div>
-        )
+        );
     }
 }
 
@@ -22,10 +22,10 @@ const styles = {
         marginTop: '-3.26%',
         height: '100.1%',
         width: '50%',
-        float: 'left',
-    }, 
+        float: 'left'
+    },
     demoButton: {
         marginTop: 60,
         marginLeft: 5
     }
-}
+};

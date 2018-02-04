@@ -2,10 +2,7 @@ import React from 'react';
 
 export class ContentRight extends React.Component {
     render() {
-        return (
-            <div style={styles.content}>
-            </div>
-        )
+        return <div style={styles.content} />;
     }
 }
 
@@ -16,4 +13,4 @@ const styles = {
         width: '50%',
         float: 'right'
     }
-}
+};
