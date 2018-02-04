@@ -6,6 +6,7 @@
     "axios": "^0.17.1",
     "node-sass-chokidar": "^0.0.3",
     "npm-run-all": "^4.1.2",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-flexbox-grid": "^2.0.0",
@@ -22,7 +23,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.3.10",

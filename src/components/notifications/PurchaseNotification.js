@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './styles/PurchaseNotification.css';
 
 const PurchaseNotification = ({ product, price, shadow, deposit }) => {

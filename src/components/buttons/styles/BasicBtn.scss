@@ -8,7 +8,7 @@
   transition: background-color 0.1s;
 }
 
-.basic:hover {
+.basic-hover:hover {
   color: white;
   background-color: rgb(38, 155, 209);
   border-color: rgb(38, 155, 209);
@@ -23,7 +23,7 @@
   transition: background-color 0.1s;
 }
 
-.basic-fill:hover {
+.basic-fill-hover:hover {
   color: rgb(38, 155, 209);
   background-color: transparent;
   border-color: rgb(38, 155, 209);
