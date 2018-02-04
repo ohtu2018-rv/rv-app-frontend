@@ -1,6 +1,5 @@
 import React from "react";
 import DangerBtn from "../buttons/DangerBtn";
-import SuccessBtn from "../buttons/SuccessBtn";
 import BasicBtn from "../buttons/BasicBtn";
 import Margin from "../helpers/Margin";
 
