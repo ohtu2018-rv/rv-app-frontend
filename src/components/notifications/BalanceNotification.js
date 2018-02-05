@@ -1,7 +1,12 @@
 import React from 'react';
-import './styles/PurchaseNotification.css';
+import PropTypes from 'prop-types';
 
-const PurchaseNotification = ({ products, shadow }) => {
+import './styles/BalanceNotification.css';
+
+/**
+ * Notification for balance deposit.
+ */
+const BalanceNotification = ({ amount, shadow }) => {
     return (
         <div
             className={
@@ -42,22 +47,20 @@ const PurchaseNotification = ({ products, shadow }) => {
                         fill="transparent"
                     />
                 </svg>
-                <div className="products">
-                    {products.map(product => (
-                        <div className="product">
-                            {product.quantity} x {product.product_name}{' '}
-                            <b>
-                                {parseFloat(
-                                    product.price / 100 * product.quantity
-                                ).toFixed(2)}{' '}
-                                &euro;
-                            </b>
-                        </div>
-                    ))}
+                <div className="bought-item">
+                    Talletettu{' '}
+                    <b>{parseFloat(amount / 100).toFixed(2)} &euro;</b>
                 </div>
             </div>
         </div>
     );
 };
 
-export default PurchaseNotification;
+BalanceNotification.propTypes = {
+    /** Amount of money that has been stored. */
+    amount: PropTypes.number.isRequired,
+    /** Shadow effect under the notification */
+    shadow: PropTypes.bool
+};
+
+export default BalanceNotification;

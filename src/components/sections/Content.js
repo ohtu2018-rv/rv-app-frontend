@@ -7,6 +7,7 @@ import FeaturedProducts from './FeaturedProducts';
 import ShoppingCart from './ShoppingCart';
 
 export class Content extends React.Component {
+    
     render() {
         return (
             <main>
@@ -20,16 +21,15 @@ export class Content extends React.Component {
                         </Col>
                     </Row>
                 </Grid>
-                {this.props.product && (
-                    <Centered>
-                        <PurchaseNotification
-                            price={this.props.product.price}
-                            shadow
-                            product={this.props.product.name}
-                            deposit={this.props.product.name === 'deposit'}
-                        />
-                    </Centered>
-                )}
+                {this.props.products &&
+                    this.props.products.length > 0 && (
+                        <Centered>
+                            <PurchaseNotification
+                                shadow
+                                products={this.props.products}
+                            />
+                        </Centered>
+                    )}
             </main>
         );
     }

@@ -7,12 +7,19 @@ import './styles/Header.css';
 
 const items = [
     {
+        barcode: '0001',
         price: 180,
-        name: 'Coca-Cola Zero 0.5l'
+        product_name: 'Coca-Cola Zero 0.5l'
     },
     {
+        barcode: '0002',
         price: 500,
-        name: 'deposit'
+        product_name: 'deposit'
+    },
+    {
+        barcode: '0003',
+        price: 120,
+        product_name: 'Twix'
     }
 ];
 
@@ -24,10 +31,29 @@ export class Header extends React.Component {
                     <Margin margin={5} inlineBlock>
                         <BasicBtn
                             hover
-                            onClick={() => this.props.buy(items[0])}
+                            onClick={() =>
+                                this.props.buy(
+                                    Object.assign({}, items[0], { quantity: 1 })
+                                )
+                            }
                         >
-                            Testiostos ({parseFloat(
+                            Testiostos 1 ({parseFloat(
                                 items[0].price / 100
+                            ).toFixed(2)}{' '}
+                            &euro;)
+                        </BasicBtn>
+                    </Margin>
+                    <Margin margin={5} inlineBlock>
+                        <BasicBtn
+                            hover
+                            onClick={() =>
+                                this.props.buy(
+                                    Object.assign({}, items[2], { quantity: 1 })
+                                )
+                            }
+                        >
+                            Testiostos 2 ({parseFloat(
+                                items[2].price / 100
                             ).toFixed(2)}{' '}
                             &euro;)
                         </BasicBtn>
