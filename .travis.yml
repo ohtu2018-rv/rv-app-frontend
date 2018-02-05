@@ -1,16 +1,16 @@
 language: node_js
 node_js:
-  - '9'
+- '9'
 cache:
   yarn: true
   directories:
-    - node_modules
+  - node_modules
 install:
-  - yarn
-  - yarn build-css
+- yarn
+- yarn build-css
 deploy:
   provider: heroku
   api_key:
-    develop: "LiNNcovTgaYNR+XG/sLSdCQPk5OfUpBvdl41Xu9/WnxzBDhgHALlDKwD4pA8JzL+sIexcEVVNv569vJgEm6aIMfUHS95lKnSaJ2VzDLtO54SxFdXHwuq804PuYjjKb/btm1JCYqCXMLwGr3ZalcnXQrhoQvfbKtb5Kp4KOIdYM9rULE1Lubmqslfzoy01GXvaKdCU0rgOhyCQvWq1qqtIgzhRYlOy+RzAoYTj98G0hHsSF1ZOlHEpBaHijH+FJf6/hWyp9EPZhyY1NN/dA7JrtACxTldbpelIm7GqfxK3cjRzcQppCVDTcu9NAosmIvxfm8BuYcvb59DYHnt24c5GmT6kJ+vZgGGp776KLUXA3rKgdMi4u0X6N5AP0pjExJUCztg9RNSNUUM7Q8+ta6BgTh/Em2H5HY6vLB/UhfTo5ekYj2rbDI5kFwO4Xn6aREwngzt42JFvzsXaYZP3ZbbViwV5LY5UbXOl/XjV3t6bNy1cuGVfzargjD0o8GZhCraalS/V1Id3R+ggtx0Ovd+hsGM4eioDGgspnyqSWUHLapX+9KlQy8uSeiKhMNvW/5CMAgownjkdqrxvxIAwEvw6EUE3rCbaOUXdfnx9K8/RSv+NM7PmofbnTZd9sDe/CqmAw3N4lnohUHs2+ERFSHBJmCVI5hEGAO3yDCEfIh6JNc="
+    secure: E/dC9khxXmleXVANtKWaKlGK/+kaz1K/EUEdDDvCNl6Nn+YRwd48RSj0GD4/h9nnd/0MyWhF7DONEvtpnAW93APc0quaqwCQ6uwFBQBm0q7QtpJx/Xz+0IZvTjYCPpPxp8xBtK2V6fUjZip2vM7UBCPOPumg7HRe3x/K8sfySNgdPjl6xVdtryT7ePC/ZL1VdUHC540iwXU0xOeQQTdIPINd7QaEWRydJ00j5f2n1O8tRiKKtXhfGpPNZjyJIJGIxesUTb/usyGe2nQXbFd4JH8QN9T6q/B0lyC2gPml62RVJfgBT8AY5nRHsZ2VIqgn2RCRHydmHCg8jMNGYF6lG41jcx7pybZQvdVZ7jV22dJgnAcgsMGScGtW9Fvdui1rMaG/Zly0M0jJQ8Jfs4DbBzxTkD0a/X1dP0acdt71qqobHuhJvoh4Q7kr6VXYydU9DJ8HTTewE/J1Q/vP4+HG2tNy88zE2Ijslis8TRBrLv2J3fyX7md+aibVGJykd1qAlhsSqUWJ5Imjx2KEPHyP00CKJmAUJyugCU2bVP1YU37m2jMuT1S1u/zVwwJeU/wloLCvUeoSAa9t5CCBCQe/YqcALifq+jRTNjEkGnpD2JXplMrZTq1RbirGn0IUZHfh1jMA02RKSfLxriWBCFF8UgXK0UMn1mZuT9A0dGARDYs=
   app:
     develop: rv-frontend-dev
