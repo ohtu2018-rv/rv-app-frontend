@@ -30,7 +30,7 @@ class MainPage extends Component {
         return fetch('https://rv-backend.herokuapp.com/api/v1/user/account', {
             headers: new Headers({
                 Authorization: `Bearer ${
-                    this.state.token
+                    this.props.token
                 }` /* HUOM fancyt ` -sulut, "hipsusulut" */
             })
         }).then(res => res.json());
@@ -65,7 +65,7 @@ class MainPage extends Component {
                 method: 'POST',
                 headers: new Headers({
                     Authorization: `Bearer ${
-                        this.state.token
+                        this.props.token
                     }` /* HUOM fancyt ` -sulut, "hipsusulut" */,
                     'Content-Type': 'application/json'
                 }),
@@ -86,7 +86,7 @@ class MainPage extends Component {
                 method: 'POST',
                 headers: new Headers({
                     Authorization: `Bearer ${
-                        this.state.token
+                        this.props.token
                     }` /* HUOM fancyt ` -sulut, "hipsusulut" */,
                     'Content-Type': 'application/json'
                 }),

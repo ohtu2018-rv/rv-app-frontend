@@ -6,11 +6,32 @@ import TopBalanceUsers from '../sections/TopBalanceUsers';
 import './styles/LoginPage.css';
 
 export default class LoginPage extends React.Component {
+    verifyLogin = user => {
+        return fetch('https://rv-backend.herokuapp.com/api/v1/user/authenticate', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({
+                username: user.username,
+                password: user.password
+            })
+        }).then(res => res.json())
+    }
+
     authenticate = user => {
-        /* TODO: DB-Search here, backend url? */
-        /* Dispatch Redux action here that tries to authenticate the user */
-        const loggedIn = user.username === 'user' && user.password === 'pass';
-        return loggedIn;
+        this.verifyLogin(user)
+            .then(res => {
+                const token = res.access_token;
+                if (token) {
+                    this.props.setAccessToken(token);
+                    return true
+                }
+                return false;
+            })
+            .then(loggedIn => {
+                loggedIn ? this.props.login() : console.log("Not logged in.")
+            });
     };
 
     handleSubmit = e => {
