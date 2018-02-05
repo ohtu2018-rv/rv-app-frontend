@@ -19,7 +19,8 @@ class MainPage extends Component {
             products: [],
             timerRunning: false,
             productTimeout: 3500,
-            timeoutHandler: null
+            timeoutHandler: null,
+            balance: null
         };
         this.buy = this.buy.bind(this);
         this.store = this.store.bind(this);
@@ -114,6 +115,8 @@ class MainPage extends Component {
             let user = Object.assign(this.state.user);
             user.account_balance = updatedUser.account_balance;
             this.setState({ user: user });
+            this.setState({ balance: product.price });
+            setTimeout(() => this.setState({ balance: null }), 3000);
             console.log(this.state.user);
         });
     }
@@ -179,7 +182,10 @@ class MainPage extends Component {
                     buy={this.buy}
                     store={this.store}
                 />
-                <Content products={this.state.products} />
+                <Content
+                    products={this.state.products}
+                    balance={this.state.balance}
+                />
             </div>
         );
     }
