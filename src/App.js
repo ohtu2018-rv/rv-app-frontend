@@ -7,20 +7,36 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: true
+            loggedIn: false,
+            access_token: ''
         }; /* !! SET:  loggedIn: false for non-demo !!  */
-        this.changeUserState = this.changeUserState.bind(this);
+        this.setAccessToken = this.setAccessToken.bind(this);
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
-    changeUserState() {
-        this.setState({ loggedIn: !this.state.loggedIn });
+    setAccessToken(token) {
+        this.setState({ access_token: token });
+    }
+
+    login() {
+        this.setState({ 
+            loggedIn: true
+        });
+    }
+
+    logout() {
+        this.setState({ 
+            loggedIn: false,
+            access_token: ''
+        });
     }
 
     render() {
         let page = this.state.loggedIn ? (
-            <MainPage logout={this.changeUserState} />
+            <MainPage logout={this.logout} token={this.state.access_token} />
         ) : (
-            <LoginPage login={this.changeUserState} />
+            <LoginPage login={this.login} setAccessToken={this.setAccessToken}/>
         );
         return <div className="App">{page}</div>;
     }

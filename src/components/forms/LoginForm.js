@@ -73,7 +73,6 @@ class LoginForm extends React.Component {
     };
 
     handleKeyPress = event => {
-        console.log('handleKeyPress', event.keyCode);
         switch (event.keyCode) {
             case 13:
                 event.preventDefault();
