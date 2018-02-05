@@ -6,8 +6,8 @@ const PurchaseNotification = ({ products, shadow }) => {
         <div
             className={
                 shadow
-                    ? 'success-message success-message-shadow'
-                    : 'success-message'
+                    ? 'purchase-message purchase-message-shadow'
+                    : 'purchase-message'
             }
         >
             <div className="inner">
@@ -30,21 +30,21 @@ const PurchaseNotification = ({ products, shadow }) => {
                         cy="35"
                         r="24"
                         stroke="#979797"
-                        stroke-width="2"
-                        stroke-linecap="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
                         fill="transparent"
                     />
                     <polyline
                         id="successAnimationCheck"
                         stroke="#979797"
-                        stroke-width="2"
+                        strokeWidth="2"
                         points="23 34 34 43 47 27"
                         fill="transparent"
                     />
                 </svg>
                 <div className="products">
                     {products.map(product => (
-                        <div className="product">
+                        <div className="product" key={product.barcode}>
                             {product.quantity} x {product.product_name}{' '}
                             <b>
                                 {parseFloat(

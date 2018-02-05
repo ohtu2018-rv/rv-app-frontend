@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import { Header } from '../sections/Header';
-import { Content } from '../sections/Content';
+import Content from '../sections/Content';
+import Centered from '../helpers/Centered';
+
+import SuccessNotification from './../notifications/SuccessNotification';
+import { CSSTransitionGroup } from 'react-transition-group';
+
+import { connect } from 'react-redux';
+
+import {
+    successMessage,
+    errorMessage
+} from './../../reducers/notificationReducer';
 
 class MainPage extends Component {
     constructor(props) {
@@ -115,8 +126,11 @@ class MainPage extends Component {
             let user = Object.assign(this.state.user);
             user.account_balance = updatedUser.account_balance;
             this.setState({ user: user });
-            this.setState({ balance: product.price });
-            setTimeout(() => this.setState({ balance: null }), 3000);
+            this.props.successMessage(
+                'Talletettu ' +
+                    parseFloat(product.price / 100).toFixed(2) +
+                    ' €'
+            );
             console.log(this.state.user);
         });
     }
@@ -176,6 +190,23 @@ class MainPage extends Component {
     render() {
         return (
             <div>
+                <CSSTransitionGroup
+                    transitionName="notification"
+                    transitionEnterTimeout={200}
+                    transitionLeaveTimeout={200}
+                >
+                    {this.props.success && (
+                        <Centered>
+                            <SuccessNotification
+                                message={this.props.success}
+                                shadow
+                            />
+                        </Centered>
+                    )}
+                    {this.props.error && (
+                        <div>ERROR MESSAGE: {this.props.error}</div>
+                    )}
+                </CSSTransitionGroup>
                 <Header
                     logout={this.props.logout}
                     user={this.state.user}
@@ -191,4 +222,16 @@ class MainPage extends Component {
     }
 }
 
-export default MainPage;
+const mapDispatchToProps = {
+    successMessage,
+    errorMessage
+};
+
+const mapStateToProps = state => {
+    return {
+        success: state.notification.success,
+        error: state.notification.error
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

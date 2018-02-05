@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './styles/BalanceNotification.css';
+import './styles/SuccessNotification.css';
 
 /**
- * Notification for balance deposit.
+ * Success notification component.
  */
-const BalanceNotification = ({ amount, shadow }) => {
+const SuccessNotification = ({ message, shadow }) => {
     return (
         <div
             className={
@@ -35,32 +35,29 @@ const BalanceNotification = ({ amount, shadow }) => {
                         cy="35"
                         r="24"
                         stroke="#979797"
-                        stroke-width="2"
-                        stroke-linecap="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
                         fill="transparent"
                     />
                     <polyline
                         id="successAnimationCheck"
                         stroke="#979797"
-                        stroke-width="2"
+                        strokeWidth="2"
                         points="23 34 34 43 47 27"
                         fill="transparent"
                     />
                 </svg>
-                <div className="bought-item">
-                    Talletettu{' '}
-                    <b>{parseFloat(amount / 100).toFixed(2)} &euro;</b>
-                </div>
+                <div className="notification-text">{message}</div>
             </div>
         </div>
     );
 };
 
-BalanceNotification.propTypes = {
-    /** Amount of money that has been stored. */
-    amount: PropTypes.number.isRequired,
+SuccessNotification.propTypes = {
+    /** Notification message. */
+    message: PropTypes.string.isRequired,
     /** Shadow effect under the notification */
     shadow: PropTypes.bool
 };
 
-export default BalanceNotification;
+export default SuccessNotification;
