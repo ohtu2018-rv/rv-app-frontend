@@ -1,9 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Content } from '../components/sections/Content';
+import Content from '../components/sections/Content';
 import Enzyme from 'enzyme';
+import configureStore from 'redux-mock-store';
+import initialState from './initialState.js';
 
-it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<Content />, div);
+describe('Content component', () => {
+    const mockStore = configureStore();
+    let store;
+    beforeEach(() => {
+        store = mockStore(initialState);
+    });
+
+    it('renders without crashing', () => {
+        const div = document.createElement('div');
+        ReactDOM.render(<Content store={store} />, div);
+    });
 });
