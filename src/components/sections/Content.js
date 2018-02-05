@@ -2,6 +2,7 @@ import React from 'react';
 import './styles/Content.css';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import PurchaseNotification from './../notifications/PurchaseNotification';
+import BalanceNotification from './../notifications/BalanceNotification';
 import Centered from './../helpers/Centered';
 import FeaturedProducts from './FeaturedProducts';
 import ShoppingCart from './ShoppingCart';
@@ -20,13 +21,20 @@ export class Content extends React.Component {
                         </Col>
                     </Row>
                 </Grid>
-                {this.props.product && (
+                {this.props.products &&
+                    this.props.products.length > 0 && (
+                        <Centered>
+                            <PurchaseNotification
+                                shadow
+                                products={this.props.products}
+                            />
+                        </Centered>
+                    )}
+                {this.props.balance && (
                     <Centered>
-                        <PurchaseNotification
-                            price={this.props.product.price}
+                        <BalanceNotification
+                            amount={this.props.balance}
                             shadow
-                            product={this.props.product.name}
-                            deposit={this.props.product.name === 'deposit'}
                         />
                     </Centered>
                 )}

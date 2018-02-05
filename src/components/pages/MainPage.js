@@ -14,7 +14,13 @@ class MainPage extends Component {
                 email: '',
                 account_balance: 0
             },
-            product: null
+            token:
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTc5MTkxMjQsImRhdGEiOnsidXNlcm5hbWUiOiJub3JtYWxfdXNlciIsInJvbGVzIjpbInVzZXIiXX0sImlhdCI6MTUxNzgzNTI3M30.mxFF5lNbpOrVVDCm7djSTxVnsRXZrajFGt1lQeAyG5Q',
+            products: [],
+            timerRunning: false,
+            productTimeout: 3500,
+            timeoutHandler: null,
+            balance: null
         };
         this.buy = this.buy.bind(this);
         this.store = this.store.bind(this);
@@ -70,6 +76,9 @@ class MainPage extends Component {
         ).then(res => res.json());
     }
 
+    /**
+     * Increases account balance.
+     */
     increaseBalance(product) {
         return fetch(
             'https://rv-backend.herokuapp.com/api/v1/user/account/credit',
@@ -88,12 +97,15 @@ class MainPage extends Component {
         ).then(res => res.json());
     }
 
+    /**
+     * Buys a product.
+     */
     buy(product) {
         this.reduceBalance(product).then(updatedUser => {
             let user = Object.assign(this.state.user);
             user.account_balance = updatedUser.account_balance;
             this.setState({ user: user });
-            this.notifyPurchase(product);
+            this.addProduct(product);
             console.log(this.state.user);
         });
     }
@@ -103,15 +115,63 @@ class MainPage extends Component {
             let user = Object.assign(this.state.user);
             user.account_balance = updatedUser.account_balance;
             this.setState({ user: user });
-            this.notifyPurchase(product);
+            this.setState({ balance: product.price });
+            setTimeout(() => this.setState({ balance: null }), 3000);
             console.log(this.state.user);
         });
     }
 
-    notifyPurchase = product => {
-        this.setState({ product });
-        setTimeout(() => this.setState({ product: null }), 3000);
-    };
+    /**
+     * Adds a product.
+     */
+    addProduct(addedProduct) {
+        this.removeProductRemovalTimeout();
+        const product = this.state.products.find(
+            product => product.barcode === addedProduct.barcode
+        );
+
+        if (product) {
+            const oldProducts = this.state.products.filter(
+                product => product.barcode !== addedProduct.barcode
+            );
+            console.log('Old products: ', oldProducts);
+            const newProducts = this.state.products.filter(
+                product => product.barcode === addedProduct.barcode
+            );
+            const newProduct = newProducts[0];
+
+            newProduct.quantity = newProduct.quantity + addedProduct.quantity;
+            console.log('New product: ', newProduct);
+            this.setState({ products: oldProducts.concat(newProduct) });
+        } else {
+            console.log('Added new product: ', addedProduct);
+            const products = this.state.products;
+            products.push(addedProduct);
+            this.setState({ products });
+        }
+        this.setProductRemovalTimeout();
+    }
+
+    /**
+     * Adds product removal timeout
+     */
+    setProductRemovalTimeout() {
+        console.log('Items before timeout removal: ', this.state.products);
+        const timeoutHandler = setTimeout(() => {
+            this.setState({ products: [] });
+        }, this.state.productTimeout);
+        this.setState({ timeoutHandler });
+    }
+
+    /**
+     * Removes product removal timeout
+     */
+    removeProductRemovalTimeout() {
+        if (this.state.timeoutHandler !== null) {
+            clearTimeout(this.state.timeoutHandler);
+            this.setState({ timeoutHandler: null });
+        }
+    }
 
     render() {
         return (
@@ -122,7 +182,10 @@ class MainPage extends Component {
                     buy={this.buy}
                     store={this.store}
                 />
-                <Content product={this.state.product} />
+                <Content
+                    products={this.state.products}
+                    balance={this.state.balance}
+                />
             </div>
         );
     }
