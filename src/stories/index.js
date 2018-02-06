@@ -9,13 +9,13 @@ import SuccessBtn from './../components/buttons/SuccessBtn';
 import PurchaseNotification from '../components/notifications/PurchaseNotification';
 import Loader from '../components/loaders/Loader';
 import { Header } from './../components/sections/Header';
-import { Content } from './../components/sections/Content';
+import Content from './../components/sections/Content';
 import { ContentRight } from './../components/sections/ContentRight';
 import { ContentLeft } from './../components/sections/ContentLeft';
 import LoginPage from './../components/pages/LoginPage';
 import MainPage from './../components/pages/MainPage';
 import LoginForm from './../components/forms/LoginForm';
-import TopBalanceUsers from './../components/ui/TopBalanceUsers';
+import TopBalanceUsers from './../components/sections/TopBalanceUsers';
 
 import '../index.css';
 
@@ -68,14 +68,23 @@ storiesOf('Success button', module)
         </SuccessBtn>
     ));
 
+const products = [
+    {
+        barcode: '0001',
+        quantity: 1,
+        price: 180,
+        product_name: 'Coca-cola Zero'
+    }
+];
+
 storiesOf('Purchase notification (with shadow)', module).add(
     'Coca-Cola Zero, 1.85 eur',
-    () => <PurchaseNotification shadow product="Coca-Cola Zero" price={1.85} />
+    () => <PurchaseNotification shadow products={products} />
 );
 
 storiesOf('Purchase notification (without shadow)', module).add(
     'Coca-Cola Zero, 1.85 eur',
-    () => <PurchaseNotification product="Coca-Cola Zero" price={1.85} />
+    () => <PurchaseNotification products={products} />
 );
 
 storiesOf('Header', module).add('Initial', () => <Header />);
