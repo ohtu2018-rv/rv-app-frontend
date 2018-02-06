@@ -14,7 +14,7 @@ const wait = duration =>
     new Promise(resolve => setTimeout(() => resolve(), duration));
 
 /**
- * Notification reducer.
+ * Shopping cart reducer.
  * @param {object} state
  * @param {object} action
  */
