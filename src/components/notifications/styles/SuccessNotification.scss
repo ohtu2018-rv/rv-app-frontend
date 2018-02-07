@@ -1,12 +1,14 @@
 .success-message {
-  font-size: 16pt;
+  font-size: 12pt;
   padding: 20px;
   text-align: center;
-  display: inline-block;
+  display: block;
   padding-top: 10px;
-  background-color: white;
+  white-space: nowrap;
+  background-color: rgba(52, 189, 63, 0.9);
+  color: white;
   font-family: Arial;
-  z-index: 996;
+  margin: 5px;
 }
 
 .success-message-shadow {
@@ -65,12 +67,12 @@
 
 #successAnimationCircle {
   stroke-dasharray: 151px 151px;
-  stroke: green;
+  stroke: white;
 }
 
 #successAnimationCheck {
   stroke-dasharray: 36px 36px;
-  stroke: green;
+  stroke: white;
 }
 
 #successAnimationResult {

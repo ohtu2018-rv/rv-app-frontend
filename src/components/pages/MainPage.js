@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Header } from '../sections/Header';
 import Content from '../sections/Content';
-import Centered from '../helpers/Centered';
+import NotificationDrawer from '../helpers/NotificationDrawer';
 
 import SuccessNotification from './../notifications/SuccessNotification';
-import { CSSTransitionGroup } from 'react-transition-group';
+import ErrorNotification from './../notifications/ErrorNotification';
+
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { connect } from 'react-redux';
 
@@ -12,6 +14,12 @@ import {
     successMessage,
     errorMessage
 } from './../../reducers/notificationReducer';
+
+const SlideIn = ({ children, ...props }) => (
+    <CSSTransition {...props} classNames="slide">
+        {children}
+    </CSSTransition>
+);
 
 class MainPage extends Component {
     constructor(props) {
@@ -127,7 +135,7 @@ class MainPage extends Component {
             user.account_balance = updatedUser.account_balance;
             this.setState({ user: user });
             this.props.successMessage(
-                'Talletettu ' +
+                'Talletettu RV-tilille ' +
                     parseFloat(product.price / 100).toFixed(2) +
                     ' €'
             );
@@ -190,23 +198,32 @@ class MainPage extends Component {
     render() {
         return (
             <div>
-                <CSSTransitionGroup
-                    transitionName="notification"
-                    transitionEnterTimeout={200}
-                    transitionLeaveTimeout={200}
-                >
-                    {this.props.success && (
-                        <Centered>
-                            <SuccessNotification
-                                message={this.props.success}
-                                shadow
-                            />
-                        </Centered>
-                    )}
-                    {this.props.error && (
-                        <div>ERROR MESSAGE: {this.props.error}</div>
-                    )}
-                </CSSTransitionGroup>
+                <NotificationDrawer>
+                    <TransitionGroup
+                        transitionName="notification"
+                        transitionEnterTimeout={200}
+                        transitionLeaveTimeout={200}
+                    >
+                        {this.props.notifications.map(
+                            (notification, id) =>
+                                notification.messageType === 'SUCCESS' ? (
+                                    <SlideIn key={id}>
+                                        <SuccessNotification
+                                            message={notification.message}
+                                            shadow
+                                        />
+                                    </SlideIn>
+                                ) : (
+                                    <SlideIn key={id}>
+                                        <ErrorNotification
+                                            message={notification.message}
+                                            shadow
+                                        />
+                                    </SlideIn>
+                                )
+                        )}
+                    </TransitionGroup>
+                </NotificationDrawer>
                 <Header
                     logout={this.props.logout}
                     user={this.state.user}
@@ -229,8 +246,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
-        success: state.notification.success,
-        error: state.notification.error
+        notifications: state.notification.notifications
     };
 };
 

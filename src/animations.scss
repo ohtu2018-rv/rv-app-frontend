@@ -1,17 +1,55 @@
-.notification-enter {
-  opacity: 0.01;
+.slide-enter {
+  opacity: 0;
+  transform: translateX(100%);
+  -webkit-transform: translateX(100%);
 }
 
-.notification-enter.notification-enter-active {
+.slide-enter.slide-enter-active {
+  animation: slide-in 0.5s forwards;
+  -webkit-animation: slide-in 0.5s forwards;
+}
+
+.slide-exit {
   opacity: 1;
-  transition: opacity 200ms ease-in;
+  transform: translateX(0%);
+  -webkit-transform: translateX(0%);
 }
 
-.notification-leave {
-  opacity: 1;
+.slide-exit.slide-exit-active {
+  animation: slide-out 0.5s forwards;
+  -webkit-animation: slide-out 0.5s forwards;
 }
 
-.notification-leave.notification-leave-active {
-  opacity: 0.01;
-  transition: opacity 200ms ease-in;
+@keyframes slide-in {
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+@-webkit-keyframes slide-in {
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0%);
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@-webkit-keyframes slide-out {
+  0% {
+    -webkit-transform: translateX(0%);
+  }
+  100% {
+    -webkit-transform: translateX(100%);
+  }
 }

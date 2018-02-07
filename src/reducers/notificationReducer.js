@@ -1,7 +1,10 @@
+import uuidv1 from 'node-uuid';
+
 const initialState = {
-    error: null,
-    success: null
+    notifications: []
 };
+
+const getId = () => uuidv1();
 
 /**
  * Fires a success notification.
@@ -9,17 +12,18 @@ const initialState = {
  * @param {number} duration
  */
 export const successMessage = (message, duration = 4000) => {
+    const id = getId();
     return async dispatch => {
         dispatch({
+            id,
             type: 'MESSAGE',
-            status: 'SUCCESS',
-            message,
-            duration
+            messageType: 'SUCCESS',
+            message
         });
         await wait(duration);
         dispatch({
             type: 'CLEAR_MESSAGE',
-            status: 'SUCCESS'
+            id
         });
     };
 };
@@ -30,17 +34,18 @@ export const successMessage = (message, duration = 4000) => {
  * @param {number} duration
  */
 export const errorMessage = (message, duration = 4000) => {
+    const id = getId();
     return async dispatch => {
         dispatch({
+            id,
             type: 'MESSAGE',
-            status: 'ERROR',
-            message,
-            duration
+            messageType: 'ERROR',
+            message
         });
         await wait(duration);
         dispatch({
             type: 'CLEAR_MESSAGE',
-            status: 'ERROR'
+            id
         });
     };
 };
@@ -60,27 +65,23 @@ const wait = duration =>
 const notificationReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'MESSAGE':
-            switch (action.status) {
-                case 'ERROR':
-                    return Object.assign({}, state, { error: action.message });
-                case 'SUCCESS':
-                    return Object.assign({}, state, {
-                        success: action.message
-                    });
-                default:
-                    return state;
-            }
+            return Object.assign({}, state, {
+                notifications: [
+                    ...state.notifications,
+                    {
+                        id: action.id,
+                        messageType: action.messageType,
+                        message: action.message
+                    }
+                ]
+            });
         case 'CLEAR_MESSAGE':
-            switch (action.status) {
-                case 'ERROR':
-                    return Object.assign({}, state, { error: null });
-                case 'SUCCESS':
-                    return Object.assign({}, state, {
-                        success: null
-                    });
-                default:
-                    return state;
-            }
+            const newNotifications = state.notifications.filter(
+                notification => notification.id !== action.id
+            );
+            return Object.assign({}, state, {
+                notifications: [...newNotifications]
+            });
         default:
             return state;
     }
