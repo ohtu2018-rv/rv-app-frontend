@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
 import { Header } from '../sections/Header';
 import Content from '../sections/Content';
-import Centered from '../helpers/Centered';
+import NotificationDrawer from '../helpers/NotificationDrawer';
 
 import SuccessNotification from './../notifications/SuccessNotification';
-import { CSSTransitionGroup } from 'react-transition-group';
+import ErrorNotification from './../notifications/ErrorNotification';
+
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { connect } from 'react-redux';
+
+import {
+    logout
+} from './../../reducers/authenticationReducer';
 
 import {
     successMessage,
     errorMessage
 } from './../../reducers/notificationReducer';
 
-const userService = require('../../services/userService');
+import userService from '../../services/userService';
+
+const SlideIn = ({ children, ...props }) => (
+    <CSSTransition {...props} timeout={200} classNames="slide" unmountOnExit={true} mountOnEnter={true}>
+        {children}
+    </CSSTransition>
+);
 
 class MainPage extends Component {
     constructor(props) {
@@ -27,8 +39,6 @@ class MainPage extends Component {
                 email: '',
                 account_balance: 0
             },
-            token:
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTc5MTkxMjQsImRhdGEiOnsidXNlcm5hbWUiOiJub3JtYWxfdXNlciIsInJvbGVzIjpbInVzZXIiXX0sImlhdCI6MTUxNzgzNTI3M30.mxFF5lNbpOrVVDCm7djSTxVnsRXZrajFGt1lQeAyG5Q',
             products: [],
             timerRunning: false,
             productTimeout: 3500,
@@ -39,17 +49,7 @@ class MainPage extends Component {
         this.store = this.store.bind(this);
     }
 
-    getUser() {
-        return fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/user/account`, {
-            headers: new Headers({
-                Authorization: `Bearer ${
-                    this.props.token
-                }`
-            })
-        }).then(res => res.json());
-    }
-
-    handleKeyPress(event) {
+    handleKeyPress = event => {
         switch (event.keyCode) {
             case 13:
                 this.props.logout();
@@ -57,80 +57,57 @@ class MainPage extends Component {
             default:
                 console.log(event.keyCode);
         }
-    }
+    };
 
     componentDidMount() {
         document.addEventListener('keypress', this.handleKeyPress);
+        userService.getUser(this.props.token).then(user => {
+            this.setState({ user: user });
+            console.log(this.state.user);
+        });
     }
 
     componentWillUnmount() {
         document.removeEventListener('keypress', this.handleKeyPress);
     }
 
-    reduceBalance(product) {
-        return fetch(
-            'https://rv-backend.herokuapp.com/api/v1/user/account/debit',
-            {
-                method: 'POST',
-                headers: new Headers({
-                    Authorization: `Bearer ${
-                        this.props.token
-                    }` /* HUOM fancyt ` -sulut, "hipsusulut" */,
-                    'Content-Type': 'application/json'
-                }),
-                body: JSON.stringify({
-                    amount: product.price
-                })
-            }
-        ).then(res => res.json());
-    }
-
-    /**
-     * Increases account balance.
-     */
-    increaseBalance(product) {
-        return fetch(
-            'https://rv-backend.herokuapp.com/api/v1/user/account/credit',
-            {
-                method: 'POST',
-                headers: new Headers({
-                    Authorization: `Bearer ${
-                        this.props.token
-                    }` /* HUOM fancyt ` -sulut, "hipsusulut" */,
-                    'Content-Type': 'application/json'
-                }),
-                body: JSON.stringify({
-                    amount: product.price
-                })
-            }
-        ).then(res => res.json());
-    }
-
     /**
      * Buys a product.
      */
-    buy(product) {
-        this.reduceBalance(product).then(updatedUser => {
+    async buy(product) {
+        try {
+            var newBalance = await userService.reduceBalance(this.props.token, product.price);
+
             let user = Object.assign(this.state.user);
-            user.account_balance = updatedUser.account_balance;
+            user.account_balance = newBalance;
             this.setState({ user: user });
             this.addProduct(product);
             console.log(this.state.user);
-        });
+        }
+        catch (error) {
+            this.props.errorMessage('Virhe ostamisessa');
+        }
     }
 
-    store(product) {
-        this.increaseBalance(product).then(updatedUser => {
+    async store(product) {
+        try {
+            var newBalance = await userService.increaseBalance(this.props.token, product.price);
+
             let user = Object.assign(this.state.user);
-            user.account_balance = updatedUser.account_balance;
+            user.account_balance = newBalance;
             this.setState({ user: user });
+            this.addProduct(product);
+            console.log(this.state.user);
+
             this.props.successMessage(
-                'Talletettu ' +
+                'Talletettu RV-tilille ' +
                     parseFloat(product.price / 100).toFixed(2) +
                     ' €'
             );
-            console.log(this.state.user);
-        });
+        }
+        catch (error) {
+            this.props.errorMessage('Virhe tallettamisessa');
+        }
     }
 
     /**
@@ -188,23 +165,32 @@ class MainPage extends Component {
     render() {
         return (
             <div>
-                <CSSTransitionGroup
-                    transitionName="notification"
-                    transitionEnterTimeout={200}
-                    transitionLeaveTimeout={200}
-                >
-                    {this.props.success && (
-                        <Centered>
-                            <SuccessNotification
-                                message={this.props.success}
-                                shadow
-                            />
-                        </Centered>
-                    )}
-                    {this.props.error && (
-                        <div>ERROR MESSAGE: {this.props.error}</div>
-                    )}
-                </CSSTransitionGroup>
+                <NotificationDrawer>
+                    <TransitionGroup
+                        transitionName="notification"
+                        transitionEnterTimeout={200}
+                        transitionLeaveTimeout={200}
+                    >
+                        {this.props.notifications.map(
+                            (notification, id) =>
+                                notification.messageType === 'SUCCESS' ? (
+                                    <SlideIn key={id}>
+                                        <SuccessNotification
+                                            message={notification.message}
+                                            shadow
+                                        />
+                                    </SlideIn>
+                                ) : (
+                                    <SlideIn key={id}>
+                                        <ErrorNotification
+                                            message={notification.message}
+                                            shadow
+                                        />
+                                    </SlideIn>
+                                )
+                        )}
+                    </TransitionGroup>
+                </NotificationDrawer>
                 <Header
                     logout={this.props.logout}
                     user={this.state.user}
@@ -222,13 +208,13 @@ class MainPage extends Component {
 
 const mapDispatchToProps = {
     successMessage,
-    errorMessage
+    errorMessage,
+    logout
 };
 
 const mapStateToProps = state => {
     return {
-        success: state.notification.success,
-        error: state.notification.error
+        notifications: state.notification.notifications
     };
 };
 
