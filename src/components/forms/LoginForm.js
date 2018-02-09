@@ -3,6 +3,9 @@ import './styles/LoginForm.css';
 
 import SuccessBtn from './../buttons/SuccessBtn';
 
+/** 
+ * Login form component. Shows the login form for the user.
+*/
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);

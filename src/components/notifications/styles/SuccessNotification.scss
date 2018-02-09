@@ -4,6 +4,7 @@
   text-align: center;
   display: block;
   padding-top: 10px;
+  border-radius: 5px;
   white-space: nowrap;
   background-color: rgba(52, 189, 63, 0.9);
   color: white;
@@ -12,51 +13,7 @@
 }
 
 .success-message-shadow {
-  border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-@keyframes scaleAnimation {
-  0% {
-    opacity: 0;
-    transform: scale(1.5);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@keyframes drawCircle {
-  0% {
-    stroke-dashoffset: 151px;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes drawCheck {
-  0% {
-    stroke-dashoffset: 36px;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 #successAnimation {
@@ -78,19 +35,4 @@
 #successAnimationResult {
   fill: none;
   opacity: 0;
-}
-
-#successAnimation.animated {
-  animation: 1s ease-out 0s 1 both scaleAnimation;
-}
-#successAnimation.animated #successAnimationCircle {
-  animation: 1s cubic-bezier(0.77, 0, 0.175, 1) 0s 1 both drawCircle,
-    0.3s linear 0.9s 1;
-}
-#successAnimation.animated #successAnimationCheck {
-  animation: 1s cubic-bezier(0.77, 0, 0.175, 1) 0s 1 both drawCheck,
-    0.3s linear 0.9s 1;
-}
-#successAnimation.animated #successAnimationResult {
-  animation: 0.3s linear 0.9s both fadeIn;
 }

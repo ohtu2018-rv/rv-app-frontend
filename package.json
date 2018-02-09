@@ -30,8 +30,10 @@
         "eject": "react-scripts eject",
         "storybook": "start-storybook -p 9009 -s public",
         "build-storybook": "build-storybook -s public",
-        "styleguide": "styleguidist server",
-        "styleguide:build": "styleguidist build"
+        "styleguide-task": "styleguidist server",
+        "styleguide-task:build": "styleguidist build",
+        "styleguide": "npm-run-all -p watch-css styleguide-task",
+        "stylehuide:build": "npm-run-all build-css styleguide-task:build"
     },
     "devDependencies": {
         "@storybook/addon-actions": "^3.3.10",
