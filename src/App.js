@@ -3,43 +3,25 @@ import './App.css';
 import MainPage from './components/pages/MainPage';
 import LoginPage from './components/pages/LoginPage';
 
+import { connect } from 'react-redux';
+
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loggedIn: false,
-            access_token: ''
-        }; /* !! SET:  loggedIn: false for non-demo !!  */
-        this.setAccessToken = this.setAccessToken.bind(this);
-        this.login = this.login.bind(this);
-        this.logout = this.logout.bind(this);
-    }
-
-    setAccessToken(token) {
-        this.setState({ access_token: token });
-    }
-
-    login() {
-        this.setState({ 
-            loggedIn: true
-        });
-    }
-
-    logout() {
-        this.setState({ 
-            loggedIn: false,
-            access_token: ''
-        });
-    }
-
     render() {
-        let page = this.state.loggedIn ? (
-            <MainPage logout={this.logout} token={this.state.access_token} />
+        let page = this.props.loggedIn ? (
+            <MainPage token={this.props.access_token} />
         ) : (
-            <LoginPage login={this.login} setAccessToken={this.setAccessToken}/>
+            <LoginPage />
         );
         return <div className="App">{page}</div>;
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        access_token: state.authentication.access_token,
+        loggedIn: state.authentication.loggedIn
+    };
+};
+
+export default connect(mapStateToProps)(App);
+

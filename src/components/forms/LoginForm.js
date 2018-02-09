@@ -3,6 +3,11 @@ import './styles/LoginForm.css';
 
 import SuccessBtn from './../buttons/SuccessBtn';
 
+import { connect } from 'react-redux';
+import { login } from './../../reducers/authenticationReducer';
+
+let timeout;
+
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
@@ -29,6 +34,7 @@ class LoginForm extends React.Component {
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeyPress);
         document.removeEventListener('keypress', this.handleKeyPress);
+        clearTimeout(timeout);
     }
 
     wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
@@ -49,7 +55,29 @@ class LoginForm extends React.Component {
                 loader: true
             });
             await this.wait(1000);
+            
             // Do login
+            // Replace timeout with something smarter
+            timeout = setTimeout(() => {
+                this.setState({
+                    loginStep: 1,
+                    usernameDisabled: false,
+                    passwordDisabled: true,
+                    submitDisabled: true,
+                    username: '',
+                    password: '',
+                    loader: false
+                });
+                this.usernameInput.focus();
+            }, 3000);
+            
+            
+            this.props.authenticate({
+                username: this.state.username,
+                password: this.state.password
+            })
+
+            /* authenticate does't return a boolean
             if (
                 !this.props.authenticate({
                     username: this.state.username,
@@ -67,8 +95,8 @@ class LoginForm extends React.Component {
                 });
                 this.usernameInput.focus();
             } else {
-                this.props.login();
-            }
+                clearTimeout(timeout)
+            */
         }
     };
 
@@ -163,4 +191,15 @@ class LoginForm extends React.Component {
     }
 }
 
-export default LoginForm;
+const mapDispatchToProps = {
+    login
+};
+
+const mapStateToProps = state => {
+    return {
+        loginStep: state.authentication.loginStep
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+

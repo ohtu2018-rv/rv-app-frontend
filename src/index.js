@@ -13,11 +13,13 @@ import thunk from 'redux-thunk';
 // Import reducers
 import testReducer from './reducers/testReducer';
 import notificationReducer from './reducers/notificationReducer';
+import authenticationReducer from './reducers/authenticationReducer';
 
 // Combine reducers
 const reducer = combineReducers({
     test: testReducer,
-    notification: notificationReducer
+    notification: notificationReducer,
+    authentication: authenticationReducer
 });
 
 // Create store
