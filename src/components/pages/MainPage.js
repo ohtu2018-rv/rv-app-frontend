@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
 import { Header } from '../sections/Header';
 import Content from '../sections/Content';
-import NotificationDrawer from '../helpers/NotificationDrawer';
+import Centered from '../helpers/Centered';
 
 import SuccessNotification from './../notifications/SuccessNotification';
-import ErrorNotification from './../notifications/ErrorNotification';
-
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { CSSTransitionGroup } from 'react-transition-group';
 
 import { connect } from 'react-redux';
-
-import {
-    logout
-} from './../../reducers/authenticationReducer';
 
 import {
     successMessage,
     errorMessage
 } from './../../reducers/notificationReducer';
 
-const SlideIn = ({ children, ...props }) => (
-    <CSSTransition {...props} timeout={200} classNames="slide" unmountOnExit={true} mountOnEnter={true}>
-        {children}
-    </CSSTransition>
-);
+const userService = require('../../services/userService');
 
 class MainPage extends Component {
     constructor(props) {
@@ -50,16 +40,16 @@ class MainPage extends Component {
     }
 
     getUser() {
-        return fetch('https://rv-backend.herokuapp.com/api/v1/user/account', {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/user/account`, {
             headers: new Headers({
                 Authorization: `Bearer ${
                     this.props.token
-                }` /* HUOM fancyt ` -sulut, "hipsusulut" */
+                }`
             })
         }).then(res => res.json());
     }
 
-    handleKeyPress = event => {
+    handleKeyPress(event) {
         switch (event.keyCode) {
             case 13:
                 this.props.logout();
@@ -67,14 +57,10 @@ class MainPage extends Component {
             default:
                 console.log(event.keyCode);
         }
-    };
+    }
 
     componentDidMount() {
         document.addEventListener('keypress', this.handleKeyPress);
-        this.getUser().then(user => {
-            this.setState({ user: user });
-            console.log(this.state.user);
-        });
     }
 
     componentWillUnmount() {
@@ -139,7 +125,7 @@ class MainPage extends Component {
             user.account_balance = updatedUser.account_balance;
             this.setState({ user: user });
             this.props.successMessage(
-                'Talletettu RV-tilille ' +
+                'Talletettu ' +
                     parseFloat(product.price / 100).toFixed(2) +
                     ' €'
             );
@@ -202,32 +188,23 @@ class MainPage extends Component {
     render() {
         return (
             <div>
-                <NotificationDrawer>
-                    <TransitionGroup
-                        transitionName="notification"
-                        transitionEnterTimeout={200}
-                        transitionLeaveTimeout={200}
-                    >
-                        {this.props.notifications.map(
-                            (notification, id) =>
-                                notification.messageType === 'SUCCESS' ? (
-                                    <SlideIn key={id}>
-                                        <SuccessNotification
-                                            message={notification.message}
-                                            shadow
-                                        />
-                                    </SlideIn>
-                                ) : (
-                                    <SlideIn key={id}>
-                                        <ErrorNotification
-                                            message={notification.message}
-                                            shadow
-                                        />
-                                    </SlideIn>
-                                )
-                        )}
-                    </TransitionGroup>
-                </NotificationDrawer>
+                <CSSTransitionGroup
+                    transitionName="notification"
+                    transitionEnterTimeout={200}
+                    transitionLeaveTimeout={200}
+                >
+                    {this.props.success && (
+                        <Centered>
+                            <SuccessNotification
+                                message={this.props.success}
+                                shadow
+                            />
+                        </Centered>
+                    )}
+                    {this.props.error && (
+                        <div>ERROR MESSAGE: {this.props.error}</div>
+                    )}
+                </CSSTransitionGroup>
                 <Header
                     logout={this.props.logout}
                     user={this.state.user}
@@ -245,13 +222,13 @@ class MainPage extends Component {
 
 const mapDispatchToProps = {
     successMessage,
-    errorMessage,
-    logout
+    errorMessage
 };
 
 const mapStateToProps = state => {
     return {
-        notifications: state.notification.notifications
+        success: state.notification.success,
+        error: state.notification.error
     };
 };
 
