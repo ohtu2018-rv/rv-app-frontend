@@ -16,7 +16,7 @@ import {
 } from './../../reducers/notificationReducer';
 
 const SlideIn = ({ children, ...props }) => (
-    <CSSTransition {...props} classNames="slide">
+    <CSSTransition {...props} timeout={200} classNames="slide" unmountOnExit={true} mountOnEnter={true}>
         {children}
     </CSSTransition>
 );
