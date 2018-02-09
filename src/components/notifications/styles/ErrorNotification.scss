@@ -1,0 +1,23 @@
+.error-message {
+  font-size: 12pt;
+  padding: 20px;
+  text-align: center;
+  display: block;
+  padding-top: 10px;
+  white-space: nowrap;
+  background-color: rgba(189, 61, 52, 0.9);
+  border-radius: 5px;
+  color: white;
+  font-family: Arial;
+  margin: 5px;
+}
+
+.error-message-shadow {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.cross {
+  stroke: white;
+  stroke-linecap: round;
+  stroke-width: 2;
+}

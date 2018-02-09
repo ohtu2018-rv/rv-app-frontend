@@ -5,6 +5,7 @@
     "dependencies": {
         "axios": "^0.17.1",
         "node-sass-chokidar": "^0.0.3",
+        "node-uuid": "^1.4.8",
         "npm-run-all": "^4.1.2",
         "prop-types": "^15.6.0",
         "react": "^16.2.0",
@@ -12,7 +13,7 @@
         "react-flexbox-grid": "^2.0.0",
         "react-redux": "^5.0.6",
         "react-scripts": "1.1.0",
-        "react-transition-group": "1.x",
+        "react-transition-group": "^2.2.1",
         "redux-thunk": "^2.2.0"
     },
     "engines": {
@@ -29,8 +30,10 @@
         "eject": "react-scripts eject",
         "storybook": "start-storybook -p 9009 -s public",
         "build-storybook": "build-storybook -s public",
-        "styleguide": "styleguidist server",
-        "styleguide:build": "styleguidist build"
+        "styleguide-task": "styleguidist server",
+        "styleguide-task:build": "styleguidist build",
+        "styleguide": "npm-run-all -p watch-css styleguide-task",
+        "stylehuide:build": "npm-run-all build-css styleguide-task:build"
     },
     "devDependencies": {
         "@storybook/addon-actions": "^3.3.10",
@@ -44,6 +47,7 @@
         "eslint-config-google": "^0.9.1",
         "eslint-plugin-react": "^7.6.1",
         "react-styleguidist": "^6.2.2",
+        "redux-immutable-state-invariant": "^2.1.0",
         "redux-mock-store": "^1.5.1"
     }
 }

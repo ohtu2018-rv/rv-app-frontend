@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
             });
             this.props.setLoggingIn();
             await this.wait(1000);
-            
+
             // Do login
             // Replace timeout with something smarter
             timeout = setTimeout(() => {
@@ -71,11 +71,11 @@ class LoginForm extends React.Component {
                 });
                 this.usernameInput.focus();
             }, 1500);
-            
+
             this.props.authenticate({
                 username: this.state.username,
                 password: this.state.password
-            })
+            });
 
             /* authenticate does't return a boolean
             if (
@@ -199,8 +199,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
     return {
         loginStep: state.authentication.loginStep
-    }
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
-
