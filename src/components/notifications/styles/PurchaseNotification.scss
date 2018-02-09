@@ -57,39 +57,39 @@
   }
 }
 
-#successAnimation {
+#purchase-successAnimation {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
 }
 
-#successAnimationCircle {
+#purchase-successAnimationCircle {
   stroke-dasharray: 151px 151px;
   stroke: green;
 }
 
-#successAnimationCheck {
+#purchase-successAnimationCheck {
   stroke-dasharray: 36px 36px;
   stroke: green;
 }
 
-#successAnimationResult {
+#purchase-successAnimationResult {
   fill: none;
   opacity: 0;
 }
 
-#successAnimation.animated {
+#purchase-successAnimation.animated {
   animation: 1s ease-out 0s 1 both scaleAnimation;
 }
-#successAnimation.animated #successAnimationCircle {
+#purchase-successAnimation.animated #purchase-successAnimationCircle {
   animation: 1s cubic-bezier(0.77, 0, 0.175, 1) 0s 1 both drawCircle,
     0.3s linear 0.9s 1;
 }
-#successAnimation.animated #successAnimationCheck {
+#purchase-successAnimation.animated #purchase-successAnimationCheck {
   animation: 1s cubic-bezier(0.77, 0, 0.175, 1) 0s 1 both drawCheck,
     0.3s linear 0.9s 1;
 }
-#successAnimation.animated #successAnimationResult {
+#purchase-successAnimation.animated #purchase-successAnimationResult {
   animation: 0.3s linear 0.9s both fadeIn;
 }
 
