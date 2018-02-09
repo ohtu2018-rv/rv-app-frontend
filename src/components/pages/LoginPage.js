@@ -5,7 +5,10 @@ import LoginHeader from '../sections/LoginHeader';
 import TopBalanceUsers from '../sections/TopBalanceUsers';
 import './styles/LoginPage.css';
 
-export default class LoginPage extends React.Component {
+import { connect } from 'react-redux';
+import { login } from './../../reducers/authenticationReducer';
+
+class LoginPage extends React.Component {
     verifyLogin = user => {
         return fetch('https://rv-backend.herokuapp.com/api/v1/user/authenticate', {
             method: 'POST',
@@ -52,7 +55,7 @@ export default class LoginPage extends React.Component {
                             <LoginForm
                                 handleSubmit={this.handleSubmit}
                                 shadow={true}
-                                authenticate={this.authenticate}
+                                authenticate={this.props.login}
                                 login={this.props.login}
                             />
                         </Col>
@@ -65,3 +68,13 @@ export default class LoginPage extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps = {
+    login
+};
+
+const mapStateToProps = state => {
+    return {}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

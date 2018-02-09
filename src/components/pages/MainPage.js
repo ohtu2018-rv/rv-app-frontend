@@ -9,6 +9,10 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
 
 import {
+    logout
+} from './../../reducers/authenticationReducer';
+
+import {
     successMessage,
     errorMessage
 } from './../../reducers/notificationReducer';
@@ -224,7 +228,8 @@ class MainPage extends Component {
 
 const mapDispatchToProps = {
     successMessage,
-    errorMessage
+    errorMessage,
+    logout
 };
 
 const mapStateToProps = state => {
