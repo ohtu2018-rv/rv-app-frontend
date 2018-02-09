@@ -1,7 +1,8 @@
 import uuidv1 from 'node-uuid';
 
 const initialState = {
-    notifications: []
+    notifications: [],
+    purchasedItems: []
 };
 
 const getId = () => uuidv1();
@@ -51,6 +52,23 @@ export const errorMessage = (message, duration = 4000) => {
 };
 
 /**
+ * Adds an item to the product purchase notification.
+ * @param {object} product
+ */
+export const addProductToNotification = product => {
+    return {
+        type: 'ADD_PRODUCT_TO_PURCHASE',
+        data: product
+    };
+};
+
+export const clearProductsFromNotification = () => {
+    return {
+        type: 'CLEAR_ITEMS'
+    };
+};
+
+/**
  * Returns a Promise that resolves when the predefined duration is set.
  * @param {number} duration
  */
@@ -82,6 +100,35 @@ const notificationReducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 notifications: [...newNotifications]
             });
+        case 'ADD_PRODUCT_TO_PURCHASE':
+            // Product
+            const product = state.purchasedItems.find(
+                product => product.barcode === action.data.barcode
+            );
+
+            if (!product) {
+                console.log('Item does not exist');
+                return Object.assign({}, state, {
+                    purchasedItems: [...state.purchasedItems, action.data]
+                });
+            } else {
+                // Product exists, increment amount
+                let products = Object.assign([], state.purchasedItems);
+                products = products.map(product => {
+                    if (product.barcode !== action.data.barcode) {
+                        return product;
+                    } else {
+                        return Object.assign({}, product, {
+                            quantity: product.quantity + action.data.quantity
+                        });
+                    }
+                });
+                return Object.assign({}, state, {
+                    purchasedItems: [...products]
+                });
+            }
+        case 'CLEAR_ITEMS':
+            return Object.assign({}, state, { purchasedItems: [] });
         default:
             return state;
     }

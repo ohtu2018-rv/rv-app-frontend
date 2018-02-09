@@ -5,22 +5,29 @@ import NotificationDrawer from '../helpers/NotificationDrawer';
 
 import SuccessNotification from './../notifications/SuccessNotification';
 import ErrorNotification from './../notifications/ErrorNotification';
+import PurchaseNotification from './../notifications/PurchaseNotification';
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { connect } from 'react-redux';
 
-import {
-    logout
-} from './../../reducers/authenticationReducer';
+import { logout } from './../../reducers/authenticationReducer';
 
 import {
     successMessage,
-    errorMessage
+    errorMessage,
+    addProductToNotification,
+    clearProductsFromNotification
 } from './../../reducers/notificationReducer';
 
 const SlideIn = ({ children, ...props }) => (
-    <CSSTransition {...props} timeout={200} classNames="slide" unmountOnExit={true} mountOnEnter={true}>
+    <CSSTransition
+        {...props}
+        timeout={200}
+        classNames="slide"
+        unmountOnExit={true}
+        mountOnEnter={true}
+    >
         {children}
     </CSSTransition>
 );
@@ -41,7 +48,7 @@ class MainPage extends Component {
                 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTc5MTkxMjQsImRhdGEiOnsidXNlcm5hbWUiOiJub3JtYWxfdXNlciIsInJvbGVzIjpbInVzZXIiXX0sImlhdCI6MTUxNzgzNTI3M30.mxFF5lNbpOrVVDCm7djSTxVnsRXZrajFGt1lQeAyG5Q',
             products: [],
             timerRunning: false,
-            productTimeout: 3500,
+            productTimeout: 2500,
             timeoutHandler: null,
             balance: null
         };
@@ -125,11 +132,24 @@ class MainPage extends Component {
      */
     buy(product) {
         this.reduceBalance(product).then(updatedUser => {
-            let user = Object.assign(this.state.user);
-            user.account_balance = updatedUser.account_balance;
-            this.setState({ user: user });
-            this.addProduct(product);
-            console.log(this.state.user);
+            if (updatedUser.error_code) {
+                this.props.errorMessage(updatedUser.message);
+            } else {
+                if (this.state.timeoutHandler) {
+                    clearTimeout(this.state.timeoutHandler);
+                    this.setState({ timeoutHandler: null });
+                }
+                let user = Object.assign(this.state.user);
+                user.account_balance = updatedUser.account_balance;
+                this.setState({ user: user });
+                this.props.addProductToNotification(product);
+                this.setState({
+                    timeoutHandler: setTimeout(
+                        () => this.props.clearProductsFromNotification(),
+                        this.state.productTimeout
+                    )
+                });
+            }
         });
     }
 
@@ -143,60 +163,7 @@ class MainPage extends Component {
                     parseFloat(product.price / 100).toFixed(2) +
                     ' €'
             );
-            console.log(this.state.user);
         });
-    }
-
-    /**
-     * Adds a product.
-     */
-    addProduct(addedProduct) {
-        this.removeProductRemovalTimeout();
-        const product = this.state.products.find(
-            product => product.barcode === addedProduct.barcode
-        );
-
-        if (product) {
-            const oldProducts = this.state.products.filter(
-                product => product.barcode !== addedProduct.barcode
-            );
-            console.log('Old products: ', oldProducts);
-            const newProducts = this.state.products.filter(
-                product => product.barcode === addedProduct.barcode
-            );
-            const newProduct = newProducts[0];
-
-            newProduct.quantity = newProduct.quantity + addedProduct.quantity;
-            console.log('New product: ', newProduct);
-            this.setState({ products: oldProducts.concat(newProduct) });
-        } else {
-            console.log('Added new product: ', addedProduct);
-            const products = this.state.products;
-            products.push(addedProduct);
-            this.setState({ products });
-        }
-        this.setProductRemovalTimeout();
-    }
-
-    /**
-     * Adds product removal timeout
-     */
-    setProductRemovalTimeout() {
-        console.log('Items before timeout removal: ', this.state.products);
-        const timeoutHandler = setTimeout(() => {
-            this.setState({ products: [] });
-        }, this.state.productTimeout);
-        this.setState({ timeoutHandler });
-    }
-
-    /**
-     * Removes product removal timeout
-     */
-    removeProductRemovalTimeout() {
-        if (this.state.timeoutHandler !== null) {
-            clearTimeout(this.state.timeoutHandler);
-            this.setState({ timeoutHandler: null });
-        }
     }
 
     render() {
@@ -226,6 +193,15 @@ class MainPage extends Component {
                                     </SlideIn>
                                 )
                         )}
+                        {this.props.products &&
+                            this.props.products.length > 0 && (
+                                <SlideIn>
+                                    <PurchaseNotification
+                                        shadow
+                                        products={this.props.products}
+                                    />
+                                </SlideIn>
+                            )}
                     </TransitionGroup>
                 </NotificationDrawer>
                 <Header
@@ -234,10 +210,7 @@ class MainPage extends Component {
                     buy={this.buy}
                     store={this.store}
                 />
-                <Content
-                    products={this.state.products}
-                    balance={this.state.balance}
-                />
+                <Content balance={this.state.balance} />
             </div>
         );
     }
@@ -246,12 +219,15 @@ class MainPage extends Component {
 const mapDispatchToProps = {
     successMessage,
     errorMessage,
-    logout
+    logout,
+    addProductToNotification,
+    clearProductsFromNotification
 };
 
 const mapStateToProps = state => {
     return {
-        notifications: state.notification.notifications
+        notifications: state.notification.notifications,
+        products: state.notification.purchasedItems
     };
 };
 

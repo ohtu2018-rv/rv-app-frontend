@@ -6,6 +6,9 @@ const initialState = {
     notification: {
         success: null,
         error: null
+    },
+    shoppingCart: {
+        products: []
     }
 };
 

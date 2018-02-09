@@ -19,9 +19,9 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         access_token: state.authentication.access_token,
-        loggedIn: state.authentication.loggedIn
+        loggedIn: state.authentication.loggedIn,
+        products: state.notification.purchasedItems
     };
 };
 
 export default connect(mapStateToProps)(App);
-

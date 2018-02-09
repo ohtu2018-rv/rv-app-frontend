@@ -2,50 +2,32 @@ import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import './styles/ShoppingCart.css';
 
-const placeholderCart = [
-    {
-        barcode: '0000000000001',
-        product_name: 'Kahvi',
-        price: 50,
-        quantity: 1
-    },
-    {
-        barcode: '0000000000005',
-        product_name: 'Myslipatukka',
-        price: 80,
-        quantity: 2
-    }
-];
+import { connect } from 'react-redux';
 
-class ShoppingCartItem extends React.Component {
-    render() {
-        const item = this.props.item;
+const ShoppingCartItem = ({ item }) => {
+    return (
+        <li>
+            <Row>
+                <Col xs={6}>{item.product_name}</Col>
+                <Col xs={3} className="cart-item-quantity">
+                    {item.quantity}
+                </Col>
+                <Col xs={3} className="cart-item-total">
+                    {(item.quantity * item.price / 100).toFixed(2)} &euro;
+                </Col>
+            </Row>
+        </li>
+    );
+};
 
-        return (
-            <li>
-                <Row>
-                    <Col xs={6}>{item.product_name}</Col>
-                    <Col xs={3} className="cart-item-quantity">
-                        {item.quantity}
-                    </Col>
-                    <Col xs={3} className="cart-item-total">
-                        {(item.quantity * item.price / 100).toFixed(2)} &euro;
-                    </Col>
-                </Row>
-            </li>
-        );
-    }
-}
-
-export default class ShoppingCart extends React.Component {
-    calculateCartTotal() {
-        return placeholderCart
+class ShoppingCart extends React.Component {
+    calculateCartTotal = () =>
+        this.props.products
             .map(item => item.price * item.quantity)
             .reduce((sum, cur) => sum + cur, 0);
-    }
 
     render() {
-        const cartItems = placeholderCart.map(item => (
+        const cartItems = this.props.products.map(item => (
             <ShoppingCartItem key={item.barcode} item={item} />
         ));
 
@@ -79,3 +61,11 @@ export default class ShoppingCart extends React.Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        products: state.shoppingCart.products
+    };
+};
+
+export default connect(mapStateToProps, null)(ShoppingCart);

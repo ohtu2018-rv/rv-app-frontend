@@ -14,12 +14,14 @@ import thunk from 'redux-thunk';
 import testReducer from './reducers/testReducer';
 import notificationReducer from './reducers/notificationReducer';
 import authenticationReducer from './reducers/authenticationReducer';
+import shoppingCartReducer from './reducers/shoppingCartReducer';
 
 // Combine reducers
 const reducer = combineReducers({
     test: testReducer,
     notification: notificationReducer,
-    authentication: authenticationReducer
+    authentication: authenticationReducer,
+    shoppingCart: shoppingCartReducer
 });
 
 const middleware =

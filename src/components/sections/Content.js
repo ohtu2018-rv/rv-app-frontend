@@ -1,8 +1,6 @@
 import React from 'react';
 import './styles/Content.css';
 import { Grid, Col, Row } from 'react-flexbox-grid';
-import PurchaseNotification from './../notifications/PurchaseNotification';
-import Centered from './../helpers/Centered';
 import FeaturedProducts from './FeaturedProducts';
 import ShoppingCart from './ShoppingCart';
 
@@ -41,15 +39,6 @@ class Content extends React.Component {
                         </Col>
                     </Row>
                 </Grid>
-                {this.props.products &&
-                    this.props.products.length > 0 && (
-                        <Centered>
-                            <PurchaseNotification
-                                shadow
-                                products={this.props.products}
-                            />
-                        </Centered>
-                    )}
             </main>
         );
     }
