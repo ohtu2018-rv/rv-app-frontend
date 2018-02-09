@@ -1,4 +1,5 @@
 const initialState = {
+    isLoggingIn: false,
     loggedIn: false,
     access_token: '',
     error: ''
@@ -22,7 +23,15 @@ export const logout = () => {
     }
 };
 
+export const setLoggingIn = () => {
+    console.log("is logging in")
+    return {
+        type: 'LOGGING_IN'
+    }
+};
+
 function setLoggedState(token) {
+    console.log("not logging in")
     if (token) {
         return {
             type: 'LOGIN_SUCCESS',
@@ -54,10 +63,12 @@ function verifyLogin(user) {
  */
 const authenticationReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'LOGGING_IN':
+            return Object.assign({}, state, { isLoggingIn: true });
         case 'LOGIN_SUCCESS':
-            return Object.assign({}, state, { loggedIn: true, access_token: action.token });
+            return Object.assign({}, state, { loggedIn: true, access_token: action.token, isLoggingIn: false });
         case 'LOGIN_FAILED':
-            return Object.assign({}, state, { loggedIn: false, access_token: '' });
+            return Object.assign({}, state, { loggedIn: false, access_token: '', isLoggingIn: false });
         case 'LOGOUT_SUCCESS':
             return Object.assign({}, { loggedIn: false, access_token: '' });
         default:

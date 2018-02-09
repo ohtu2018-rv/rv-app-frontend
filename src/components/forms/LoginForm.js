@@ -4,7 +4,7 @@ import './styles/LoginForm.css';
 import SuccessBtn from './../buttons/SuccessBtn';
 
 import { connect } from 'react-redux';
-import { login } from './../../reducers/authenticationReducer';
+import { login, setLoggingIn } from './../../reducers/authenticationReducer';
 
 let timeout;
 
@@ -54,6 +54,7 @@ class LoginForm extends React.Component {
                 passwordDisabled: true,
                 loader: true
             });
+            this.props.setLoggingIn();
             await this.wait(1000);
             
             // Do login
@@ -69,8 +70,7 @@ class LoginForm extends React.Component {
                     loader: false
                 });
                 this.usernameInput.focus();
-            }, 3000);
-            
+            }, 1500);
             
             this.props.authenticate({
                 username: this.state.username,
@@ -192,7 +192,8 @@ class LoginForm extends React.Component {
 }
 
 const mapDispatchToProps = {
-    login
+    login,
+    setLoggingIn
 };
 
 const mapStateToProps = state => {
