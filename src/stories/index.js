@@ -10,8 +10,6 @@ import PurchaseNotification from '../components/notifications/PurchaseNotificati
 import Loader from '../components/loaders/Loader';
 import { Header } from './../components/sections/Header';
 import Content from './../components/sections/Content';
-import { ContentRight } from './../components/sections/ContentRight';
-import { ContentLeft } from './../components/sections/ContentLeft';
 import LoginPage from './../components/pages/LoginPage';
 import MainPage from './../components/pages/MainPage';
 import LoginForm from './../components/forms/LoginForm';
@@ -90,10 +88,6 @@ storiesOf('Purchase notification (without shadow)', module).add(
 storiesOf('Header', module).add('Initial', () => <Header />);
 
 storiesOf('Content', module).add('Initial', () => <Content />);
-
-storiesOf('ContentRight', module).add('Initial', () => <ContentRight />);
-
-storiesOf('ContentLeft', module).add('Initial', () => <ContentLeft />);
 
 storiesOf('LoginPage', module).add('Initial', () => <LoginPage />);
 

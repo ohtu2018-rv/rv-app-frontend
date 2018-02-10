@@ -8,7 +8,7 @@ import { login, setLoggingIn } from './../../reducers/authenticationReducer';
 
 let timeout;
 
-class LoginForm extends React.Component {
+export class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

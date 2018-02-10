@@ -29,7 +29,7 @@ class Content extends React.Component {
                 >
                     Trigger error
                 </button>
-                <Grid>
+                <Grid style={{width: '100%'}}>
                     <Row>
                         <Col xs={6}>
                             <FeaturedProducts />

@@ -20,7 +20,7 @@ const ShoppingCartItem = ({ item }) => {
     );
 };
 
-class ShoppingCart extends React.Component {
+export class ShoppingCart extends React.Component {
     calculateCartTotal = () =>
         this.props.products
             .map(item => item.price * item.quantity)
