@@ -96,14 +96,12 @@ class MainPage extends Component {
             let user = Object.assign(this.state.user);
             user.account_balance = newBalance;
             this.setState({ user: user });
-            this.addProduct(product);
-            console.log(this.state.user);
-
             this.props.successMessage(
                 'Talletettu RV-tilille ' +
                     parseFloat(product.price / 100).toFixed(2) +
                     ' €'
             );
+            console.log(this.state.user);
         }
         catch (error) {
             this.props.errorMessage('Virhe tallettamisessa');
