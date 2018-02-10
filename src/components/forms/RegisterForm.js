@@ -4,28 +4,16 @@ import './styles/LoginForm.css';
 import SuccessBtn from './../buttons/SuccessBtn';
 
 import { connect } from 'react-redux';
-import { login, setLoggingIn } from './../../reducers/authenticationReducer';
+import { 
+    handleInputEvent, 
+    reset,
+    focusPasswordField,
+    setRegistering
+} from './../../reducers/registerReducer';
 
-// Remove for something smarter
 let timeout;
 
-class LoginForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            password: '',
-            minUsernameLength: 8,
-            minPasswordLength: 2,
-            usernameDisabled: false,
-            passwordDisabled: true,
-            submitDisabled: true,
-            loader: false,
-            loginStep: 1
-        };
-        this.handleInputEvent = this.handleInputEvent.bind(this);
-    }
-
+class RegisterForm extends React.Component {
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
         document.addEventListener('keypress', this.handleKeyPress);
@@ -36,68 +24,28 @@ class LoginForm extends React.Component {
         document.removeEventListener('keydown', this.handleKeyPress);
         document.removeEventListener('keypress', this.handleKeyPress);
         clearTimeout(timeout);
+        this.props.reset();
     }
 
     wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
     nextStep = async () => {
-        if (this.state.loginStep === 1) {
-            this.setState({
-                loginStep: 2,
-                usernameDisabled: true,
-                passwordDisabled: false,
-                submitDisabled: false
-            });
+        if (this.props.registerStep === 1) {
+            this.props.focusPasswordField();
             this.passwordInput.focus();
-        } else if (this.state.loginStep === 2) {
-            this.setState({
-                usernameDisabled: true,
-                passwordDisabled: true,
-                loader: true
-            });
-            this.props.setLoggingIn();
+        } else if (this.props.registerStep === 2) {
+            this.props.setRegistering();
             await this.wait(1000);
 
-            // Do login
+            // Register
             // Replace timeout with something smarter
             timeout = setTimeout(() => {
-                this.setState({
-                    loginStep: 1,
-                    usernameDisabled: false,
-                    passwordDisabled: true,
-                    submitDisabled: true,
-                    username: '',
-                    password: '',
-                    loader: false
-                });
-                this.usernameInput.focus();
-            }, 1500);
+                alert("Registered")
+                this.props.reset();
+            }, 500);
 
-            this.props.authenticate({
-                username: this.state.username,
-                password: this.state.password
-            });
-
-            /* authenticate does't return a boolean
-            if (
-                !this.props.authenticate({
-                    username: this.state.username,
-                    password: this.state.password
-                })
-            ) {
-                this.setState({
-                    loginStep: 1,
-                    usernameDisabled: false,
-                    passwordDisabled: true,
-                    submitDisabled: true,
-                    username: '',
-                    password: '',
-                    loader: false
-                });
-                this.usernameInput.focus();
-            } else {
-                clearTimeout(timeout)
-            */
+            // TODO: Here registerService call
+            // this.props.register()
         }
     };
 
@@ -116,10 +64,6 @@ class LoginForm extends React.Component {
         }
     };
 
-    handleInputEvent(event) {
-        const target = event.target;
-        this.setState({ [target.name]: target.value });
-    }
 
     render() {
         return (
@@ -131,21 +75,21 @@ class LoginForm extends React.Component {
                 }
             >
                 <form onSubmit={this.props.handleSubmit}>
-                    <legend>Log in</legend>
+                    <legend>Register</legend>
                     <div className="formControl">
                         <input
                             type="text"
                             id="username"
                             name="username"
                             placeholder="Käyttäjätunnus"
-                            value={this.state.username}
-                            onChange={this.handleInputEvent}
+                            value={this.props.username}
+                            onChange={(event) => this.props.handleInputEvent(event)}
                             onKeyDown={this.handleKeyUp}
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             className="input fullWidth"
-                            disabled={this.state.usernameDisabled}
+                            disabled={this.props.usernameDisabled}
                             ref={input => {
                                 this.usernameInput = input;
                             }}
@@ -157,14 +101,14 @@ class LoginForm extends React.Component {
                             id="password"
                             name="password"
                             placeholder="Salasana"
-                            value={this.state.password}
-                            onChange={this.handleInputEvent}
+                            value={this.props.password}
+                            onChange={(event) => this.props.handleInputEvent(event)}
                             onKeyDown={this.handleKeyUp}
                             className="input fullWidth"
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
-                            disabled={this.state.passwordDisabled}
+                            disabled={this.props.passwordDisabled}
                             ref={input => {
                                 this.passwordInput = input;
                             }}
@@ -173,17 +117,17 @@ class LoginForm extends React.Component {
                     <div className="formControl">
                         <SuccessBtn
                             fill
-                            loader={this.state.loader || this.props.loader}
+                            loader={this.props.loader}
                             disabled={
                                 !(
-                                    !this.state.submitDisabled &&
-                                    this.state.password.length >
-                                        this.state.minPasswordLength
+                                    !this.props.submitDisabled &&
+                                    this.props.password.length >
+                                        this.props.minPasswordLength
                                 )
                             }
                             style={{ width: '100%' }}
                         >
-                            Kirjaudu sisään (ENTER)
+                            Rekisteröidy (ENTER)
                         </SuccessBtn>
                     </div>
                 </form>
@@ -193,14 +137,23 @@ class LoginForm extends React.Component {
 }
 
 const mapDispatchToProps = {
-    login,
-    setLoggingIn
+    handleInputEvent,
+    reset,
+    focusPasswordField,
+    setRegistering
 };
 
 const mapStateToProps = state => {
     return {
-        loginStep: state.authentication.loginStep
+        username: state.register.username,
+        password: state.register.password,
+        minPasswordLength: state.register.minPasswordLength,
+        registerStep: state.register.registerStep,
+        usernameDisabled: state.register.usernameDisabled,
+        passwordDisabled: state.register.passwordDisabled,
+        submitDisabled: state.register.submitDisabled,
+        loader: state.register.loader
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

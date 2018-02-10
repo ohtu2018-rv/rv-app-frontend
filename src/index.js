@@ -14,12 +14,14 @@ import thunk from 'redux-thunk';
 import testReducer from './reducers/testReducer';
 import notificationReducer from './reducers/notificationReducer';
 import authenticationReducer from './reducers/authenticationReducer';
+import registerReducer from './reducers/registerReducer';
 
 // Combine reducers
 const reducer = combineReducers({
     test: testReducer,
     notification: notificationReducer,
-    authentication: authenticationReducer
+    authentication: authenticationReducer,
+    register: registerReducer
 });
 
 const middleware =
