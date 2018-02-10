@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 class App extends Component {
     render() {
         let page = this.props.loggedIn ? (
-            <MainPage token={this.props.access_token} />
+            <MainPage />
         ) : (
             <LoginPage />
         );

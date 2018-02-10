@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const initialState = {
     isLoggingIn: false,
     loggedIn: false,
@@ -44,16 +46,10 @@ function setLoggedState(token) {
 }
 
 function verifyLogin(user) {
-    return fetch('https://rv-backend.herokuapp.com/api/v1/user/authenticate', {
-        method: 'POST',
-        headers: new Headers({
-            'Content-Type': 'application/json'
-        }),
-        body: JSON.stringify({
-            username: user.username,
-            password: user.password
-        })
-    }).then(res => res.json())
+    return axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/user/authenticate`, {
+        username: user.username,
+        password: user.password
+    }).then(res => res.data);
 }
 
 /**
