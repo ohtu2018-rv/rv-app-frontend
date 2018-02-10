@@ -11,7 +11,8 @@
 1. Clone the repo
 2. Install Yarn (if not installed before)
 3. `yarn install` to install project dependencies
-4. `yarn start` for starting the app, or `yarn storybook` when developing modules
+4. Create a [.env](https://github.com/motdotla/dotenv) file and define in it the variable `REACT_APP_BACKEND_URL` that points to backend server's address
+5. `yarn start` for starting the app, or `yarn storybook` when developing modules
 
 ## How to develop
 

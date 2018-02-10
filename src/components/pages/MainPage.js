@@ -19,6 +19,8 @@ import {
     errorMessage
 } from './../../reducers/notificationReducer';
 
+import userService from '../../services/userService';
+
 const SlideIn = ({ children, ...props }) => (
     <CSSTransition {...props} timeout={200} classNames="slide" unmountOnExit={true} mountOnEnter={true}>
         {children}
@@ -37,8 +39,6 @@ class MainPage extends Component {
                 email: '',
                 account_balance: 0
             },
-            token:
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTc5MTkxMjQsImRhdGEiOnsidXNlcm5hbWUiOiJub3JtYWxfdXNlciIsInJvbGVzIjpbInVzZXIiXX0sImlhdCI6MTUxNzgzNTI3M30.mxFF5lNbpOrVVDCm7djSTxVnsRXZrajFGt1lQeAyG5Q',
             products: [],
             timerRunning: false,
             productTimeout: 3500,
@@ -47,16 +47,6 @@ class MainPage extends Component {
         };
         this.buy = this.buy.bind(this);
         this.store = this.store.bind(this);
-    }
-
-    getUser() {
-        return fetch('https://rv-backend.herokuapp.com/api/v1/user/account', {
-            headers: new Headers({
-                Authorization: `Bearer ${
-                    this.props.token
-                }` /* HUOM fancyt ` -sulut, "hipsusulut" */
-            })
-        }).then(res => res.json());
     }
 
     handleKeyPress = event => {
@@ -71,7 +61,7 @@ class MainPage extends Component {
 
     componentDidMount() {
         document.addEventListener('keypress', this.handleKeyPress);
-        this.getUser().then(user => {
+        userService.getUser(this.props.token).then(user => {
             this.setState({ user: user });
             console.log(this.state.user);
         });
@@ -81,62 +71,30 @@ class MainPage extends Component {
         document.removeEventListener('keypress', this.handleKeyPress);
     }
 
-    reduceBalance(product) {
-        return fetch(
-            'https://rv-backend.herokuapp.com/api/v1/user/account/debit',
-            {
-                method: 'POST',
-                headers: new Headers({
-                    Authorization: `Bearer ${
-                        this.props.token
-                    }` /* HUOM fancyt ` -sulut, "hipsusulut" */,
-                    'Content-Type': 'application/json'
-                }),
-                body: JSON.stringify({
-                    amount: product.price
-                })
-            }
-        ).then(res => res.json());
-    }
-
-    /**
-     * Increases account balance.
-     */
-    increaseBalance(product) {
-        return fetch(
-            'https://rv-backend.herokuapp.com/api/v1/user/account/credit',
-            {
-                method: 'POST',
-                headers: new Headers({
-                    Authorization: `Bearer ${
-                        this.props.token
-                    }` /* HUOM fancyt ` -sulut, "hipsusulut" */,
-                    'Content-Type': 'application/json'
-                }),
-                body: JSON.stringify({
-                    amount: product.price
-                })
-            }
-        ).then(res => res.json());
-    }
-
     /**
      * Buys a product.
      */
-    buy(product) {
-        this.reduceBalance(product).then(updatedUser => {
+    async buy(product) {
+        try {
+            var newBalance = await userService.reduceBalance(this.props.token, product.price);
+
             let user = Object.assign(this.state.user);
-            user.account_balance = updatedUser.account_balance;
+            user.account_balance = newBalance;
             this.setState({ user: user });
             this.addProduct(product);
             console.log(this.state.user);
-        });
+        }
+        catch (error) {
+            this.props.errorMessage('Virhe ostamisessa');
+        }
     }
 
-    store(product) {
-        this.increaseBalance(product).then(updatedUser => {
+    async store(product) {
+        try {
+            var newBalance = await userService.increaseBalance(this.props.token, product.price);
+
             let user = Object.assign(this.state.user);
-            user.account_balance = updatedUser.account_balance;
+            user.account_balance = newBalance;
             this.setState({ user: user });
             this.props.successMessage(
                 'Talletettu RV-tilille ' +
@@ -144,7 +102,10 @@ class MainPage extends Component {
                     ' €'
             );
             console.log(this.state.user);
-        });
+        }
+        catch (error) {
+            this.props.errorMessage('Virhe tallettamisessa');
+        }
     }
 
     /**
@@ -251,7 +212,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
-        notifications: state.notification.notifications
+        notifications: state.notification.notifications,
+        token: state.authentication.access_token
     };
 };
 
