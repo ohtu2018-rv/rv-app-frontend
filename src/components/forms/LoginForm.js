@@ -56,22 +56,6 @@ class LoginForm extends React.Component {
                 loader: true
             });
             this.props.setLoggingIn();
-            await this.wait(1000);
-
-            // Do login
-            // Replace timeout with something smarter
-            timeout = setTimeout(() => {
-                this.setState({
-                    loginStep: 1,
-                    usernameDisabled: false,
-                    passwordDisabled: true,
-                    submitDisabled: true,
-                    username: '',
-                    password: '',
-                    loader: false
-                });
-                this.usernameInput.focus();
-            }, 1500);
 
             this.props.authenticate({
                 username: this.state.username,

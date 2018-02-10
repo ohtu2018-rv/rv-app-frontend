@@ -37,6 +37,11 @@ const store = createStore(
     applyMiddleware(...middleware)
 );
 
+// Load config
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 // Log initial state
 console.log(store.getState());
 
