@@ -7,18 +7,17 @@ import './animations.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { logger } from './reducers/middleware';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 // Import reducers
-import testReducer from './reducers/testReducer';
 import notificationReducer from './reducers/notificationReducer';
 import authenticationReducer from './reducers/authenticationReducer';
 import shoppingCartReducer from './reducers/shoppingCartReducer';
 
 // Combine reducers
 const reducer = combineReducers({
-    test: testReducer,
     notification: notificationReducer,
     authentication: authenticationReducer,
     shoppingCart: shoppingCartReducer
@@ -26,7 +25,7 @@ const reducer = combineReducers({
 
 const middleware =
     process.env.NODE_ENV !== 'production'
-        ? [require('redux-immutable-state-invariant').default(), thunk]
+        ? [require('redux-immutable-state-invariant').default(), thunk, logger]
         : [thunk];
 
 // Create store
