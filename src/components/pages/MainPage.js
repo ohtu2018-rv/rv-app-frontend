@@ -214,7 +214,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
-        notifications: state.notification.notifications
+        notifications: state.notification.notifications,
+        token: state.authentication.access_token
     };
 };
 
