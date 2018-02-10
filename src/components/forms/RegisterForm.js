@@ -17,7 +17,7 @@ class RegisterForm extends React.Component {
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
         document.addEventListener('keypress', this.handleKeyPress);
-        this.usernameInput.focus();
+        this.registerUsernameInput.focus();
     }
 
     componentWillUnmount() {
@@ -32,7 +32,7 @@ class RegisterForm extends React.Component {
     nextStep = async () => {
         if (this.props.registerStep === 1) {
             this.props.focusPasswordField();
-            this.passwordInput.focus();
+            this.registerPasswordInput.focus();
         } else if (this.props.registerStep === 2) {
             this.props.setRegistering();
             await this.wait(1000);
@@ -79,38 +79,38 @@ class RegisterForm extends React.Component {
                     <div className="formControl">
                         <input
                             type="text"
-                            id="username"
-                            name="username"
+                            id="registerUsername"
+                            name="registerUsername"
                             placeholder="Käyttäjätunnus"
-                            value={this.props.username}
+                            value={this.props.registerUsername}
                             onChange={(event) => this.props.handleInputEvent(event)}
                             onKeyDown={this.handleKeyUp}
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             className="input fullWidth"
-                            disabled={this.props.usernameDisabled}
+                            disabled={this.props.registerUsernameDisabled}
                             ref={input => {
-                                this.usernameInput = input;
+                                this.registerUsernameInput = input;
                             }}
                         />
                     </div>
                     <div className="formControl">
                         <input
                             type="password"
-                            id="password"
-                            name="password"
+                            id="registerPassword"
+                            name="registerPassword"
                             placeholder="Salasana"
-                            value={this.props.password}
+                            value={this.props.registerPassword}
                             onChange={(event) => this.props.handleInputEvent(event)}
                             onKeyDown={this.handleKeyUp}
                             className="input fullWidth"
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
-                            disabled={this.props.passwordDisabled}
+                            disabled={this.props.registerPasswordDisabled}
                             ref={input => {
-                                this.passwordInput = input;
+                                this.registerPasswordInput = input;
                             }}
                         />
                     </div>
@@ -121,7 +121,7 @@ class RegisterForm extends React.Component {
                             disabled={
                                 !(
                                     !this.props.submitDisabled &&
-                                    this.props.password.length >
+                                    this.props.registerPassword.length >
                                         this.props.minPasswordLength
                                 )
                             }
@@ -145,12 +145,12 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
-        username: state.register.username,
-        password: state.register.password,
+        registerUsername: state.register.registerUsername,
+        registerPassword: state.register.registerPassword,
         minPasswordLength: state.register.minPasswordLength,
         registerStep: state.register.registerStep,
-        usernameDisabled: state.register.usernameDisabled,
-        passwordDisabled: state.register.passwordDisabled,
+        registerUsernameDisabled: state.register.registerUsernameDisabled,
+        registerPasswordDisabled: state.register.registerPasswordDisabled,
         submitDisabled: state.register.submitDisabled,
         loader: state.register.loader
     };

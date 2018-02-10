@@ -26,14 +26,12 @@ export const logout = () => {
 };
 
 export const setLoggingIn = () => {
-    console.log("is logging in")
     return {
         type: 'LOGGING_IN'
     }
 };
 
 function setLoggedState(token) {
-    console.log("not logging in")
     if (token) {
         return {
             type: 'LOGIN_SUCCESS',

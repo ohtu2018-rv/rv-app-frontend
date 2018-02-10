@@ -15,13 +15,15 @@ import testReducer from './reducers/testReducer';
 import notificationReducer from './reducers/notificationReducer';
 import authenticationReducer from './reducers/authenticationReducer';
 import registerReducer from './reducers/registerReducer';
+import loginReducer from './reducers/loginReducer';
 
 // Combine reducers
 const reducer = combineReducers({
     test: testReducer,
     notification: notificationReducer,
     authentication: authenticationReducer,
-    register: registerReducer
+    register: registerReducer,
+    login: loginReducer
 });
 
 const middleware =

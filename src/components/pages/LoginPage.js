@@ -50,10 +50,9 @@ class LoginPage extends React.Component {
                         <Col xs={3}>
                             <BasicBtn
                                 hover
-                                onClick={() => {
-                                    console.log(this.props.registerVisible)
+                                onClick={() => 
                                     this.props.toggleRegisterVisibility()
-                                }}>
+                                }>
                                 Register 
                             </BasicBtn>
                         </Col> 

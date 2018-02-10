@@ -4,28 +4,21 @@ import './styles/LoginForm.css';
 import SuccessBtn from './../buttons/SuccessBtn';
 
 import { connect } from 'react-redux';
-import { login, setLoggingIn } from './../../reducers/authenticationReducer';
+import { 
+    login, 
+    setLoggingIn
+} from './../../reducers/authenticationReducer';
+import { 
+    handleInputEvent, 
+    reset,
+    focusPasswordField,
+    setLogging
+} from './../../reducers/loginReducer';
 
 // Remove for something smarter
 let timeout;
 
 class LoginForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            password: '',
-            minUsernameLength: 8,
-            minPasswordLength: 2,
-            usernameDisabled: false,
-            passwordDisabled: true,
-            submitDisabled: true,
-            loader: false,
-            loginStep: 1
-        };
-        this.handleInputEvent = this.handleInputEvent.bind(this);
-    }
-
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
         document.addEventListener('keypress', this.handleKeyPress);
@@ -36,40 +29,37 @@ class LoginForm extends React.Component {
         document.removeEventListener('keydown', this.handleKeyPress);
         document.removeEventListener('keypress', this.handleKeyPress);
         clearTimeout(timeout);
+        this.props.reset();
     }
 
     wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
     nextStep = async () => {
-        if (this.state.loginStep === 1) {
-            this.setState({
-                loginStep: 2,
-                usernameDisabled: true,
-                passwordDisabled: false,
-                submitDisabled: false
-            });
+        if (this.props.loginStep === 1) {
+            this.props.focusPasswordField();
             this.passwordInput.focus();
-        } else if (this.state.loginStep === 2) {
-            this.setState({
-                usernameDisabled: true,
-                passwordDisabled: true,
-                loader: true
-            });
+        } else if (this.props.loginStep === 2) {
+            this.props.setLogging();
             this.props.setLoggingIn();
 
+            // Replace timeout with something smarter
+            timeout = setTimeout(() => {
+                this.props.reset();
+            }, 2000);
+
             this.props.authenticate({
-                username: this.state.username,
-                password: this.state.password
-            });
+                username: this.props.username,
+                password: this.props.password
+            })
 
             /* authenticate does't return a boolean
             if (
                 !this.props.authenticate({
-                    username: this.state.username,
-                    password: this.state.password
+                    username: this.props.username,
+                    password: this.props.password
                 })
             ) {
-                this.setState({
+                this.setprops({
                     loginStep: 1,
                     usernameDisabled: false,
                     passwordDisabled: true,
@@ -100,11 +90,6 @@ class LoginForm extends React.Component {
         }
     };
 
-    handleInputEvent(event) {
-        const target = event.target;
-        this.setState({ [target.name]: target.value });
-    }
-
     render() {
         return (
             <div
@@ -122,14 +107,14 @@ class LoginForm extends React.Component {
                             id="username"
                             name="username"
                             placeholder="Käyttäjätunnus"
-                            value={this.state.username}
-                            onChange={this.handleInputEvent}
+                            value={this.props.username}
+                            onChange={(event) => this.props.handleInputEvent(event)}
                             onKeyDown={this.handleKeyUp}
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             className="input fullWidth"
-                            disabled={this.state.usernameDisabled}
+                            disabled={this.props.usernameDisabled}
                             ref={input => {
                                 this.usernameInput = input;
                             }}
@@ -141,14 +126,14 @@ class LoginForm extends React.Component {
                             id="password"
                             name="password"
                             placeholder="Salasana"
-                            value={this.state.password}
-                            onChange={this.handleInputEvent}
+                            value={this.props.password}
+                            onChange={(event) => this.props.handleInputEvent(event)}
                             onKeyDown={this.handleKeyUp}
                             className="input fullWidth"
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
-                            disabled={this.state.passwordDisabled}
+                            disabled={this.props.passwordDisabled}
                             ref={input => {
                                 this.passwordInput = input;
                             }}
@@ -157,12 +142,12 @@ class LoginForm extends React.Component {
                     <div className="formControl">
                         <SuccessBtn
                             fill
-                            loader={this.state.loader || this.props.loader}
+                            loader={this.props.loader}
                             disabled={
                                 !(
-                                    !this.state.submitDisabled &&
-                                    this.state.password.length >
-                                        this.state.minPasswordLength
+                                    !this.props.submitDisabled &&
+                                    this.props.password.length >
+                                        this.props.minPasswordLength
                                 )
                             }
                             style={{ width: '100%' }}
@@ -178,12 +163,23 @@ class LoginForm extends React.Component {
 
 const mapDispatchToProps = {
     login,
-    setLoggingIn
+    setLoggingIn,
+    reset,
+    handleInputEvent,
+    focusPasswordField,
+    setLogging
 };
 
 const mapStateToProps = state => {
     return {
-        loginStep: state.authentication.loginStep
+        username: state.login.username,
+        password: state.login.password,
+        minPasswordLength: state.login.minPasswordLength,
+        loginStep: state.login.loginStep,
+        usernameDisabled: state.login.usernameDisabled,
+        passwordDisabled: state.login.passwordDisabled,
+        submitDisabled: state.login.submitDisabled,
+        loader: state.login.loader
     };
 };
 
