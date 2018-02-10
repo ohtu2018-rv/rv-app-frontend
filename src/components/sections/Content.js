@@ -11,7 +11,7 @@ import {
     errorMessage
 } from './../../reducers/notificationReducer';
 
-class Content extends React.Component {
+export class Content extends React.Component {
     render() {
         return (
             <main>
