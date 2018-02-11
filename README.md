@@ -6,7 +6,7 @@ Production: https://rv-frontend.herokuapp.com
 
 Staging: https://rv-frontend-dev.herokuapp.com
 
-Login with normal_user::hunter2
+Login with ```normal_user::hunter2```
 
 ## Introduction
 
