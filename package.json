@@ -57,7 +57,11 @@
         "redux-mock-store": "^1.5.1"
     },
     "lint-staged": {
-        "*.js": ["eslint", "git add"],
-        "*.jsx": ["eslint", "git add"]
+        "src/**/*.{js,jsx}": ["eslint", "git add"],
+        "src/**/*.css": "stylelint",
+        "src/**/*.scss": "stylelint --syntax=scss"
+    },
+    "stylelint": {
+        "extends": "stylelint-config-recommended"
     }
 }
