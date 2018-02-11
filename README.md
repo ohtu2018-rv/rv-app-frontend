@@ -2,15 +2,14 @@
 
 [![Build Status](https://travis-ci.org/ohtu2018-rv/rv-app-frontend.svg?branch=develop)](https://travis-ci.org/ohtu2018-rv/rv-app-frontend) [Codecov badge]
 
-Production: https://rv-frontend.herokuapp.com
-
-Staging: https://rv-frontend-dev.herokuapp.com
-
-Login with ```normal_user::hunter2```
-
 ## Introduction
 
-/* TODO */
+This repository contains source code for the new RV, coded during University course 'Software development project, Spring 2018'
+
+Production URL for the application is https://rv-frontend.herokuapp.com, while staging can be found at https://rv-frontend-dev.herokuapp.com.
+
+Please login with ```normal_user::hunter2``` to use the application.
+
 
 ## How to get started
 
@@ -18,36 +17,36 @@ Login with ```normal_user::hunter2```
 2. Install Yarn (if not installed before)
 3. `yarn install` to install project dependencies
 4. Create a [.env](https://github.com/motdotla/dotenv) file and define in it the variable `REACT_APP_BACKEND_URL` that points to backend server's address
-5. `yarn start` for starting the app, or `yarn storybook` when developing modules
-
-## How to develop
-
-[Development guideline](DEVELOPMENT.md)
+5. `yarn start` for starting the app, `yarn storybook` when developing modules or `yarn styleguide` when creating documentation.
 
 ## How to build
 
-Run `yarn build` to build the project.
+Run `yarn build` to build the project. This will create a production-optimized build to ```build``` folder.
 
 ## Documentation
 
-For documentation, please click [this link](http://htmlpreview.github.io/?https://github.com/ohtu2018-rv/rv-app-frontend/blob/develop/styleguide/index.html)
+For UI component documentation, please click [this link](http://htmlpreview.github.io/?https://github.com/ohtu2018-rv/rv-app-frontend/blob/develop/styleguide/index.html)
 
 ## Tech
 
-- React + React Redux
-- ```create-react-app``` for easy bootstrapping
+This is a JavaScript application powered by React. React Redux is used to handle the app's state, with the help of redux-thunk for asynchronous actions. UI components do not use external styling rules, so every UI component you see in this project is styled from scratch.
 
-### Build
+Testing of UI components is made with Enzyme & Jest, and Redux store is mocked with redux-mock-store.
 
-- Docker
-- Jest + Enzyme for unit & integration testing
+## Development
 
-### Development
+When developing UI components, use React Storybook. It allows the development of single UI components instead of adding a new component to the application and develop it 'live'.
 
-- React Storybook for development of UI components
-- Write new tests as new code is written to make sure that each UI component gets tested
-- Write documentation for components using React Styleguide
+Write tests as new code is written to make sure that each UI component gets tested throughfully. New UI components shall also be documented on the fly, with the help of React Styleguide.
 
-### Build pipeline
+Code must pass linters in order to be commited. **When a commit is made, ESLint and Stylelint will make sure that styling guidelines are followed.** The commit will not go through, if even one error is detected.
 
-GitHub -> Travis CI + Codecov -> Heroku / AWS
+New features or fixes must have a branch. Pushing directly to develop or master is not allowed (though certain emergency cituations do not follow this rule) [See this link on how to use Git Flow.](DEVELOPMENT.md)
+
+## Build pipeline
+
+When code is pushed to GitHub and a pull request is made to either ```develop``` or ```master``` branch, Travis CI will run tests for the project and deploy it to Heroku, if all test have passed.
+
+## License
+
+This project is licensed with GNU GPL v3 license.
