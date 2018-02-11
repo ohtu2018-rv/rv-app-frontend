@@ -22,10 +22,16 @@
     "scripts": {
         "start-js": "react-scripts start",
         "start": "npm-run-all -p watch-css start-js",
+        "lint-js": "eslint src/**/*.{js,jsx}",
+        "fix-js": "eslint --fix src/**/*.{js,jsx}",
         "build-js": "react-scripts build",
         "build": "npm-run-all build-css build-js",
-        "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
-        "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+        "build-css":
+            "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
+        "watch-css":
+            "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+        "lint-css": "stylelint src/**/*.scss --syntax=scss",
+        "fix-css": "stylelint src/**/*.scss --syntax=scss --fix",
         "test": "react-scripts test --env=jsdom",
         "eject": "react-scripts eject",
         "storybook": "start-storybook -p 9009 -s public",
@@ -50,6 +56,7 @@
         "eslint-plugin-react": "^7.6.1",
         "husky": "^0.14.3",
         "lint-staged": "^6.1.0",
+        "prettier-stylelint": "^0.4.2",
         "react-styleguidist": "^6.2.2",
         "redux-immutable-state-invariant": "^2.1.0",
         "redux-mock-store": "^1.5.1",
@@ -57,11 +64,7 @@
         "stylelint-config-standard": "^18.0.0"
     },
     "lint-staged": {
-        "src/**/*.{js,jsx}": [
-            "eslint",
-            "git add"
-        ],
-        "src/**/*.css": "stylelint",
-        "src/**/*.scss": "stylelint --syntax=scss"
+        "src/**/*.{js,jsx}": ["eslint", "git add"],
+        "src/**/*.scss": ["stylelint --syntax=scss", "git add"]
     }
 }

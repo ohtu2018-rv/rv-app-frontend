@@ -59,24 +59,24 @@ function verifyLogin(user) {
  */
 const authenticationReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'LOGGING_IN':
-            return Object.assign({}, state, { isLoggingIn: true });
-        case 'LOGIN_SUCCESS':
-            return Object.assign({}, state, {
-                loggedIn: true,
-                access_token: action.token,
-                isLoggingIn: false
-            });
-        case 'LOGIN_FAILED':
-            return Object.assign({}, state, {
-                loggedIn: false,
-                access_token: '',
-                isLoggingIn: false
-            });
-        case 'LOGOUT_SUCCESS':
-            return Object.assign({}, { loggedIn: false, access_token: '' });
-        default:
-            return state;
+    case 'LOGGING_IN':
+        return Object.assign({}, state, { isLoggingIn: true });
+    case 'LOGIN_SUCCESS':
+        return Object.assign({}, state, {
+            loggedIn: true,
+            access_token: action.token,
+            isLoggingIn: false
+        });
+    case 'LOGIN_FAILED':
+        return Object.assign({}, state, {
+            loggedIn: false,
+            access_token: '',
+            isLoggingIn: false
+        });
+    case 'LOGOUT_SUCCESS':
+        return Object.assign({}, { loggedIn: false, access_token: '' });
+    default:
+        return state;
     }
 };
 

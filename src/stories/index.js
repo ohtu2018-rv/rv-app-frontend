@@ -125,9 +125,7 @@ storiesOf('TopBalanceUsers', module)
  * Authentication mock
  * @param {*} user
  */
-const authenticate = user => {
-    console.log(user);
-};
+const authenticate = user => {};
 
 storiesOf('LoginForm', module)
     .add('Without loader', () => <LoginForm authenticate={authenticate} />)
