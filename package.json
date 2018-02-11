@@ -57,7 +57,7 @@
         "redux-mock-store": "^1.5.1"
     },
     "lint-staged": {
-        "*.js": ["eslint --fix", "git add"],
-        "*.jsx": ["eslint --fix", "git add"]
+        "*.js": ["eslint", "git add"],
+        "*.jsx": ["eslint", "git add"]
     }
 }
