@@ -24,10 +24,8 @@
         "start": "npm-run-all -p watch-css start-js",
         "build-js": "react-scripts build",
         "build": "npm-run-all build-css build-js",
-        "build-css":
-            "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
-        "watch-css":
-            "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+        "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
+        "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
         "test": "react-scripts test --env=jsdom",
         "eject": "react-scripts eject",
         "storybook": "start-storybook -p 9009 -s public",
@@ -54,14 +52,15 @@
         "lint-staged": "^6.1.0",
         "react-styleguidist": "^6.2.2",
         "redux-immutable-state-invariant": "^2.1.0",
-        "redux-mock-store": "^1.5.1"
+        "redux-mock-store": "^1.5.1",
+        "stylelint-config-standard": "^18.0.0"
     },
     "lint-staged": {
-        "src/**/*.{js,jsx}": ["eslint", "git add"],
+        "src/**/*.{js,jsx}": [
+            "eslint",
+            "git add"
+        ],
         "src/**/*.css": "stylelint",
         "src/**/*.scss": "stylelint --syntax=scss"
-    },
-    "stylelint": {
-        "extends": "stylelint-config-recommended"
     }
 }
