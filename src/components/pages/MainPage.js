@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Header } from '../sections/Header';
 import Content from '../sections/Content';
-import NotificationDrawer from '../helpers/NotificationDrawer';
 
 import { connect } from 'react-redux';
 
@@ -115,10 +114,6 @@ class MainPage extends Component {
     render() {
         return (
             <div>
-                <NotificationDrawer
-                    notifications={this.props.notifications}
-                    products={this.props.products}
-                />
                 <Header
                     logout={this.props.logout}
                     user={this.state.user}
@@ -141,8 +136,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
-        notifications: state.notification.notifications,
-        products: state.notification.purchasedItems,
         token: state.authentication.access_token,
         purchaseNotificationTimeout:
             state.notification.purchaseNotificationTimeout
