@@ -11,29 +11,27 @@ const initialState = {
  * Login sequence.
  * @param {object} user
  */
-export const login = (user) => {
-    return async dispatch => {   
-        verifyLogin(user).then(
-            res => dispatch(setLoggedState(res.access_token))
-        )
-    }
+export const login = user => {
+    return async dispatch => {
+        verifyLogin(user).then(res =>
+            dispatch(setLoggedState(res.access_token))
+        );
+    };
 };
 
 export const logout = () => {
     return {
         type: 'LOGOUT_SUCCESS'
-    }
+    };
 };
 
 export const setLoggingIn = () => {
-    console.log("is logging in")
     return {
         type: 'LOGGING_IN'
-    }
+    };
 };
 
 function setLoggedState(token) {
-    console.log("not logging in")
     if (token) {
         return {
             type: 'LOGIN_SUCCESS',
@@ -46,10 +44,12 @@ function setLoggedState(token) {
 }
 
 function verifyLogin(user) {
-    return axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/user/authenticate`, {
-        username: user.username,
-        password: user.password
-    }).then(res => res.data);
+    return axios
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/user/authenticate`, {
+            username: user.username,
+            password: user.password
+        })
+        .then(res => res.data);
 }
 
 /**
@@ -62,9 +62,17 @@ const authenticationReducer = (state = initialState, action) => {
         case 'LOGGING_IN':
             return Object.assign({}, state, { isLoggingIn: true });
         case 'LOGIN_SUCCESS':
-            return Object.assign({}, state, { loggedIn: true, access_token: action.token, isLoggingIn: false });
+            return Object.assign({}, state, {
+                loggedIn: true,
+                access_token: action.token,
+                isLoggingIn: false
+            });
         case 'LOGIN_FAILED':
-            return Object.assign({}, state, { loggedIn: false, access_token: '', isLoggingIn: false });
+            return Object.assign({}, state, {
+                loggedIn: false,
+                access_token: '',
+                isLoggingIn: false
+            });
         case 'LOGOUT_SUCCESS':
             return Object.assign({}, { loggedIn: false, access_token: '' });
         default:

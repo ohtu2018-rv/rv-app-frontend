@@ -4,22 +4,20 @@ import './styles/LoginForm.css';
 import SuccessBtn from './../buttons/SuccessBtn';
 
 import { connect } from 'react-redux';
-import { login, setLoggingIn } from './../../reducers/authenticationReducer';
-import {
-    handleInputEvent,
+import { 
+    handleInputEvent, 
     reset,
     focusPasswordField,
-    setLogging
-} from './../../reducers/loginReducer';
+    setRegistering
+} from './../../reducers/registerReducer';
 
-// Remove for something smarter
 let timeout;
 
-class LoginForm extends React.Component {
+class RegisterForm extends React.Component {
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
         document.addEventListener('keypress', this.handleKeyPress);
-        this.usernameInput.focus();
+        this.registerUsernameInput.focus();
     }
 
     componentWillUnmount() {
@@ -32,43 +30,22 @@ class LoginForm extends React.Component {
     wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
     nextStep = async () => {
-        if (this.props.loginStep === 1) {
+        if (this.props.registerStep === 1) {
             this.props.focusPasswordField();
-            this.passwordInput.focus();
-        } else if (this.props.loginStep === 2) {
-            this.props.setLogging();
-            this.props.setLoggingIn();
+            this.registerPasswordInput.focus();
+        } else if (this.props.registerStep === 2) {
+            this.props.setRegistering();
+            await this.wait(1000);
 
+            // Register
             // Replace timeout with something smarter
             timeout = setTimeout(() => {
+                alert("Registered")
                 this.props.reset();
-            }, 2000);
+            }, 500);
 
-            this.props.authenticate({
-                username: this.props.username,
-                password: this.props.password
-            });
-
-            /* authenticate does't return a boolean
-            if (
-                !this.props.authenticate({
-                    username: this.props.username,
-                    password: this.props.password
-                })
-            ) {
-                this.setprops({
-                    loginStep: 1,
-                    usernameDisabled: false,
-                    passwordDisabled: true,
-                    submitDisabled: true,
-                    username: '',
-                    password: '',
-                    loader: false
-                });
-                this.usernameInput.focus();
-            } else {
-                clearTimeout(timeout)
-            */
+            // TODO: Here registerService call
+            // this.props.register()
         }
     };
 
@@ -87,6 +64,7 @@ class LoginForm extends React.Component {
         }
     };
 
+
     render() {
         return (
             <div
@@ -97,46 +75,42 @@ class LoginForm extends React.Component {
                 }
             >
                 <form onSubmit={this.props.handleSubmit}>
-                    <legend>Log in</legend>
+                    <legend>Register</legend>
                     <div className="formControl">
                         <input
                             type="text"
-                            id="username"
-                            name="username"
+                            id="registerUsername"
+                            name="registerUsername"
                             placeholder="Käyttäjätunnus"
-                            value={this.props.username}
-                            onChange={event =>
-                                this.props.handleInputEvent(event)
-                            }
+                            value={this.props.registerUsername}
+                            onChange={(event) => this.props.handleInputEvent(event)}
                             onKeyDown={this.handleKeyUp}
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             className="input fullWidth"
-                            disabled={this.props.usernameDisabled}
+                            disabled={this.props.registerUsernameDisabled}
                             ref={input => {
-                                this.usernameInput = input;
+                                this.registerUsernameInput = input;
                             }}
                         />
                     </div>
                     <div className="formControl">
                         <input
                             type="password"
-                            id="password"
-                            name="password"
+                            id="registerPassword"
+                            name="registerPassword"
                             placeholder="Salasana"
-                            value={this.props.password}
-                            onChange={event =>
-                                this.props.handleInputEvent(event)
-                            }
+                            value={this.props.registerPassword}
+                            onChange={(event) => this.props.handleInputEvent(event)}
                             onKeyDown={this.handleKeyUp}
                             className="input fullWidth"
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
-                            disabled={this.props.passwordDisabled}
+                            disabled={this.props.registerPasswordDisabled}
                             ref={input => {
-                                this.passwordInput = input;
+                                this.registerPasswordInput = input;
                             }}
                         />
                     </div>
@@ -147,13 +121,13 @@ class LoginForm extends React.Component {
                             disabled={
                                 !(
                                     !this.props.submitDisabled &&
-                                    this.props.password.length >
+                                    this.props.registerPassword.length >
                                         this.props.minPasswordLength
                                 )
                             }
                             style={{ width: '100%' }}
                         >
-                            Kirjaudu sisään (ENTER)
+                            Rekisteröidy (ENTER)
                         </SuccessBtn>
                     </div>
                 </form>
@@ -163,25 +137,23 @@ class LoginForm extends React.Component {
 }
 
 const mapDispatchToProps = {
-    login,
-    setLoggingIn,
-    reset,
     handleInputEvent,
+    reset,
     focusPasswordField,
-    setLogging
+    setRegistering
 };
 
 const mapStateToProps = state => {
     return {
-        username: state.login.username,
-        password: state.login.password,
-        minPasswordLength: state.login.minPasswordLength,
-        loginStep: state.login.loginStep,
-        usernameDisabled: state.login.usernameDisabled,
-        passwordDisabled: state.login.passwordDisabled,
-        submitDisabled: state.login.submitDisabled,
-        loader: state.login.loader
+        registerUsername: state.register.registerUsername,
+        registerPassword: state.register.registerPassword,
+        minPasswordLength: state.register.minPasswordLength,
+        registerStep: state.register.registerStep,
+        registerUsernameDisabled: state.register.registerUsernameDisabled,
+        registerPasswordDisabled: state.register.registerPasswordDisabled,
+        submitDisabled: state.register.submitDisabled,
+        loader: state.register.loader
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

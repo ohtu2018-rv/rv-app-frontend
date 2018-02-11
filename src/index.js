@@ -15,12 +15,16 @@ import thunk from 'redux-thunk';
 import notificationReducer from './reducers/notificationReducer';
 import authenticationReducer from './reducers/authenticationReducer';
 import shoppingCartReducer from './reducers/shoppingCartReducer';
+import registerReducer from './reducers/registerReducer';
+import loginReducer from './reducers/loginReducer';
 
 // Combine reducers
 const reducer = combineReducers({
     notification: notificationReducer,
     authentication: authenticationReducer,
-    shoppingCart: shoppingCartReducer
+    shoppingCart: shoppingCartReducer,
+    register: registerReducer,
+    login: loginReducer
 });
 
 const middleware =
