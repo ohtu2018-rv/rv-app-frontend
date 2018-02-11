@@ -68,4 +68,4 @@ When code is pushed to GitHub and a pull request is made to either ```develop```
 
 ## License
 
-This project is licensed with GNU GPL v3 license.
+This project is licensed with GNU GPL v2 license.
