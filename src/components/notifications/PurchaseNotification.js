@@ -2,6 +2,10 @@ import React from 'react';
 import './styles/PurchaseNotification.css';
 import SuccessNotification from './SuccessNotification';
 
+import { TransitionGroup } from 'react-transition-group';
+
+import { Fade } from './../animations/Animations';
+
 const PurchaseNotificationProduct = ({ product }) => {
     return (
         <div className="product" key={product.barcode}>
@@ -21,12 +25,18 @@ const PurchaseNotification = ({ products, shadow }) => {
     return (
         <SuccessNotification shadow={shadow}>
             <div className="products">
-                {products.map(product => (
-                    <PurchaseNotificationProduct
-                        product={product}
-                        key={product.barcode}
-                    />
-                ))}
+                <TransitionGroup>
+                    {products &&
+                        products.length > 0 &&
+                        products.map(product => (
+                            <Fade>
+                                <PurchaseNotificationProduct
+                                    product={product}
+                                    key={product.barcode}
+                                />
+                            </Fade>
+                        ))}
+                </TransitionGroup>
             </div>
         </SuccessNotification>
     );

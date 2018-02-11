@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './reset.css';
 import './index.css';
-import './animations.css';
+import './components/animations/animations.css';
 
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { logger } from './reducers/middleware';
 import { Provider } from 'react-redux';
@@ -43,10 +42,9 @@ const store = createStore(
 // Load config
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
+    // Log initial state
+    console.log(store.getState());
 }
-
-// Log initial state
-console.log(store.getState());
 
 ReactDOM.render(
     <Provider store={store}>
@@ -54,4 +52,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
-registerServiceWorker();

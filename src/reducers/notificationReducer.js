@@ -2,7 +2,8 @@ import uuidv1 from 'node-uuid';
 
 const initialState = {
     notifications: [],
-    purchasedItems: []
+    purchasedItems: [],
+    purchaseNotificationTimeout: 2500
 };
 
 const getId = () => uuidv1();
@@ -107,7 +108,6 @@ const notificationReducer = (state = initialState, action) => {
             );
 
             if (!product) {
-                console.log('Item does not exist');
                 return Object.assign({}, state, {
                     purchasedItems: [...state.purchasedItems, action.data]
                 });

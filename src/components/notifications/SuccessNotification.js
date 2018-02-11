@@ -55,7 +55,7 @@ const SuccessNotification = ({ message, shadow, children }) => {
 
 SuccessNotification.propTypes = {
     /** Notification message. */
-    message: PropTypes.string.isRequired,
+    message: PropTypes.string,
     /** Shadow effect under the notification */
     shadow: PropTypes.bool
 };

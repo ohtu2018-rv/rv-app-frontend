@@ -3,12 +3,6 @@ import { Header } from '../sections/Header';
 import Content from '../sections/Content';
 import NotificationDrawer from '../helpers/NotificationDrawer';
 
-import SuccessNotification from './../notifications/SuccessNotification';
-import ErrorNotification from './../notifications/ErrorNotification';
-import PurchaseNotification from './../notifications/PurchaseNotification';
-
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-
 import { connect } from 'react-redux';
 
 import { logout } from './../../reducers/authenticationReducer';
@@ -22,18 +16,6 @@ import {
 
 import userService from '../../services/userService';
 
-const SlideIn = ({ children, ...props }) => (
-    <CSSTransition
-        {...props}
-        timeout={200}
-        classNames="slide"
-        unmountOnExit={true}
-        mountOnEnter={true}
-    >
-        {children}
-    </CSSTransition>
-);
-
 class MainPage extends Component {
     constructor(props) {
         /* REMOVE contructer after demo 1 */
@@ -46,9 +28,6 @@ class MainPage extends Component {
                 email: '',
                 account_balance: 0
             },
-            products: [],
-            timerRunning: false,
-            productTimeout: 2500,
             timeoutHandler: null,
             balance: null
         };
@@ -70,7 +49,6 @@ class MainPage extends Component {
         document.addEventListener('keypress', this.handleKeyPress);
         userService.getUser(this.props.token).then(user => {
             this.setState({ user: user });
-            console.log(this.state.user);
         });
     }
 
@@ -88,17 +66,27 @@ class MainPage extends Component {
                 product.price
             );
 
+            // If timeout is set, clear it to prevent notification from disappearing
+            if (this.state.timeoutHandler) {
+                clearTimeout(this.state.timeoutHandler);
+                this.setState({ timeoutHandler: null });
+            }
+
             let user = Object.assign(this.state.user);
             user.account_balance = newBalance;
             this.setState({ user: user });
+
+            // Add product to notification
             this.props.addProductToNotification(product);
+
+            // Create a new timeout
+            const timeoutHandler = setTimeout(
+                () => this.props.clearProductsFromNotification(),
+                this.props.purchaseNotificationTimeout
+            );
             this.setState({
-                timeoutHandler: setTimeout(
-                    () => this.props.clearProductsFromNotification(),
-                    this.state.productTimeout
-                )
+                timeoutHandler
             });
-            console.log(this.state.user);
         } catch (error) {
             this.props.errorMessage('Virhe ostamisessa');
         }
@@ -119,7 +107,6 @@ class MainPage extends Component {
                     parseFloat(product.price / 100).toFixed(2) +
                     ' €'
             );
-            console.log(this.state.user);
         } catch (error) {
             this.props.errorMessage('Virhe tallettamisessa');
         }
@@ -128,41 +115,10 @@ class MainPage extends Component {
     render() {
         return (
             <div>
-                <NotificationDrawer>
-                    <TransitionGroup
-                        transitionName="notification"
-                        transitionEnterTimeout={200}
-                        transitionLeaveTimeout={200}
-                    >
-                        {this.props.notifications.map(
-                            (notification, id) =>
-                                notification.messageType === 'SUCCESS' ? (
-                                    <SlideIn key={id}>
-                                        <SuccessNotification
-                                            message={notification.message}
-                                            shadow
-                                        />
-                                    </SlideIn>
-                                ) : (
-                                    <SlideIn key={id}>
-                                        <ErrorNotification
-                                            message={notification.message}
-                                            shadow
-                                        />
-                                    </SlideIn>
-                                )
-                        )}
-                        {this.props.products &&
-                            this.props.products.length > 0 && (
-                                <SlideIn>
-                                    <PurchaseNotification
-                                        shadow
-                                        products={this.props.products}
-                                    />
-                                </SlideIn>
-                            )}
-                    </TransitionGroup>
-                </NotificationDrawer>
+                <NotificationDrawer
+                    notifications={this.props.notifications}
+                    products={this.props.products}
+                />
                 <Header
                     logout={this.props.logout}
                     user={this.state.user}
@@ -187,7 +143,9 @@ const mapStateToProps = state => {
     return {
         notifications: state.notification.notifications,
         products: state.notification.purchasedItems,
-        token: state.authentication.access_token
+        token: state.authentication.access_token,
+        purchaseNotificationTimeout:
+            state.notification.purchaseNotificationTimeout
     };
 };
 
