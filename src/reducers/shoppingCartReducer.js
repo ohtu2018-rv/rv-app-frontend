@@ -2,7 +2,7 @@
  * Shopping cart reducer. This reducer is responsible for adding & removing items from shopping cart, and doing a final transaction (Should transaction functionality be moved to another reducer?)
  */
 
-const initialState = {
+export const initialState = {
     products: [
         {
             barcode: '0000000000001',

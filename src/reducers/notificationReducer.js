@@ -1,6 +1,6 @@
 import uuidv1 from 'node-uuid';
 
-const initialState = {
+export const initialState = {
     notifications: [],
     purchasedItems: [],
     purchaseNotificationTimeout: 2500

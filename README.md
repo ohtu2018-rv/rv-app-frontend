@@ -2,6 +2,12 @@
 
 [![Build Status](https://travis-ci.org/ohtu2018-rv/rv-app-frontend.svg?branch=develop)](https://travis-ci.org/ohtu2018-rv/rv-app-frontend) [Codecov badge]
 
+Production: https://rv-frontend.herokuapp.com
+
+Staging: https://rv-frontend-dev.herokuapp.com
+
+Login with normal_user::hunter2
+
 ## Introduction
 
 /* TODO */

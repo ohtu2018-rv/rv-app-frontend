@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const initialState = {
+export const initialState = {
     isLoggingIn: false,
     loggedIn: false,
     access_token: '',
