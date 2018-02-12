@@ -28,7 +28,7 @@ const PurchaseNotification = ({ products, shadow }) => {
                 <TransitionGroup>
                     {products &&
                         products.length > 0 &&
-                        products.map(product, id => (
+                        products.map((product, id) => (
                             <Fade key={id}>
                                 <PurchaseNotificationProduct
                                     product={product}
