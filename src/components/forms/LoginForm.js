@@ -4,12 +4,9 @@ import './styles/LoginForm.css';
 import SuccessBtn from './../buttons/SuccessBtn';
 
 import { connect } from 'react-redux';
-import { 
-    login, 
-    setLoggingIn
-} from './../../reducers/authenticationReducer';
-import { 
-    handleInputEvent, 
+import { login, setLoggingIn } from './../../reducers/authenticationReducer';
+import {
+    handleInputEvent,
     reset,
     focusPasswordField,
     setLogging
@@ -50,7 +47,7 @@ class LoginForm extends React.Component {
             this.props.authenticate({
                 username: this.props.username,
                 password: this.props.password
-            })
+            });
 
             /* authenticate does't return a boolean
             if (
@@ -108,7 +105,9 @@ class LoginForm extends React.Component {
                             name="username"
                             placeholder="Käyttäjätunnus"
                             value={this.props.username}
-                            onChange={(event) => this.props.handleInputEvent(event)}
+                            onChange={event =>
+                                this.props.handleInputEvent(event)
+                            }
                             onKeyDown={this.handleKeyUp}
                             autoComplete="off"
                             autoCorrect="off"
@@ -127,7 +126,9 @@ class LoginForm extends React.Component {
                             name="password"
                             placeholder="Salasana"
                             value={this.props.password}
-                            onChange={(event) => this.props.handleInputEvent(event)}
+                            onChange={event =>
+                                this.props.handleInputEvent(event)
+                            }
                             onKeyDown={this.handleKeyUp}
                             className="input fullWidth"
                             autoComplete="off"

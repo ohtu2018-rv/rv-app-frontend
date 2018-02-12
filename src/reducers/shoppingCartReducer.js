@@ -2,16 +2,22 @@
  * Shopping cart reducer. This reducer is responsible for adding & removing items from shopping cart, and doing a final transaction (Should transaction functionality be moved to another reducer?)
  */
 
-const initialState = {
-    products: []
+export const initialState = {
+    products: [
+        {
+            barcode: '0000000000001',
+            product_name: 'Kahvi',
+            price: 50,
+            quantity: 1
+        },
+        {
+            barcode: '0000000000005',
+            product_name: 'Myslipatukka',
+            price: 80,
+            quantity: 2
+        }
+    ]
 };
-
-/**
- * Returns a Promise that resolves when the predefined duration is set.
- * @param {number} duration
- */
-const wait = duration =>
-    new Promise(resolve => setTimeout(() => resolve(), duration));
 
 /**
  * Shopping cart reducer.

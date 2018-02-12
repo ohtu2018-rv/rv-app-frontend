@@ -1,34 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './reset.css';
-import './index.css';
-import './animations.css';
+import './components/animations/animations.css';
 
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { logger } from './reducers/middleware';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 // Import reducers
-import testReducer from './reducers/testReducer';
 import notificationReducer from './reducers/notificationReducer';
 import authenticationReducer from './reducers/authenticationReducer';
+import shoppingCartReducer from './reducers/shoppingCartReducer';
 import registerReducer from './reducers/registerReducer';
 import loginReducer from './reducers/loginReducer';
 
 // Combine reducers
 const reducer = combineReducers({
-    test: testReducer,
     notification: notificationReducer,
     authentication: authenticationReducer,
+    shoppingCart: shoppingCartReducer,
     register: registerReducer,
     login: loginReducer
 });
 
 const middleware =
     process.env.NODE_ENV !== 'production'
-        ? [require('redux-immutable-state-invariant').default(), thunk]
+        ? [require('redux-immutable-state-invariant').default(), thunk, logger]
         : [thunk];
 
 // Create store
@@ -42,10 +41,9 @@ const store = createStore(
 // Load config
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
+    // Log initial state
+    console.log(store.getState());
 }
-
-// Log initial state
-console.log(store.getState());
 
 ReactDOM.render(
     <Provider store={store}>
@@ -53,4 +51,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
-registerServiceWorker();

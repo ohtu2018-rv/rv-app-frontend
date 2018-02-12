@@ -6,7 +6,7 @@ import './styles/SuccessNotification.css';
 /**
  * Success notification component.
  */
-const SuccessNotification = ({ message, shadow }) => {
+const SuccessNotification = ({ message, shadow, children }) => {
     return (
         <div
             className={
@@ -47,7 +47,7 @@ const SuccessNotification = ({ message, shadow }) => {
                         fill="transparent"
                     />
                 </svg>
-                <div className="notification-text">{message}</div>
+                <div className="notification-text">{children || message}</div>
             </div>
         </div>
     );
@@ -55,7 +55,7 @@ const SuccessNotification = ({ message, shadow }) => {
 
 SuccessNotification.propTypes = {
     /** Notification message. */
-    message: PropTypes.string.isRequired,
+    message: PropTypes.string,
     /** Shadow effect under the notification */
     shadow: PropTypes.bool
 };

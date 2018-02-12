@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
 import { Header } from '../sections/Header';
 import Content from '../sections/Content';
-import NotificationDrawer from '../helpers/NotificationDrawer';
-
-import SuccessNotification from './../notifications/SuccessNotification';
-import ErrorNotification from './../notifications/ErrorNotification';
-
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { connect } from 'react-redux';
 
-import {
-    logout
-} from './../../reducers/authenticationReducer';
+import { logout } from './../../reducers/authenticationReducer';
 
 import {
     successMessage,
-    errorMessage
+    errorMessage,
+    addProductToNotification,
+    clearProductsFromNotification
 } from './../../reducers/notificationReducer';
 
 import userService from '../../services/userService';
-
-const SlideIn = ({ children, ...props }) => (
-    <CSSTransition {...props} timeout={200} classNames="slide" unmountOnExit={true} mountOnEnter={true}>
-        {children}
-    </CSSTransition>
-);
 
 class MainPage extends Component {
     constructor(props) {
@@ -39,9 +27,6 @@ class MainPage extends Component {
                 email: '',
                 account_balance: 0
             },
-            products: [],
-            timerRunning: false,
-            productTimeout: 3500,
             timeoutHandler: null,
             balance: null
         };
@@ -63,7 +48,6 @@ class MainPage extends Component {
         document.addEventListener('keypress', this.handleKeyPress);
         userService.getUser(this.props.token).then(user => {
             this.setState({ user: user });
-            console.log(this.state.user);
         });
     }
 
@@ -76,22 +60,43 @@ class MainPage extends Component {
      */
     async buy(product) {
         try {
-            var newBalance = await userService.reduceBalance(this.props.token, product.price);
+            var newBalance = await userService.reduceBalance(
+                this.props.token,
+                product.price
+            );
+
+            // If timeout is set, clear it to prevent notification from disappearing
+            if (this.state.timeoutHandler) {
+                clearTimeout(this.state.timeoutHandler);
+                this.setState({ timeoutHandler: null });
+            }
 
             let user = Object.assign(this.state.user);
             user.account_balance = newBalance;
             this.setState({ user: user });
-            this.addProduct(product);
-            console.log(this.state.user);
-        }
-        catch (error) {
+
+            // Add product to notification
+            this.props.addProductToNotification(product);
+
+            // Create a new timeout
+            const timeoutHandler = setTimeout(
+                () => this.props.clearProductsFromNotification(),
+                this.props.purchaseNotificationTimeout
+            );
+            this.setState({
+                timeoutHandler
+            });
+        } catch (error) {
             this.props.errorMessage('Virhe ostamisessa');
         }
     }
 
     async store(product) {
         try {
-            var newBalance = await userService.increaseBalance(this.props.token, product.price);
+            var newBalance = await userService.increaseBalance(
+                this.props.token,
+                product.price
+            );
 
             let user = Object.assign(this.state.user);
             user.account_balance = newBalance;
@@ -101,104 +106,21 @@ class MainPage extends Component {
                     parseFloat(product.price / 100).toFixed(2) +
                     ' €'
             );
-            console.log(this.state.user);
-        }
-        catch (error) {
+        } catch (error) {
             this.props.errorMessage('Virhe tallettamisessa');
-        }
-    }
-
-    /**
-     * Adds a product.
-     */
-    addProduct(addedProduct) {
-        this.removeProductRemovalTimeout();
-        const product = this.state.products.find(
-            product => product.barcode === addedProduct.barcode
-        );
-
-        if (product) {
-            const oldProducts = this.state.products.filter(
-                product => product.barcode !== addedProduct.barcode
-            );
-            console.log('Old products: ', oldProducts);
-            const newProducts = this.state.products.filter(
-                product => product.barcode === addedProduct.barcode
-            );
-            const newProduct = newProducts[0];
-
-            newProduct.quantity = newProduct.quantity + addedProduct.quantity;
-            console.log('New product: ', newProduct);
-            this.setState({ products: oldProducts.concat(newProduct) });
-        } else {
-            console.log('Added new product: ', addedProduct);
-            const products = this.state.products;
-            products.push(addedProduct);
-            this.setState({ products });
-        }
-        this.setProductRemovalTimeout();
-    }
-
-    /**
-     * Adds product removal timeout
-     */
-    setProductRemovalTimeout() {
-        console.log('Items before timeout removal: ', this.state.products);
-        const timeoutHandler = setTimeout(() => {
-            this.setState({ products: [] });
-        }, this.state.productTimeout);
-        this.setState({ timeoutHandler });
-    }
-
-    /**
-     * Removes product removal timeout
-     */
-    removeProductRemovalTimeout() {
-        if (this.state.timeoutHandler !== null) {
-            clearTimeout(this.state.timeoutHandler);
-            this.setState({ timeoutHandler: null });
         }
     }
 
     render() {
         return (
             <div>
-                <NotificationDrawer>
-                    <TransitionGroup
-                        transitionName="notification"
-                        transitionEnterTimeout={200}
-                        transitionLeaveTimeout={200}
-                    >
-                        {this.props.notifications.map(
-                            (notification, id) =>
-                                notification.messageType === 'SUCCESS' ? (
-                                    <SlideIn key={id}>
-                                        <SuccessNotification
-                                            message={notification.message}
-                                            shadow
-                                        />
-                                    </SlideIn>
-                                ) : (
-                                    <SlideIn key={id}>
-                                        <ErrorNotification
-                                            message={notification.message}
-                                            shadow
-                                        />
-                                    </SlideIn>
-                                )
-                        )}
-                    </TransitionGroup>
-                </NotificationDrawer>
                 <Header
                     logout={this.props.logout}
                     user={this.state.user}
                     buy={this.buy}
                     store={this.store}
                 />
-                <Content
-                    products={this.state.products}
-                    balance={this.state.balance}
-                />
+                <Content balance={this.state.balance} />
             </div>
         );
     }
@@ -207,13 +129,16 @@ class MainPage extends Component {
 const mapDispatchToProps = {
     successMessage,
     errorMessage,
-    logout
+    logout,
+    addProductToNotification,
+    clearProductsFromNotification
 };
 
 const mapStateToProps = state => {
     return {
-        notifications: state.notification.notifications,
-        token: state.authentication.access_token
+        token: state.authentication.access_token,
+        purchaseNotificationTimeout:
+            state.notification.purchaseNotificationTimeout
     };
 };
 

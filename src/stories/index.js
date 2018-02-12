@@ -10,8 +10,6 @@ import PurchaseNotification from '../components/notifications/PurchaseNotificati
 import Loader from '../components/loaders/Loader';
 import { Header } from './../components/sections/Header';
 import Content from './../components/sections/Content';
-import { ContentRight } from './../components/sections/ContentRight';
-import { ContentLeft } from './../components/sections/ContentLeft';
 import LoginPage from './../components/pages/LoginPage';
 import MainPage from './../components/pages/MainPage';
 import LoginForm from './../components/forms/LoginForm';
@@ -91,10 +89,6 @@ storiesOf('Header', module).add('Initial', () => <Header />);
 
 storiesOf('Content', module).add('Initial', () => <Content />);
 
-storiesOf('ContentRight', module).add('Initial', () => <ContentRight />);
-
-storiesOf('ContentLeft', module).add('Initial', () => <ContentLeft />);
-
 storiesOf('LoginPage', module).add('Initial', () => <LoginPage />);
 
 storiesOf('MainPage', module).add('Initial', () => <MainPage />);
@@ -131,9 +125,7 @@ storiesOf('TopBalanceUsers', module)
  * Authentication mock
  * @param {*} user
  */
-const authenticate = user => {
-    console.log(user);
-};
+const authenticate = user => {};
 
 storiesOf('LoginForm', module)
     .add('Without loader', () => <LoginForm authenticate={authenticate} />)
