@@ -36,11 +36,12 @@ class MainPage extends Component {
     handleKeyPress = event => {
         switch (event.keyCode) {
             case 13:
-                this.props.resetUserData();
-                this.props.logout();
+                if (this.props.terminalInput === '') {
+                    this.props.resetUserData();
+                    this.props.logout();
+                }
                 break;
             default:
-                console.log(String.fromCharCode(event.which));
                 console.log(event.keyCode);
         }
     };
@@ -91,8 +92,8 @@ class MainPage extends Component {
             this.props.increaseBalance(product.price);
             this.props.successMessage(
                 'Talletettu RV-tilille ' +
-                    parseFloat(product.price / 100).toFixed(2) +
-                    ' €'
+                parseFloat(product.price / 100).toFixed(2) +
+                ' €'
             );
         } catch (error) {
             const errorResponse = error.response;
@@ -131,7 +132,8 @@ const mapStateToProps = state => {
         token: state.authentication.access_token,
         purchaseNotificationTimeout:
             state.notification.purchaseNotificationTimeout,
-        user: state.user
+        user: state.user,
+        terminalInput: state.terminal.terminalInput
     };
 };
 

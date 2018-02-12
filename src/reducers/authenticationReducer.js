@@ -4,7 +4,7 @@ import { setUserData } from './../reducers/userReducer';
 
 export const initialState = {
     isLoggingIn: false,
-    loggedIn: false,
+    loggedIn: true,
     access_token: ''
 };
 

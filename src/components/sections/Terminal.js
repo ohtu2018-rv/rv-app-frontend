@@ -3,22 +3,40 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-    handleInputEvent
+    handleInputEvent,
+    handleTerminalSubmit
 } from './../../reducers/terminalReducer';
 
 class Terminal extends React.Component {
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.handleTerminalSubmit(this.props.terminalInput);
+    };
+
+    componentDidMount() {
+        this.terminalFocus.focus();
+    }
+
     render() {
         return (
             <div id='terminal'>
-                <input />
-                
+                <form onSubmit={this.handleSubmit}>
+                    <input
+                        value={this.props.terminalInput}
+                        ref={input => {
+                            this.terminalFocus = input;
+                        }}
+                        onChange={this.props.handleInputEvent} />
+                </form>
+
             </div>
         );
     }
 }
 
 const mapDispatchToProps = {
-    handleInputEvent
+    handleInputEvent,
+    handleTerminalSubmit
 };
 
 const mapStateToProps = state => {

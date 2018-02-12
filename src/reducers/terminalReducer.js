@@ -9,6 +9,21 @@ export const handleInputEvent = (event) => {
     };
 };
 
+export const handleTerminalSubmit = (value) => {
+    /**implement regex here
+     * 
+     */
+    switch (value == true) {
+        
+        
+    default: 
+        
+        return { 
+            type: 'RESET_TERMINAL'
+        }
+    }
+}
+
 
 /**
  * Terminal reducer.
@@ -19,7 +34,8 @@ const terminalReducer = (state = initialState, action) => {
     switch (action.type) {
     case 'INPUT_EVENT_TERMINAL':
         return Object.assign({}, state, { terminalInput: action.value });
-    
+    case 'RESET_TERMINAL':
+        return Object.assign( {}, initialState);     
     default:
         return state;
     }
