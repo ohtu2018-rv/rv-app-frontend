@@ -40,6 +40,7 @@ class MainPage extends Component {
                 this.props.logout();
                 break;
             default:
+                console.log(String.fromCharCode(event.which));
                 console.log(event.keyCode);
         }
     };

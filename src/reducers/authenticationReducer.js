@@ -2,7 +2,7 @@ const axios = require('axios');
 
 export const initialState = {
     isLoggingIn: false,
-    loggedIn: false,
+    loggedIn: true,
     access_token: '',
     error: ''
 };

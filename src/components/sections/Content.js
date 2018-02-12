@@ -3,6 +3,7 @@ import './styles/Content.css';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import FeaturedProducts from './FeaturedProducts';
 import ShoppingCart from './ShoppingCart';
+import Terminal from './Terminal';
 
 import { connect } from 'react-redux';
 
@@ -37,6 +38,10 @@ export class Content extends React.Component {
                         <Col xs={6}>
                             <ShoppingCart />
                         </Col>
+                    </Row>
+                    <Row />
+                    <Row>
+                        <Terminal />
                     </Row>
                 </Grid>
             </main>
