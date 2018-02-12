@@ -1,0 +1,25 @@
+.featured-products {
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.featured-products h2 {
+  font-size: 20px;
+  padding: 10px 15px;
+  border-radius: 5px 5px 0 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.featured-products ul {
+  padding-top: 20px;
+}
+
+.featured-products li {
+  padding: 0 15px 20px 15px;
+}
+
+.product-price {
+  text-align: right;
+  font-weight: bold;
+}

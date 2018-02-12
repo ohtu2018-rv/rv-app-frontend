@@ -1,0 +1,37 @@
+.success-message {
+  font-size: 12pt;
+  padding: 20px;
+  text-align: center;
+  display: block;
+  padding-top: 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  background-color: rgba(52, 189, 63, 0.9);
+  color: white;
+  margin: 5px;
+}
+
+.success-message-shadow {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#successAnimation {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#successAnimationCircle {
+  stroke-dasharray: 151px 151px;
+  stroke: white;
+}
+
+#successAnimationCheck {
+  stroke-dasharray: 36px 36px;
+  stroke: white;
+}
+
+#successAnimationResult {
+  fill: none;
+  opacity: 0;
+}
