@@ -8,14 +8,9 @@ import RegisterForm from '../forms/RegisterForm';
 import BasicBtn from '../buttons/BasicBtn';
 
 import { connect } from 'react-redux';
-import { login } from './../../reducers/authenticationReducer';
 import { toggleRegisterVisibility } from './../../reducers/registerReducer';
 
 class LoginPage extends React.Component {
-    handleSubmit = e => {
-        e.preventDefault();
-    };
-
     render() {
         return (
             <div className="loginPage">
@@ -27,22 +22,12 @@ class LoginPage extends React.Component {
                     </Row>
                     <Row>
                         <Col xs={3}>
-                            { !this.props.registerVisible &&
-                            <LoginForm
-                                handleSubmit={this.handleSubmit}
-                                shadow={true}
-                                authenticate={this.props.login}
-                                login={this.props.login}
-                            />
-                            }
-                            { this.props.registerVisible &&
-                                <RegisterForm
-                                    handleSubmit={this.handleSubmit}
-                                    shadow={true}
-                                    authenticate={this.props.login}
-                                    login={this.props.login}
-                                />
-                            }
+                            {!this.props.registerVisible && (
+                                <LoginForm shadow={true} />
+                            )}
+                            {this.props.registerVisible && (
+                                <RegisterForm shadow={true} />
+                            )}
                         </Col>
                         <Col xs={9} style={{ textAlign: 'center' }}>
                             <TopBalanceUsers />
@@ -50,12 +35,13 @@ class LoginPage extends React.Component {
                         <Col xs={3}>
                             <BasicBtn
                                 hover
-                                onClick={() => 
+                                onClick={() =>
                                     this.props.toggleRegisterVisibility()
-                                }>
-                                Register 
+                                }
+                            >
+                                Register
                             </BasicBtn>
-                        </Col> 
+                        </Col>
                     </Row>
                 </Grid>
             </div>
@@ -64,14 +50,13 @@ class LoginPage extends React.Component {
 }
 
 const mapDispatchToProps = {
-    login,
     toggleRegisterVisibility
 };
 
 const mapStateToProps = state => {
     return {
         registerVisible: state.register.registerVisible
-    }
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

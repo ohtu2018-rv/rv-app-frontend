@@ -15,6 +15,20 @@ const getUser = async token => {
 };
 
 /**
+ * Authenticates the user with back-end. Returns a promise.
+ * @param {object} user
+ */
+const authenticate = user => {
+    return axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/user/authenticate`,
+        {
+            username: user.username,
+            password: user.password
+        }
+    );
+};
+
+/**
  * Reduces a user's account balance.
  * @param {string} token access token
  * @param {integer} amount amount to reduce
@@ -59,5 +73,6 @@ const increaseBalance = async (token, amount) => {
 export default {
     getUser,
     reduceBalance,
-    increaseBalance
+    increaseBalance,
+    authenticate
 };

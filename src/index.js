@@ -15,6 +15,7 @@ import authenticationReducer from './reducers/authenticationReducer';
 import shoppingCartReducer from './reducers/shoppingCartReducer';
 import registerReducer from './reducers/registerReducer';
 import loginReducer from './reducers/loginReducer';
+import userReducer from './reducers/userReducer';
 
 // Combine reducers
 const reducer = combineReducers({
@@ -22,7 +23,8 @@ const reducer = combineReducers({
     authentication: authenticationReducer,
     shoppingCart: shoppingCartReducer,
     register: registerReducer,
-    login: loginReducer
+    login: loginReducer,
+    user: userReducer
 });
 
 const middleware =
