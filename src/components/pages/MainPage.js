@@ -30,7 +30,7 @@ class MainPage extends Component {
             timeoutHandler: null
         };
         this.buy = this.buy.bind(this);
-        this.store = this.store.bind(this);
+        this.deposit = this.deposit.bind(this);
     }
 
     handleKeyPress = event => {
@@ -86,7 +86,8 @@ class MainPage extends Component {
         }
     }
 
-    async store(product) {
+    // Make this a reducer function. If named store like before, breaks redux
+    async deposit(product) {
         try {
             await userService.increaseBalance(this.props.token, product.price);
             this.props.increaseBalance(product.price);
@@ -108,9 +109,12 @@ class MainPage extends Component {
                     logout={this.props.logout}
                     user={this.props.user}
                     buy={this.buy}
-                    store={this.store}
+                    deposit={this.deposit}
                 />
-                <Content balance={this.state.balance} />
+                <Content 
+                    balance={this.state.balance} 
+                    deposit={this.deposit}
+                />
             </div>
         );
     }

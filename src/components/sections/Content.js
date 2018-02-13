@@ -41,7 +41,7 @@ export class Content extends React.Component {
                     </Row>
                     <Row />
                     <Row>
-                        <Terminal />
+                        <Terminal deposit={this.props.deposit} />
                     </Row>
                 </Grid>
             </main>

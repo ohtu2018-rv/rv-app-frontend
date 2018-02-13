@@ -10,7 +10,7 @@ import {
 class Terminal extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
-        this.props.handleTerminalSubmit(this.props.terminalInput);
+        this.props.handleTerminalSubmit(this.props.terminalInput, this.props.deposit);
     };
 
     componentDidMount() {
@@ -18,9 +18,13 @@ class Terminal extends React.Component {
     }
 
     render() {
+        const className = 
+            this.props.inputValid
+                ? 'valid'
+                : 'invalid'
         return (
-            <div id='terminal'>
-                <form onSubmit={this.handleSubmit}>
+            <div className={className}>
+                <form onSubmit={this.handleSubmit} >
                     <input
                         value={this.props.terminalInput}
                         ref={input => {
@@ -28,7 +32,6 @@ class Terminal extends React.Component {
                         }}
                         onChange={this.props.handleInputEvent} />
                 </form>
-
             </div>
         );
     }
@@ -41,7 +44,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
-        terminalInput: state.terminal.terminalInput
+        terminalInput: state.terminal.terminalInput,
+        inputValid: state.terminal.inputValid
     };
 };
 

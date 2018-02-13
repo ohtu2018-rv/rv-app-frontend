@@ -21,7 +21,7 @@ import {
 // Remove for something smarter
 let timeout;
 
-class LoginForm extends React.Component {
+class LoginForm extends React.Component {  
     handleSubmit = e => {
         e.preventDefault();
     };
