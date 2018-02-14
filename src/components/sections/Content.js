@@ -30,7 +30,7 @@ export class Content extends React.Component {
                 >
                     Trigger error
                 </button>
-                <Grid style={{width: '100%'}}>
+                <Grid style={{ width: '100%' }}>
                     <Row>
                         <Col xs={6}>
                             <FeaturedProducts />
@@ -39,9 +39,13 @@ export class Content extends React.Component {
                             <ShoppingCart />
                         </Col>
                     </Row>
-                    <Row />
                     <Row>
-                        <Terminal deposit={this.props.deposit} />
+                        <Col xs={6} />
+                    </Row>
+                    <Row>
+                        <Col xs={6}>
+                            <Terminal deposit={this.props.deposit} />
+                        </Col>
                     </Row>
                 </Grid>
             </main>

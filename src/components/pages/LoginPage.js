@@ -32,16 +32,6 @@ class LoginPage extends React.Component {
                         <Col xs={9} style={{ textAlign: 'center' }}>
                             <TopBalanceUsers />
                         </Col>
-                        <Col xs={3}>
-                            <BasicBtn
-                                hover
-                                onClick={() =>
-                                    this.props.toggleRegisterVisibility()
-                                }
-                            >
-                                Register
-                            </BasicBtn>
-                        </Col>
                     </Row>
                 </Grid>
             </div>
