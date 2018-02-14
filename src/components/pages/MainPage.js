@@ -13,6 +13,12 @@ import {
     clearProductsFromNotification
 } from './../../reducers/notificationReducer';
 
+import {
+    increaseBalance,
+    decreaseBalance,
+    resetUserData
+} from './../../reducers/userReducer';
+
 import userService from '../../services/userService';
 
 class MainPage extends Component {
@@ -21,23 +27,19 @@ class MainPage extends Component {
 
         super(props);
         this.state = {
-            user: {
-                username: '',
-                full_name: '',
-                email: '',
-                account_balance: 0
-            },
-            timeoutHandler: null,
-            balance: null
+            timeoutHandler: null
         };
         this.buy = this.buy.bind(this);
-        this.store = this.store.bind(this);
+        this.deposit = this.deposit.bind(this);
     }
 
     handleKeyPress = event => {
         switch (event.keyCode) {
             case 13:
-                this.props.logout();
+                if (this.props.terminalInput === '') {
+                    this.props.resetUserData();
+                    this.props.logout();
+                }
                 break;
             default:
                 console.log(event.keyCode);
@@ -46,9 +48,6 @@ class MainPage extends Component {
 
     componentDidMount() {
         document.addEventListener('keypress', this.handleKeyPress);
-        userService.getUser(this.props.token).then(user => {
-            this.setState({ user: user });
-        });
     }
 
     componentWillUnmount() {
@@ -60,10 +59,7 @@ class MainPage extends Component {
      */
     async buy(product) {
         try {
-            var newBalance = await userService.reduceBalance(
-                this.props.token,
-                product.price
-            );
+            await userService.reduceBalance(this.props.token, product.price);
 
             // If timeout is set, clear it to prevent notification from disappearing
             if (this.state.timeoutHandler) {
@@ -71,9 +67,7 @@ class MainPage extends Component {
                 this.setState({ timeoutHandler: null });
             }
 
-            let user = Object.assign(this.state.user);
-            user.account_balance = newBalance;
-            this.setState({ user: user });
+            this.props.decreaseBalance(product.price);
 
             // Add product to notification
             this.props.addProductToNotification(product);
@@ -87,27 +81,24 @@ class MainPage extends Component {
                 timeoutHandler
             });
         } catch (error) {
-            this.props.errorMessage('Virhe ostamisessa');
+            const errorResponse = error.response;
+            this.props.errorMessage(errorResponse.data.message);
         }
     }
 
-    async store(product) {
+    // Make this a reducer function. If named store like before, breaks redux
+    async deposit(product) {
         try {
-            var newBalance = await userService.increaseBalance(
-                this.props.token,
-                product.price
-            );
-
-            let user = Object.assign(this.state.user);
-            user.account_balance = newBalance;
-            this.setState({ user: user });
+            await userService.increaseBalance(this.props.token, product.price);
+            this.props.increaseBalance(product.price);
             this.props.successMessage(
                 'Talletettu RV-tilille ' +
-                    parseFloat(product.price / 100).toFixed(2) +
-                    ' €'
+                parseFloat(product.price / 100).toFixed(2) +
+                ' €'
             );
         } catch (error) {
-            this.props.errorMessage('Virhe tallettamisessa');
+            const errorResponse = error.response;
+            this.props.errorMessage(errorResponse.data.message);
         }
     }
 
@@ -116,11 +107,14 @@ class MainPage extends Component {
             <div>
                 <Header
                     logout={this.props.logout}
-                    user={this.state.user}
+                    user={this.props.user}
                     buy={this.buy}
-                    store={this.store}
+                    deposit={this.deposit}
                 />
-                <Content balance={this.state.balance} />
+                <Content 
+                    balance={this.state.balance} 
+                    deposit={this.deposit}
+                />
             </div>
         );
     }
@@ -131,14 +125,19 @@ const mapDispatchToProps = {
     errorMessage,
     logout,
     addProductToNotification,
-    clearProductsFromNotification
+    clearProductsFromNotification,
+    increaseBalance,
+    decreaseBalance,
+    resetUserData
 };
 
 const mapStateToProps = state => {
     return {
         token: state.authentication.access_token,
         purchaseNotificationTimeout:
-            state.notification.purchaseNotificationTimeout
+            state.notification.purchaseNotificationTimeout,
+        user: state.user,
+        terminalInput: state.terminal.terminalInput
     };
 };
 

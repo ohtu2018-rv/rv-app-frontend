@@ -6,7 +6,6 @@ export const initialState = {
     usernameDisabled: false,
     passwordDisabled: true,
     submitDisabled: true,
-    loader: false,
     loginStep: 1
 };
 
@@ -24,15 +23,6 @@ export const handleInputEvent = event => {
     };
 };
 
-export const setLogging = event => {
-    return {
-        type: 'LOGGING_IN',
-        usernameDisabled: true,
-        passwordDisabled: true,
-        loader: true
-    };
-};
-
 export const focusPasswordField = () => {
     return {
         type: 'FOCUS_PASSWORD_FIELD',
@@ -40,6 +30,16 @@ export const focusPasswordField = () => {
         usernameDisabled: true,
         passwordDisabled: false,
         submitDisabled: false
+    };
+};
+
+export const focusUsernameField = () => {
+    return {
+        type: 'FOCUS_USERNAME_FIELD',
+        loginStep: 1,
+        usernameDisabled: false,
+        passwordDisabled: true,
+        submitDisabled: true
     };
 };
 
@@ -61,11 +61,17 @@ const loginReducer = (state = initialState, action) => {
             passwordDisabled: action.passwordDisabled,
             submitDisabled: action.submitDisabled
         });
-    case 'LOGGING_IN':
+    case 'FOCUS_USERNAME_FIELD':
         return Object.assign({}, state, {
-            usernameDisabled: true,
-            passwordDisabled: true,
-            loader: true
+            loginStep: action.loginStep,
+            usernameDisabled: action.usernameDisabled,
+            passwordDisabled: action.passwordDisabled,
+            submitDisabled: action.submitDisabled
+        });
+    case 'CLEAR_FORM':
+        return Object.assign({}, state, {
+            username: '',
+            password: ''
         });
     default:
         return state;
