@@ -2,6 +2,8 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
+import './styles/Terminal.css';
+
 import {
     handleInputEvent,
     handleTerminalSubmit
@@ -21,12 +23,14 @@ class Terminal extends React.Component {
     }
 
     render() {
-        const className = this.props.inputValid ? 'valid' : 'invalid';
+        const className = this.props.inputValid
+            ? 'input fullWidth valid'
+            : 'input fullWidth invalid';
         return (
-            <div className={className}>
+            <div>
                 <form onSubmit={this.handleSubmit}>
                     <input
-                        className="input"
+                        className={className}
                         value={this.props.terminalInput}
                         ref={input => {
                             this.terminalFocus = input;
