@@ -10,7 +10,10 @@ import {
 class Terminal extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
-        this.props.handleTerminalSubmit(this.props.terminalInput, this.props.deposit);
+        this.props.handleTerminalSubmit(
+            this.props.terminalInput,
+            this.props.deposit
+        );
     };
 
     componentDidMount() {
@@ -18,19 +21,18 @@ class Terminal extends React.Component {
     }
 
     render() {
-        const className = 
-            this.props.inputValid
-                ? 'valid'
-                : 'invalid'
+        const className = this.props.inputValid ? 'valid' : 'invalid';
         return (
             <div className={className}>
-                <form onSubmit={this.handleSubmit} >
+                <form onSubmit={this.handleSubmit}>
                     <input
+                        className="input"
                         value={this.props.terminalInput}
                         ref={input => {
                             this.terminalFocus = input;
                         }}
-                        onChange={this.props.handleInputEvent} />
+                        onChange={this.props.handleInputEvent}
+                    />
                 </form>
             </div>
         );
