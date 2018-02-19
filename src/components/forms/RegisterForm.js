@@ -8,7 +8,9 @@ import {
     handleInputEvent, 
     reset,
     focusPasswordField,
-    setRegistering
+    setRegistering,
+    focusPasswordConfirmField,
+    checkPasswordsMatch
 } from './../../reducers/registerReducer';
 
 let timeout;
@@ -30,18 +32,29 @@ class RegisterForm extends React.Component {
     wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
     nextStep = async () => {
-        if (this.props.registerStep === 1) {
+        if (this.props.registerStep === 1 && 
+            this.props.registerUsername.length >= this.props.minUsernameLength) {
+
             this.props.focusPasswordField();
             this.registerPasswordInput.focus();
-        } else if (this.props.registerStep === 2) {
+
+        } else if (this.props.registerStep === 2 && 
+            this.props.registerPassword.length >= this.props.minPasswordLength) {
+
+            this.props.focusPasswordConfirmField()
+            this.registerPasswordConfirmInput.focus()
+
+        } else if (this.props.registerStep === 3 && this.props.passwordsMatch) {
+
             this.props.setRegistering();
             await this.wait(1000);
 
             // Register
-            // Replace timeout with something smarter
+            // Backend call here
             timeout = setTimeout(() => {
                 alert("Registered")
                 this.props.reset();
+                this.registerUsernameInput.focus()
             }, 500);
 
             // TODO: Here registerService call
@@ -115,14 +128,40 @@ class RegisterForm extends React.Component {
                         />
                     </div>
                     <div className="formControl">
+                        <input
+                            type="password"
+                            id="registerPasswordConfirm"
+                            name="registerPasswordConfirm"
+                            placeholder="Salasana uudelleen"
+                            value={this.props.registerPasswordConfirm}
+                            onChange={(event) => {
+                                this.props.handleInputEvent(event)
+                                this.props.checkPasswordsMatch(
+                                    this.props.registerPassword, 
+                                    event.target.value
+                                ) 
+                            }}
+                            onKeyDown={this.handleKeyUp}
+                            className="input fullWidth"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            disabled={this.props.registerPasswordConfirmDisabled}
+                            ref={input => {
+                                this.registerPasswordConfirmInput = input;
+                            }}
+                        />
+                    </div>
+                    <div className="formControl">
                         <SuccessBtn
                             fill
                             loader={this.props.loader}
                             disabled={
                                 !(
                                     !this.props.submitDisabled &&
-                                    this.props.registerPassword.length >
-                                        this.props.minPasswordLength
+                                    this.props.registerPassword.length >=
+                                        this.props.minPasswordLength &&
+                                    this.props.passwordsMatch
                                 )
                             }
                             style={{ width: '100%' }}
@@ -140,7 +179,9 @@ const mapDispatchToProps = {
     handleInputEvent,
     reset,
     focusPasswordField,
-    setRegistering
+    setRegistering,
+    focusPasswordConfirmField,
+    checkPasswordsMatch
 };
 
 const mapStateToProps = state => {
@@ -148,11 +189,15 @@ const mapStateToProps = state => {
         registerUsername: state.register.registerUsername,
         registerPassword: state.register.registerPassword,
         minPasswordLength: state.register.minPasswordLength,
+        minUsernameLength: state.register.minUsernameLength,
         registerStep: state.register.registerStep,
         registerUsernameDisabled: state.register.registerUsernameDisabled,
         registerPasswordDisabled: state.register.registerPasswordDisabled,
         submitDisabled: state.register.submitDisabled,
-        loader: state.register.loader
+        loader: state.register.loader,
+        registerPasswordConfirmDisabled: state.register.registerPasswordConfirmDisabled,
+        passwordsMatch: state.register.passwordsMatch,
+        registerPasswordConfirm: state.register.registerPasswordConfirm
     };
 };
 
