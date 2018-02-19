@@ -1,10 +1,19 @@
+@import "vars";
+
 .btn {
-  height: 40px;
-  min-width: 80px;
-  font-size: 11pt;
-  border-radius: 5px;
+  height: $button-height;
+  padding-left: $button-padding-left-right;
+  padding-right: $button-padding-left-right;
+  font-size: $button-font-size;
+  border-radius: $button-border-radius;
   border: 1px solid;
   background-color: transparent;
+
+  @if $button-text-uppercase {
+    text-transform: uppercase;
+  }
+
+  color: $button-text-color;
 }
 
 .fullWidth {

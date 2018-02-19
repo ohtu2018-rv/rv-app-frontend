@@ -1,6 +1,8 @@
+@import "vars";
+
 .loader {
   border: 2px solid transparent;
-  border-top: 2px solid white;
+  border-top: $loader-width solid $loader-color;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -10,6 +12,7 @@
 }
 
 @keyframes spin {
+  
   0% {
     transform: rotate(0deg);
   }
