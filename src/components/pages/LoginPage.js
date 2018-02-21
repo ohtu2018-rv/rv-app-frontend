@@ -5,7 +5,6 @@ import LoginHeader from '../sections/LoginHeader';
 import TopBalanceUsers from '../sections/TopBalanceUsers';
 import './styles/LoginPage.css';
 import RegisterForm from '../forms/RegisterForm';
-import BasicBtn from '../buttons/BasicBtn';
 
 import { connect } from 'react-redux';
 import { toggleRegisterVisibility } from './../../reducers/registerReducer';

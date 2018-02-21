@@ -27,7 +27,7 @@ class Terminal extends React.Component {
             ? 'input fullWidth valid'
             : 'input fullWidth invalid';
         return (
-            <div>
+            <div className="terminal">
                 <form onSubmit={this.handleSubmit}>
                     <input
                         className={className}
@@ -36,6 +36,7 @@ class Terminal extends React.Component {
                             this.terminalFocus = input;
                         }}
                         onChange={this.props.handleInputEvent}
+                        placeholder="Input EAN and press ENTER to buy a product. To deposit 10€ to your account: d10.00 or d10,00 and press ENTER."
                     />
                 </form>
             </div>
