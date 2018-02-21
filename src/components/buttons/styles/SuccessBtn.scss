@@ -1,28 +1,29 @@
-/* Success buttons */
+@import "vars";
+
 .success {
-  color: green;
+  color: $success-button-bgcolor;
   -webkit-transition: background-color 0.1s; /* Safari */
   transition: background-color 0.1s;
 }
 
 .success-hover:hover {
-  color: white;
-  background-color: green;
-  border-color: green;
+  color: $success-button-textcolor;
+  background-color: $success-button-bgcolor;
+  border-color: $success-button-bgcolor;
   cursor: pointer;
 }
 
 .success-fill {
-  color: white;
-  background-color: green;
-  border-color: green;
+  color: $success-button-textcolor;
+  background-color: $success-button-bgcolor;
+  border-color: $success-button-bgcolor;
   -webkit-transition: background-color 0.1s; /* Safari */
   transition: background-color 0.1s;
 }
 
 .success-fill-hover:hover {
-  color: green;
-  background-color: transparent;
-  border-color: green;
+  color: $success-button-textcolor;
+  background-color: $success-button-fill-hover-bgcolor;
+  border-color: $success-button-bgcolor;
   cursor: pointer;
 }

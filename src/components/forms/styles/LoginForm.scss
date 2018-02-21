@@ -1,14 +1,20 @@
+@import "vars";
+
 .form {
-  padding: 15px;
+  padding: $base-padding;
   display: inline-block;
-  font-family: Arial, "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", sans-serif;
+  font-family: $base-font;
   width: 100%;
+  color: $container-text-color;
+  background-color: $container-background-color;
 }
 
 .form-shadow {
-  border-radius: 5px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: $base-border-radius;
+
+  @if $login-form-box-shadow {
+    box-shadow: $box-shadow;
+  }
 }
 
 .form legend {
@@ -17,13 +23,18 @@
 }
 
 .input {
-  height: 40px;
+  height: $input-height;
   min-width: 80px;
-  font-size: 12pt;
-  border-radius: 5px;
-  border: 1px solid black;
+  font-size: $input-font-size;
+  border-radius: $input-border-radius;
+  border: 1px solid $input-border-color;
+  color: $input-text-color;
   background-color: transparent;
   text-align: center;
+  
+  @if $input-box-shadow {
+    box-shadow: $box_shadow;
+  }
 }
 
 .fullWidth {
@@ -40,7 +51,8 @@
 }
 
 .input::placeholder {
-  font-size: 12pt;
+  font-size: $input-placeholder-font-size;
+  color: $input-placeholder-color;
 }
 
 .input:disabled::placeholder {

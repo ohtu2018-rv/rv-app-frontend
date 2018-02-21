@@ -59,7 +59,8 @@
         "redux-immutable-state-invariant": "^2.1.0",
         "redux-mock-store": "^1.5.1",
         "stylelint": "^8.4.0",
-        "stylelint-config-standard": "^18.0.0"
+        "stylelint-config-standard": "^18.0.0",
+        "stylelint-scss": "^2.3.0"
     },
     "lint-staged": {
         "src/**/*.{js,jsx}": [

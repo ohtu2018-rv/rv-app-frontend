@@ -1,31 +1,33 @@
+@import 'vars';
+
 /*
   Danger buttons
   */
 
 .danger {
-  color: red;
+  color: $danger-button-bgcolor;
   -webkit-transition: background-color 0.1s; /* Safari */
   transition: background-color 0.1s;
 }
 
 .danger-hover:hover {
-  color: white;
-  background-color: red;
-  border-color: red;
+  color: $danger-button-textcolor;
+  background-color: $danger-button-bgcolor;
+  border-color: $danger-button-bgcolor;
   cursor: pointer;
 }
 
 .danger-fill {
-  color: white;
-  background-color: red;
-  border-color: red;
+  color: $danger-button-textcolor;
+  background-color: $danger-button-bgcolor;
+  border-color: $danger-button-bgcolor;
   -webkit-transition: background-color 0.1s; /* Safari */
   transition: background-color 0.1s;
 }
 
 .danger-fill-hover:hover {
-  color: red;
+  color: $danger-button-bgcolor;
   background-color: transparent;
-  border-color: red;
+  border-color: $danger-button-bgcolor;
   cursor: pointer;
 }

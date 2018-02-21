@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './reset.css';
 import './components/animations/animations.css';
+import './index.css';
 
 import App from './App';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
