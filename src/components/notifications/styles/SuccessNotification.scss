@@ -1,18 +1,19 @@
+@import "vars";
+
 .success-message {
-  font-size: 12pt;
-  padding: 20px;
+  font-size: $notification-font-size;
+  padding: $base-padding;
   text-align: center;
   display: block;
-  padding-top: 10px;
-  border-radius: 5px;
   white-space: nowrap;
-  background-color: rgba(52, 189, 63, 0.9);
-  color: white;
-  margin: 5px;
+  background-color: $success-notification-bgcolor;
+  border-radius: $notification-border-radius;
+  color: $success-notification-textcolor;
+  margin: $base-margin;
 }
 
 .success-message-shadow {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: $box-shadow;
 }
 
 #successAnimation {
@@ -23,12 +24,12 @@
 
 #successAnimationCircle {
   stroke-dasharray: 151px 151px;
-  stroke: white;
+  stroke: $success-notification-textcolor;
 }
 
 #successAnimationCheck {
   stroke-dasharray: 36px 36px;
-  stroke: white;
+  stroke: $success-notification-textcolor;
 }
 
 #successAnimationResult {

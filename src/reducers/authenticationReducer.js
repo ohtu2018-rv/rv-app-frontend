@@ -2,6 +2,13 @@ import userService from './../services/userService';
 
 import { setUserData } from './../reducers/userReducer';
 
+export const authenticationActions = {
+    LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
+    LOGGING_IN: 'LOGGING_IN',
+    LOGGED_IN: 'LOGGED_IN',
+    LOGIN_FAILED: 'LOGIN_FAILED'
+};
+
 export const initialState = {
     isLoggingIn: false,
     loggedIn: false,
@@ -10,13 +17,13 @@ export const initialState = {
 
 export const logout = () => {
     return {
-        type: 'LOGOUT_SUCCESS'
+        type: authenticationActions.LOGOUT_SUCCESS
     };
 };
 
 export const loggingIn = () => {
     return {
-        type: 'LOGGING_IN'
+        type: authenticationActions.LOGGING_IN
     };
 };
 
@@ -26,7 +33,7 @@ export const loggedIn = token => {
             const userData = await userService.getUser(token);
             dispatch(setUserData(userData));
             dispatch({
-                type: 'LOGGED_IN',
+                type: authenticationActions.LOGGED_IN,
                 token
             });
         } catch (err) {
@@ -37,7 +44,7 @@ export const loggedIn = token => {
 
 export const loginFailed = () => {
     return {
-        type: 'LOGIN_FAILED'
+        type: authenticationActions.LOGIN_FAILED
     };
 };
 
@@ -48,21 +55,21 @@ export const loginFailed = () => {
  */
 const authenticationReducer = (state = initialState, action) => {
     switch (action.type) {
-    case 'LOGGING_IN':
+    case authenticationActions.LOGGING_IN:
         return Object.assign({}, state, { isLoggingIn: true });
-    case 'LOGGED_IN':
+    case authenticationActions.LOGGED_IN:
         return Object.assign({}, state, {
             loggedIn: true,
             access_token: action.token,
             isLoggingIn: false
         });
-    case 'LOGIN_FAILED':
+    case authenticationActions.LOGIN_FAILED:
         return Object.assign({}, state, {
             loggedIn: false,
             access_token: '',
             isLoggingIn: false
         });
-    case 'LOGOUT_SUCCESS':
+    case authenticationActions.LOGOUT_SUCCESS:
         return Object.assign({}, state, {
             loggedIn: false,
             access_token: ''

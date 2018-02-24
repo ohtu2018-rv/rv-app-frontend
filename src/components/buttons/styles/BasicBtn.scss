@@ -1,31 +1,33 @@
+@import 'vars';
+
 /*
   Basic buttons
   */
 
 .basic {
-  color: rgb(38, 155, 209);
+  color: $basic-button-bgcolor;
   -webkit-transition: background-color 0.1s; /* Safari */
   transition: background-color 0.1s;
 }
 
 .basic-hover:hover {
-  color: white;
-  background-color: rgb(38, 155, 209);
-  border-color: rgb(38, 155, 209);
+  color: $basic-button-textcolor;
+  background-color: $basic-button-bgcolor;
+  border-color: $basic-button-bgcolor;
   cursor: pointer;
 }
 
 .basic-fill {
-  color: white;
-  background-color: rgb(38, 155, 209);
-  border-color: rgb(38, 155, 209);
+  color: $basic-button-textcolor;
+  background-color: $basic-button-bgcolor;
+  border-color: $basic-button-bgcolor;
   -webkit-transition: background-color 0.1s; /* Safari */
   transition: background-color 0.1s;
 }
 
 .basic-fill-hover:hover {
-  color: rgb(38, 155, 209);
+  color: $basic-button-bgcolor;
   background-color: transparent;
-  border-color: rgb(38, 155, 209);
+  border-color: $basic-button-bgcolor;
   cursor: pointer;
 }

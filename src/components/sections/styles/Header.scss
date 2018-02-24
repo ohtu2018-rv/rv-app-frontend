@@ -1,3 +1,5 @@
+@import 'vars';
+
 header {
   padding-top: 4px;
   padding-bottom: 4px;
@@ -6,7 +8,8 @@ header {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   display: inline-block;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: $header-bgcolor;
+  box-shadow: $box-shadow;
 }
 
 .header-left {

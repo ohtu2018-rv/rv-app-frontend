@@ -1,8 +1,8 @@
-.valid {
-  color: green;
-  font-weight: bold;
+.terminal {
+  margin-top: 100px;
 }
 
-.invalid {
-
+.valid {
+  color: green !important; /* Should not use important. Figure a better way. */
+  font-weight: bold;
 }

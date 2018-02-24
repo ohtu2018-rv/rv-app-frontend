@@ -5,29 +5,36 @@ export const initialState = {
     account_balance: 0
 };
 
+export const userActions = {
+    RESET_USER_DATA: 'RESET_USER_DATA',
+    SET_USER_DATA: 'SET_USER_DATA',
+    INCREASE_BALANCE: 'INCREASE_BALANCE',
+    DECREASE_BALANCE: 'DECREASE_BALANCE'
+};
+
 export const resetUserData = () => {
     return {
-        type: 'RESET_USER_DATA'
+        type: userActions.RESET_USER_DATA
     };
 };
 
 export const setUserData = user => {
     return {
-        type: 'SET_USER_DATA',
+        type: userActions.SET_USER_DATA,
         user
     };
 };
 
 export const increaseBalance = balance => {
     return {
-        type: 'INCREASE_BALANCE',
+        type: userActions.INCREASE_BALANCE,
         balance
     };
 };
 
 export const decreaseBalance = balance => {
     return {
-        type: 'DECREASE_BALANCE',
+        type: userActions.DECREASE_BALANCE,
         balance
     };
 };
@@ -39,17 +46,17 @@ export const decreaseBalance = balance => {
  */
 const userReducer = (state = initialState, action) => {
     switch (action.type) {
-    case 'SET_USER_DATA':
+    case userActions.SET_USER_DATA:
         return Object.assign({}, state, {
             ...action.user
         });
-    case 'RESET_USER_DATA':
+    case userActions.RESET_USER_DATA:
         return Object.assign({}, state, initialState);
-    case 'INCREASE_BALANCE':
+    case userActions.INCREASE_BALANCE:
         return Object.assign({}, state, {
             account_balance: state.account_balance + action.balance
         });
-    case 'DECREASE_BALANCE':
+    case userActions.DECREASE_BALANCE:
         return Object.assign({}, state, {
             account_balance: state.account_balance - action.balance
         });
