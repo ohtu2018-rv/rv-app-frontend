@@ -8,9 +8,14 @@ import RegisterForm from '../forms/RegisterForm';
 
 import { connect } from 'react-redux';
 import { toggleRegisterVisibility } from './../../reducers/registerReducer';
+import { Redirect } from 'react-router-dom';
 
 class LoginPage extends React.Component {
     render() {
+        if (this.props.loggedIn) {
+            return <Redirect to="/"/>;
+        }
+
         return (
             <div className="loginPage">
                 <Grid fluid>
@@ -44,7 +49,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
-        registerVisible: state.register.registerVisible
+        registerVisible: state.register.registerVisible,
+        loggedIn: state.authentication.loggedIn
     };
 };
 
