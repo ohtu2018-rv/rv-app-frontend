@@ -19,7 +19,9 @@ export const registerActions = {
     RESET_REGISTER: 'RESET_REGISTER',
     INPUT_EVENT_REGISTER: 'INPUT_EVENT_REGISTER',
     REGISTERING: 'REGISTERING',
-    FOCUS_PASSWORD_FIELD_REGISTER: 'FOCUS_PASSWORD_FIELD_REGISTER'
+    FOCUS_PASSWORD_FIELD_REGISTER: 'FOCUS_PASSWORD_FIELD_REGISTER',
+    FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER: 'FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER',
+    MARK_PASSWORD_MATCH: 'MARK_PASSWORD_MATCH'
 };
 
 export const toggleRegisterVisibility = () => {
@@ -31,7 +33,7 @@ export const toggleRegisterVisibility = () => {
 export const checkPasswordsMatch = (password, confirmPassword) => {
     console.log(password, confirmPassword);
     return {
-        type: 'MARK_PASSWORD_MATCH',
+        type: registerActions.MARK_PASSWORD_MATCH,
         passwordsMatch: (password === confirmPassword)
     };
 };
@@ -71,7 +73,7 @@ export const focusPasswordField = () => {
 
 export const focusPasswordConfirmField = () => {
     return {
-        type: 'FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER',
+        type: registerActions.FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER,
         registerStep: 3,
         registerUsernameDisabled: true,
         registerPasswordDisabled: true,
@@ -102,11 +104,23 @@ const registerReducer = (state = initialState, action) => {
             registerPasswordDisabled: action.registerPasswordDisabled,
             submitDisabled: action.submitDisabled
         });
+    case registerActions.FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER:
+        return Object.assign({}, state, {
+            registerStep: action.registerStep,
+            registerUsernameDisabled: action.registerUsernameDisabled,
+            registerPasswordDisabled: action.registerPasswordDisabled,
+            registerPasswordConfirmDisabled: action.registerConfirmPasswordDisabled,
+            submitDisabled: action.submitDisabled
+        });
     case registerActions.REGISTERING:
         return Object.assign({}, state, {
             registerUsernameDisabled: true,
             registerPasswordDisabled: true,
             loader: true
+        });
+    case registerActions.MARK_PASSWORD_MATCH:
+        return Object.assign({}, state, {
+            passwordsMatch: action.passwordsMatch
         });
     default:
         return state;

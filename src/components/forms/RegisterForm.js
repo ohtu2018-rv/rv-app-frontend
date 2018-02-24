@@ -16,6 +16,14 @@ import {
 let timeout;
 
 class RegisterForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.wait = this.wait.bind(this);
+        this.nextStep = this.nextStep.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+    }
+
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
         document.addEventListener('keypress', this.handleKeyPress);
@@ -29,58 +37,54 @@ class RegisterForm extends React.Component {
         this.props.reset();
     }
 
-    wait() {
-        return timeout => new Promise(resolve => setTimeout(resolve, timeout));
+    wait(timeout) {
+        return new Promise(resolve => setTimeout(resolve, timeout));
     }
 
-    nextStep() {
-        return async () => {
-            if (this.props.registerStep === 1 && 
-                this.props.registerUsername.length >= this.props.minUsernameLength) {
+    async nextStep() {
+        if (this.props.registerStep === 1 && 
+            this.props.registerUsername.length >= this.props.minUsernameLength) {
 
-                this.props.focusPasswordField();
-                this.registerPasswordInput.focus();
+            this.props.focusPasswordField();
+            this.registerPasswordInput.focus();
 
-            } else if (this.props.registerStep === 2 && 
-                this.props.registerPassword.length >= this.props.minPasswordLength) {
+        } else if (this.props.registerStep === 2 && 
+            this.props.registerPassword.length >= this.props.minPasswordLength) {
 
-                this.props.focusPasswordConfirmField();
-                this.registerPasswordConfirmInput.focus();
+            this.props.focusPasswordConfirmField();
+            this.registerPasswordConfirmInput.focus();
 
-            } else if (this.props.registerStep === 3 && this.props.passwordsMatch) {
+        } else if (this.props.registerStep === 3 && this.props.passwordsMatch) {
 
-                this.props.setRegistering();
-                await this.wait(1000);
+            this.props.setRegistering();
+            await this.wait(1000);
 
-                // Register
-                // Backend call here
-                timeout = setTimeout(() => {
-                    alert('Registered');
-                    this.props.reset();
-                    this.registerUsernameInput.focus();
-                }, 500);
+            // Register
+            // Backend call here
+            timeout = setTimeout(() => {
+                alert('Registered');
+                this.props.reset();
+                this.registerUsernameInput.focus();
+            }, 500);
 
-                // TODO: Here registerService call
-                // this.props.register()
-            }
-        };
+            // TODO: Here registerService call
+            // this.props.register()
+        }
     }
 
-    handleKeyPress() {
-        return event => {
-            switch (event.keyCode) {
-            case 13:
-                event.preventDefault();
-                this.nextStep();
-                break;
-            case 9:
-                event.preventDefault();
-                this.nextStep();
-                break;
-            default:
-                break;
-            }
-        };
+    handleKeyPress(event) {
+        switch (event.keyCode) {
+        case 13:
+            event.preventDefault();
+            this.nextStep();
+            break;
+        case 9:
+            event.preventDefault();
+            this.nextStep();
+            break;
+        default:
+            break;
+        }
     }
 
     render() {

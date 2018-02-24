@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './components/pages/MainPage';
 import LoginPage from './components/pages/LoginPage';
+import RegistrationPage from './components/pages/RegistrationPage';
 import NotificationDrawer from './components/helpers/NotificationDrawer';
 
 import { connect } from 'react-redux';
@@ -42,6 +43,7 @@ class App extends Component {
                     <div>
                         <AuthenticatedRoute exact path="/" authenticated={this.props.loggedIn} component={MainPage}/>
                         <Route path="/login" component={LoginPage}/>
+                        <Route path="/register" component={RegistrationPage}/>
                     </div>
                 </Router>
             </div>

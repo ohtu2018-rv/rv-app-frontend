@@ -18,10 +18,6 @@ import {
     focusUsernameField
 } from './../../reducers/loginReducer';
 
-import {
-    Redirect
-} from 'react-router-dom';
-
 // Remove for something smarter
 let timeout;
 
