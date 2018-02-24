@@ -81,7 +81,7 @@ export const focusPasswordConfirmField = () => {
 };
 
 /**
- * Registeration reducer.
+ * Registration reducer.
  * @param {object} state
  * @param {object} action
  */

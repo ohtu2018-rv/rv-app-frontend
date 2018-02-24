@@ -29,41 +29,46 @@ class RegisterForm extends React.Component {
         this.props.reset();
     }
 
-    wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+    wait() {
+        return timeout => new Promise(resolve => setTimeout(resolve, timeout));
+    }
 
-    nextStep = async () => {
-        if (this.props.registerStep === 1 && 
-            this.props.registerUsername.length >= this.props.minUsernameLength) {
+    nextStep() {
+        return async () => {
+            if (this.props.registerStep === 1 && 
+                this.props.registerUsername.length >= this.props.minUsernameLength) {
 
-            this.props.focusPasswordField();
-            this.registerPasswordInput.focus();
+                this.props.focusPasswordField();
+                this.registerPasswordInput.focus();
 
-        } else if (this.props.registerStep === 2 && 
-            this.props.registerPassword.length >= this.props.minPasswordLength) {
+            } else if (this.props.registerStep === 2 && 
+                this.props.registerPassword.length >= this.props.minPasswordLength) {
 
-            this.props.focusPasswordConfirmField()
-            this.registerPasswordConfirmInput.focus()
+                this.props.focusPasswordConfirmField();
+                this.registerPasswordConfirmInput.focus();
 
-        } else if (this.props.registerStep === 3 && this.props.passwordsMatch) {
+            } else if (this.props.registerStep === 3 && this.props.passwordsMatch) {
 
-            this.props.setRegistering();
-            await this.wait(1000);
+                this.props.setRegistering();
+                await this.wait(1000);
 
-            // Register
-            // Backend call here
-            timeout = setTimeout(() => {
-                alert("Registered")
-                this.props.reset();
-                this.registerUsernameInput.focus()
-            }, 500);
+                // Register
+                // Backend call here
+                timeout = setTimeout(() => {
+                    alert('Registered');
+                    this.props.reset();
+                    this.registerUsernameInput.focus();
+                }, 500);
 
-            // TODO: Here registerService call
-            // this.props.register()
-        }
-    };
+                // TODO: Here registerService call
+                // this.props.register()
+            }
+        };
+    }
 
-    handleKeyPress = event => {
-        switch (event.keyCode) {
+    handleKeyPress() {
+        return event => {
+            switch (event.keyCode) {
             case 13:
                 event.preventDefault();
                 this.nextStep();
@@ -74,9 +79,9 @@ class RegisterForm extends React.Component {
                 break;
             default:
                 break;
-        }
-    };
-
+            }
+        };
+    }
 
     render() {
         return (
@@ -135,11 +140,11 @@ class RegisterForm extends React.Component {
                             placeholder="Salasana uudelleen"
                             value={this.props.registerPasswordConfirm}
                             onChange={(event) => {
-                                this.props.handleInputEvent(event)
+                                this.props.handleInputEvent(event);
                                 this.props.checkPasswordsMatch(
                                     this.props.registerPassword, 
                                     event.target.value
-                                ) 
+                                );
                             }}
                             onKeyDown={this.handleKeyUp}
                             className="input fullWidth"

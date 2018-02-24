@@ -21,10 +21,17 @@ const ShoppingCartItem = ({ item }) => {
 };
 
 export class ShoppingCart extends React.Component {
-    calculateCartTotal = () =>
-        this.props.products
+    constructor(props) {
+        super(props);
+
+        this.calculateCartTotal = this.calculateCartTotal.bind(this);
+    }
+
+    calculateCartTotal() {
+        return this.props.products
             .map(item => item.price * item.quantity)
             .reduce((sum, cur) => sum + cur, 0);
+    }
 
     render() {
         const cartItems = this.props.products.map(item => (

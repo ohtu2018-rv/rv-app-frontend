@@ -10,13 +10,18 @@ import {
 } from './../../reducers/terminalReducer';
 
 class Terminal extends React.Component {
-    handleSubmit = e => {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    handleSubmit(e) {
         e.preventDefault();
         this.props.handleTerminalSubmit(
             this.props.terminalInput,
             this.props.deposit
         );
-    };
+    }
 
     componentDidMount() {
         this.terminalFocus.focus();
