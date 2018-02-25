@@ -71,5 +71,9 @@
             "stylelint --syntax=scss",
             "git add"
         ]
+    },
+    "jest": {
+        "coverageDirectory": "./coverage",
+        "collectCoverage": true
     }
 }
