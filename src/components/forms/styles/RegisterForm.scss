@@ -1,0 +1,8 @@
+.registerFieldValid {
+  border-color: green;
+  background: lightgreen;
+}
+
+.registerFieldValid::after {
+  content: "trolol";
+}

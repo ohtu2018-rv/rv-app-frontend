@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import LoginHeader from '../sections/LoginHeader';
-import './styles/LoginPage.css';
+import './styles/RegistrationPage.css';
 import RegisterForm from '../forms/RegisterForm';
 
 import { connect } from 'react-redux';
@@ -21,8 +21,8 @@ class RegistrationPage extends React.Component {
                             <LoginHeader />
                         </Col>
                     </Row>
-                    <Row>
-                        <Col xs={3}>
+                    <Row className="centered">
+                        <Col xs={5}>
                             <RegisterForm shadow={true} />
                         </Col>
                     </Row>

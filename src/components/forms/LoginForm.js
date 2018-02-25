@@ -18,6 +18,8 @@ import {
     focusUsernameField
 } from './../../reducers/loginReducer';
 
+import { Link } from 'react-router-dom';
+
 // Remove for something smarter
 let timeout;
 
@@ -191,6 +193,9 @@ class LoginForm extends React.Component {
                         </SuccessBtn>
                     </div>
                 </form>
+                <div>
+                    <Link to="/register">Ei tunnusta? Rekisteröidy!</Link>
+                </div>
             </div>
         );
     }

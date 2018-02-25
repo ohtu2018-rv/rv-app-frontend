@@ -4,7 +4,6 @@ import LoginForm from '../forms/LoginForm';
 import LoginHeader from '../sections/LoginHeader';
 import TopBalanceUsers from '../sections/TopBalanceUsers';
 import './styles/LoginPage.css';
-import RegisterForm from '../forms/RegisterForm';
 
 import { connect } from 'react-redux';
 import { toggleRegisterVisibility } from './../../reducers/registerReducer';
@@ -26,12 +25,7 @@ class LoginPage extends React.Component {
                     </Row>
                     <Row>
                         <Col xs={3}>
-                            {!this.props.registerVisible && (
-                                <LoginForm shadow={true} />
-                            )}
-                            {this.props.registerVisible && (
-                                <RegisterForm shadow={true} />
-                            )}
+                            <LoginForm shadow={true} />
                         </Col>
                         <Col xs={9} style={{ textAlign: 'center' }}>
                             <TopBalanceUsers />

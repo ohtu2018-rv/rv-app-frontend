@@ -2,11 +2,15 @@ export const initialState = {
     registerVisible: false,
     registerUsername: '',
     registerPassword: '',
+    registerEmail: '',
+    registerRealname: '',
     registerPasswordConfirm: '',
     minUsernameLength: 4,
     minPasswordLength: 4,
     registerUsernameDisabled: false,
     registerPasswordDisabled: true,
+    registerEmailDisabled: true,
+    registerRealnameDisabled: true,
     submitDisabled: true,
     loader: false,
     registerStep: 1,
@@ -21,7 +25,9 @@ export const registerActions = {
     REGISTERING: 'REGISTERING',
     FOCUS_PASSWORD_FIELD_REGISTER: 'FOCUS_PASSWORD_FIELD_REGISTER',
     FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER: 'FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER',
-    MARK_PASSWORD_MATCH: 'MARK_PASSWORD_MATCH'
+    MARK_PASSWORD_MATCH: 'MARK_PASSWORD_MATCH',
+    FOCUS_EMAIL_FIELD: 'FOCUS_EMAIL_FIELD',
+    FOCUS_REALNAME_FIELD: 'FOCUS_REALNAME_FIELD'
 };
 
 export const toggleRegisterVisibility = () => {
@@ -31,7 +37,6 @@ export const toggleRegisterVisibility = () => {
 };
 
 export const checkPasswordsMatch = (password, confirmPassword) => {
-    console.log(password, confirmPassword);
     return {
         type: registerActions.MARK_PASSWORD_MATCH,
         passwordsMatch: (password === confirmPassword)
@@ -61,26 +66,46 @@ export const setRegistering = event => {
     };
 };
 
+export const focusEmailField = () => {
+    return {
+        type: registerActions.FOCUS_EMAIL_FIELD,
+        registerStep: 2,
+        registerUsernameDisabled: true
+    };
+};
+
+export const focusRealnameField = () => {
+    return {
+        type: registerActions.FOCUS_REALNAME_FIELD,
+        registerStep: 3,
+        registerUsernameDisabled: true,
+        registerEmailDisabled: true,
+        registerPasswordDisabled: true
+    };
+};
+
 export const focusPasswordField = () => {
     return {
         type: registerActions.FOCUS_PASSWORD_FIELD_REGISTER,
-        registerStep: 2,
+        registerStep: 4,
         registerUsernameDisabled: true,
-        registerPasswordDisabled: false,
-        submitDisabled: true
+        registerEmailDisabled: true,
+        registerRealnameDisabled: true,
+        registerRealnamedDisabled: true
     };
 };
 
 export const focusPasswordConfirmField = () => {
     return {
         type: registerActions.FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER,
-        registerStep: 3,
+        registerStep: 5,
         registerUsernameDisabled: true,
         registerPasswordDisabled: true,
         registerPasswordConfirmDisabled: false,
         submitDisabled: false
     };
 };
+
 
 /**
  * Registration reducer.
@@ -121,6 +146,12 @@ const registerReducer = (state = initialState, action) => {
     case registerActions.MARK_PASSWORD_MATCH:
         return Object.assign({}, state, {
             passwordsMatch: action.passwordsMatch
+        });
+    case registerActions.FOCUS_EMAIL_FIELD:
+    case registerActions.FOCUS_REALNAME_FIELD:
+        return Object.assign({}, state, {
+            ...state,
+            action
         });
     default:
         return state;
