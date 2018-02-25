@@ -73,6 +73,11 @@
         ]
     },
     "jest": {
+        "collectCoverageFrom": [
+            "src/components/**/*.{js,jsx}",
+            "src/reducers/**/*.{js,jsx}",
+            "src/services/**/*.{js,jsx}"
+        ],
         "coverageReporters": ["lcov"]
     }
 }

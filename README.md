@@ -1,6 +1,6 @@
 # rv-app-frontend
 
-[![Build Status](https://travis-ci.org/ohtu2018-rv/rv-app-frontend.svg?branch=develop)](https://travis-ci.org/ohtu2018-rv/rv-app-frontend) [Codecov badge]
+[![Build Status](https://travis-ci.org/ohtu2018-rv/rv-app-frontend.svg?branch=develop)](https://travis-ci.org/ohtu2018-rv/rv-app-frontend) [![codecov](https://codecov.io/gh/ohtu2018-rv/rv-app-frontend/branch/develop/graph/badge.svg)](https://codecov.io/gh/ohtu2018-rv/rv-app-frontend)
 
 ## Introduction
 
