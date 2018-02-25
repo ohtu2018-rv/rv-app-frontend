@@ -13,7 +13,7 @@ install:
   - yarn global add codecov
 
 script:
-  - jest
+  - yarn test -- --coverage
   - codecov
 
 deploy:

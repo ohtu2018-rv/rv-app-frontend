@@ -73,7 +73,6 @@
         ]
     },
     "jest": {
-        "coverageDirectory": "./coverage",
-        "collectCoverage": true
+        "coverageReporters": ["lcov"]
     }
 }
