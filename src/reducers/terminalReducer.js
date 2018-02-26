@@ -1,4 +1,6 @@
 import eanValidator from './../services/eanValidator';
+import productService from './../services/productService';
+import { successMessage, errorMessage } from './notificationReducer';
 
 export const initialState = {
     terminalInput: '',
@@ -15,16 +17,11 @@ const regex =
     '^d(255(.|,)00|0(.|,)(05|[1-9](0|5))|([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-4])(.|,)[0-9](0|5))$';
 
 const parseRegexToCents = value => {
-    return parseInt(value[1].replace(',', '').replace('.', ''));
+    return parseInt(value[1].replace(',', '').replace('.', ''), 10);
 };
 
 const getRegexMatch = value => {
     return value.match(regex);
-};
-
-const validateInput = value => {
-    // Implement this when regex is expanded to accept EAN
-    return 'a';
 };
 
 export const handleInputEvent = event => {
@@ -43,24 +40,36 @@ export const handleInputEvent = event => {
     };
 };
 
-export const handleTerminalSubmit = (value, deposit) => {
+export const handleTerminalSubmit = (value, deposit, token) => {
     /**implement regex here
      *
      */
-    return dispatch => {
+    return async dispatch => {
         const depositRegexMatch = getRegexMatch(value);
         if (depositRegexMatch) {
             const product = { price: parseRegexToCents(depositRegexMatch) };
             deposit(product);
-            dispatch({
-                type: terminalActions.RESET_TERMINAL
-            });
         } else if (eanValidator.validateEan(value)) {
-            alert('Valid EAN');
+            try {
+                const res = await productService.buyProduct(value, 1, token);
+                console.log(res);
+                dispatch(
+                    successMessage('(placeholder text for buying product)')
+                );
+            } catch (err) {
+                dispatch(
+                    errorMessage(
+                        'Error buing product: ' + err.response.data.message
+                    )
+                );
+            }
         } else {
             // Invalid EAN / command
-            alert('Invalid command or EAN');
+            dispatch(errorMessage('Invalid command'));
         }
+        dispatch({
+            type: terminalActions.RESET_TERMINAL
+        });
     };
 };
 
