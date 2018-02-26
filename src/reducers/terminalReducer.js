@@ -1,3 +1,5 @@
+import eanValidator from './../services/eanValidator';
+
 export const initialState = {
     terminalInput: '',
     inputValid: false
@@ -31,7 +33,9 @@ export const handleInputEvent = event => {
             type: terminalActions.INPUT_EVENT_TERMINAL,
             value: event.target.value
         });
-        const inputValid = !!getRegexMatch(event.target.value);
+        const inputValid =
+            getRegexMatch(event.target.value) ||
+            eanValidator.validateEan(event.target.value);
         dispatch({
             type: terminalActions.SET_INPUT_VALIDITY,
             inputValid: inputValid
@@ -44,13 +48,18 @@ export const handleTerminalSubmit = (value, deposit) => {
      *
      */
     return dispatch => {
-        const regexMatch = getRegexMatch(value);
-        if (regexMatch) {
-            const product = { price: parseRegexToCents(regexMatch) };
+        const depositRegexMatch = getRegexMatch(value);
+        if (depositRegexMatch) {
+            const product = { price: parseRegexToCents(depositRegexMatch) };
             deposit(product);
             dispatch({
                 type: terminalActions.RESET_TERMINAL
             });
+        } else if (eanValidator.validateEan(value)) {
+            alert('Valid EAN');
+        } else {
+            // Invalid EAN / command
+            alert('Invalid command or EAN');
         }
     };
 };
