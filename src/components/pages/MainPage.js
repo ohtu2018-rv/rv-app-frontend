@@ -31,20 +31,21 @@ class MainPage extends Component {
         };
         this.buy = this.buy.bind(this);
         this.deposit = this.deposit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
-    handleKeyPress = event => {
+    handleKeyPress(event) {
         switch (event.keyCode) {
-            case 13:
-                if (this.props.terminalInput === '') {
-                    this.props.resetUserData();
-                    this.props.logout();
-                }
-                break;
-            default:
-                console.log(event.keyCode);
+        case 13:
+            if (this.props.terminalInput === '') {
+                this.props.resetUserData();
+                this.props.logout();
+            }
+            break;
+        default:
+            console.log(event.keyCode);
         }
-    };
+    }
 
     componentDidMount() {
         document.addEventListener('keypress', this.handleKeyPress);
