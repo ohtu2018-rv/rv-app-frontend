@@ -18,13 +18,23 @@ import {
     focusUsernameField
 } from './../../reducers/loginReducer';
 
+import { Link } from 'react-router-dom';
+
 // Remove for something smarter
 let timeout;
 
-class LoginForm extends React.Component {  
-    handleSubmit = e => {
+class LoginForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.nextStep = this.nextStep.bind(this);
+    }
+
+    handleSubmit(e) {
         e.preventDefault();
-    };
+    }
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
@@ -39,9 +49,11 @@ class LoginForm extends React.Component {
         this.props.reset();
     }
 
-    wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+    wait(timeout) {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
 
-    nextStep = async () => {
+    async nextStep() {
         if (this.props.loginStep === 1) {
             this.props.focusPasswordField();
             this.passwordInput.focus();
@@ -94,22 +106,22 @@ class LoginForm extends React.Component {
                 }
             }
         }
-    };
+    }
 
-    handleKeyPress = event => {
+    handleKeyPress(event) {
         switch (event.keyCode) {
-            case 13:
-                event.preventDefault();
-                this.nextStep();
-                break;
-            case 9:
-                event.preventDefault();
-                this.nextStep();
-                break;
-            default:
-                break;
+        case 13:
+            event.preventDefault();
+            this.nextStep();
+            break;
+        case 9:
+            event.preventDefault();
+            this.nextStep();
+            break;
+        default:
+            break;
         }
-    };
+    }
 
     render() {
         return (
@@ -181,6 +193,9 @@ class LoginForm extends React.Component {
                         </SuccessBtn>
                     </div>
                 </form>
+                <div>
+                    <Link to="/register">Ei tunnusta? Rekisteröidy!</Link>
+                </div>
             </div>
         );
     }

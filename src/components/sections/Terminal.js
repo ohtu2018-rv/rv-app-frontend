@@ -10,13 +10,19 @@ import {
 } from './../../reducers/terminalReducer';
 
 class Terminal extends React.Component {
-    handleSubmit = e => {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    handleSubmit(e) {
         e.preventDefault();
         this.props.handleTerminalSubmit(
             this.props.terminalInput,
-            this.props.deposit
+            this.props.deposit,
+            this.props.token
         );
-    };
+    }
 
     componentDidMount() {
         this.terminalFocus.focus();
@@ -52,7 +58,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
     return {
         terminalInput: state.terminal.terminalInput,
-        inputValid: state.terminal.inputValid
+        inputValid: state.terminal.inputValid,
+        token: state.authentication.access_token
     };
 };
 
