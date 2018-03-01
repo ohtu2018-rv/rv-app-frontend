@@ -1,6 +1,7 @@
 import eanValidator from './../services/eanValidator';
 import productService from './../services/productService';
-import { successMessage, errorMessage } from './notificationReducer';
+import { addProductToNotification, errorMessage } from './notificationReducer';
+import { setBalance } from './userReducer';
 
 export const initialState = {
     terminalInput: '',
@@ -52,10 +53,17 @@ export const handleTerminalSubmit = (value, deposit, token) => {
         } else if (eanValidator.validateEan(value)) {
             try {
                 const res = await productService.buyProduct(value, 1, token);
-                console.log(res);
-                dispatch(
-                    successMessage('(placeholder text for buying product)')
-                );
+
+                const accountBalance = res.data.account_balance;
+                dispatch(setBalance(accountBalance));
+
+                const prod = {
+                    barcode: res.data.barcode,
+                    quantity: res.data.quantity,
+                    product_name: res.data.product_name,
+                    price: res.data.price
+                };
+                dispatch(addProductToNotification(prod));
             } catch (err) {
                 dispatch(
                     errorMessage(
