@@ -15,7 +15,8 @@ export const notificationTypes = {
 export const initialState = {
     notifications: [],
     purchasedItems: [],
-    purchaseNotificationTimeout: 2500
+    purchaseNotificationTimeout: 2500,
+    purchaseNotificationStartTime: null
 };
 
 const getId = () => uuidv1();
@@ -123,7 +124,8 @@ const notificationReducer = (state = initialState, action) => {
 
         if (!product) {
             return Object.assign({}, state, {
-                purchasedItems: [...state.purchasedItems, action.data]
+                purchasedItems: [...state.purchasedItems, action.data],
+                purchaseNotificationStartTime: new Date()
             });
         } else {
             // Product exists, increment amount
@@ -138,12 +140,16 @@ const notificationReducer = (state = initialState, action) => {
                 }
             });
             return Object.assign({}, state, {
-                purchasedItems: [...products]
+                purchasedItems: [...products],
+                purchaseNotificationStartTime: new Date()
             });
         }
     }
     case notificationActions.CLEAR_ITEMS:
-        return Object.assign({}, state, { purchasedItems: [] });
+        return Object.assign({}, state, {
+            purchasedItems: [],
+            purchaseNotificationStartTime: null
+        });
     default:
         return state;
     }

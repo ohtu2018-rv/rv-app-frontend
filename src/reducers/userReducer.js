@@ -9,7 +9,8 @@ export const userActions = {
     RESET_USER_DATA: 'RESET_USER_DATA',
     SET_USER_DATA: 'SET_USER_DATA',
     INCREASE_BALANCE: 'INCREASE_BALANCE',
-    DECREASE_BALANCE: 'DECREASE_BALANCE'
+    DECREASE_BALANCE: 'DECREASE_BALANCE',
+    SET_BALANCE: 'SET_BALANCE'
 };
 
 export const resetUserData = () => {
@@ -39,6 +40,13 @@ export const decreaseBalance = balance => {
     };
 };
 
+export const setBalance = balance => {
+    return {
+        type: userActions.SET_BALANCE,
+        balance
+    };
+};
+
 /**
  * User reducer.
  * @param {object} state
@@ -59,6 +67,10 @@ const userReducer = (state = initialState, action) => {
     case userActions.DECREASE_BALANCE:
         return Object.assign({}, state, {
             account_balance: state.account_balance - action.balance
+        });
+    case userActions.SET_BALANCE:
+        return Object.assign({}, state, {
+            account_balance: action.balance
         });
     default:
         return state;

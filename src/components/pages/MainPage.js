@@ -27,7 +27,8 @@ class MainPage extends Component {
 
         super(props);
         this.state = {
-            timeoutHandler: null
+            timeoutHandler: null,
+            notificationInterval: null
         };
         this.buy = this.buy.bind(this);
         this.deposit = this.deposit.bind(this);
@@ -48,10 +49,23 @@ class MainPage extends Component {
     }
 
     componentDidMount() {
+        const notificationInterval = setInterval(() => {
+            if (this.props.purchaseNotificationStartTime != null) {
+                const delta =
+                    new Date().getTime() -
+                    this.props.purchaseNotificationStartTime.getTime();
+                if (delta > this.props.purchaseNotificationTimeout) {
+                    this.props.clearProductsFromNotification();
+                }
+            }
+        }, 100);
+        this.setState({ notificationInterval });
         document.addEventListener('keypress', this.handleKeyPress);
     }
 
     componentWillUnmount() {
+        clearInterval(this.state.notificationInterval);
+        this.setState({ notificationInterval: null });
         document.removeEventListener('keypress', this.handleKeyPress);
     }
 
@@ -94,8 +108,8 @@ class MainPage extends Component {
             this.props.increaseBalance(product.price);
             this.props.successMessage(
                 'Talletettu RV-tilille ' +
-                parseFloat(product.price / 100).toFixed(2) +
-                ' €'
+                    parseFloat(product.price / 100).toFixed(2) +
+                    ' €'
             );
         } catch (error) {
             const errorResponse = error.response;
@@ -112,10 +126,7 @@ class MainPage extends Component {
                     buy={this.buy}
                     deposit={this.deposit}
                 />
-                <Content 
-                    balance={this.state.balance} 
-                    deposit={this.deposit}
-                />
+                <Content balance={this.state.balance} deposit={this.deposit} />
             </div>
         );
     }
@@ -137,6 +148,8 @@ const mapStateToProps = state => {
         token: state.authentication.access_token,
         purchaseNotificationTimeout:
             state.notification.purchaseNotificationTimeout,
+        purchaseNotificationStartTime:
+            state.notification.purchaseNotificationStartTime,
         user: state.user,
         terminalInput: state.terminal.terminalInput
     };
