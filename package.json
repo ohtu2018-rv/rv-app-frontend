@@ -80,6 +80,8 @@
             "src/services/**/*.{js,jsx}",
             "src/*.{js,jsx}"
         ],
-        "coverageReporters": ["lcov"]
+        "coverageReporters": [
+            "lcov"
+        ]
     }
 }
