@@ -66,6 +66,35 @@ New features or fixes must have a branch. Pushing directly to develop or master 
 
 When code is pushed to GitHub and a pull request is made to either ```develop``` or ```master``` branch, Travis CI will run tests for the project and deploy it to Heroku, if all test have passed.
 
+## Project Structure
+
+```
+src/
+  index.js
+    Setups the project, combines reducers to a store.
+  app.js
+    Renders all other components.
+  __tests__/
+    Contains all tests.
+  services/
+    Contains all communication with backend.
+  reducers/
+    Contains Redux-implementations. Most of functionality stored here.
+  components/
+    animations/
+    buttons/
+    forms/
+    helpers/
+      Constains helpers for styling.
+    loaders/
+      Contains styled loading icons.
+    notifications/
+    pages/
+      Contains main views. ~Login, Mainpage
+    sections/
+      Contains all structural elements.
+```
+
 ## License
 
 This project is licensed with GNU GPL v2 license.
