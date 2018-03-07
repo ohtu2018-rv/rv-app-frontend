@@ -1,0 +1,60 @@
+// Metrics
+$base-padding: 15px;
+$base-margin: 5px;
+$base-border-radius: 10px;
+$base-font: Arial, "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+  "Lucida Sans", sans-serif;
+// Body
+$body-background-color: white;
+$body-font-color: black;
+// Containers
+$container-header-font-size: 16pt;
+$container-background-color: white;
+$container-text-color: black;
+// Header
+$header-bgcolor: $container-background-color;
+// Input
+$input-height: 48px;
+$input-border-color: black;
+$input-text-color: black;
+$input-font-size: 11pt;
+$input-border-radius: $base-border-radius;
+$input-placeholder-color: gray;
+$input-placeholder-font-size: $input-font-size;
+$input-box-shadow: false;
+// Button
+$button-text-color: white;
+$button-height: 48px;
+$button-padding-left-right: 20px;
+$button-font-size: 10pt;
+$button-border-radius: $base-border-radius;
+// Button text in uppercase
+$button-text-uppercase: false;
+// Success button
+$success-button-bgcolor: green;
+$success-button-textcolor: white;
+$success-button-fill-hover-bgcolor: transparent;
+// Danger button
+$danger-button-bgcolor: red;
+$danger-button-textcolor: white;
+$danger-button-fill-hover-bgcolor: transparent;
+// Basic button
+$basic-button-bgcolor: rgb(38, 155, 209);
+$basic-button-textcolor: white;
+$basic-button-fill-hover-bgcolor: transparent;
+// Loader
+$loader-color: white;
+$loader-width: 2px;
+// Shadow
+$shadow-border-radius: $base-border-radius;
+$box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+// Notifications
+$notification-font-size: 12pt;
+$notification-border-radius: $base-border-radius;
+$error-notification-bgcolor: rgba(189, 61, 52, 0.9);
+$error-notification-textcolor: white;
+$error-notification-cross-width: 2;
+$success-notification-bgcolor: rgba(52, 189, 63, 0.9);
+$success-notification-textcolor: white;
+// Login form
+$login-form-box-shadow: true;

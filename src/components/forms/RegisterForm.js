@@ -1,69 +1,84 @@
 import React from 'react';
 import './styles/LoginForm.css';
-
 import SuccessBtn from './../buttons/SuccessBtn';
-
 import { connect } from 'react-redux';
+
 import { 
     handleInputEvent, 
     reset,
     focusPasswordField,
-    setRegistering
+    setRegistering,
+    focusPasswordConfirmField,
+    checkPasswordsMatch
 } from './../../reducers/registerReducer';
 
-let timeout;
+import {
+    successMessage,
+    errorMessage
+} from '../../reducers/notificationReducer';
+
+import { loggedIn } from '../../reducers/authenticationReducer';
+import userService from '../../services/userService';
 
 class RegisterForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.formValid = this.formValid.bind(this);
+    }
+
     componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyPress);
-        document.addEventListener('keypress', this.handleKeyPress);
         this.registerUsernameInput.focus();
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyPress);
-        document.removeEventListener('keypress', this.handleKeyPress);
-        clearTimeout(timeout);
         this.props.reset();
     }
 
-    wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+    formValid() {
+        return (
+            this.props.registerUsername.length >= this.props.minUsernameLength &&
+            (this.props.passwordsMatch && this.props.registerPassword.length >= this.props.minPasswordLength) &&
+            this.props.registerRealname.length > 0 &&
+            this.props.registerEmail.split('@').length === 2
+        );
+    }
 
-    nextStep = async () => {
-        if (this.props.registerStep === 1) {
-            this.props.focusPasswordField();
-            this.registerPasswordInput.focus();
-        } else if (this.props.registerStep === 2) {
-            this.props.setRegistering();
-            await this.wait(1000);
+    async handleSubmit(event) {
+        event.preventDefault();
 
-            // Register
-            // Replace timeout with something smarter
-            timeout = setTimeout(() => {
-                alert("Registered")
-                this.props.reset();
-            }, 500);
+        if (this.formValid()) {
+            try {
+                // Register new user
+                const response = await userService.registerUser({
+                    username: this.props.registerUsername,
+                    password: this.props.registerPassword,
+                    realname: this.props.registerRealname,
+                    email: this.props.registerEmail
+                });
 
-            // TODO: Here registerService call
-            // this.props.register()
+                // registration successful, log in
+                if (response.status === 201) {
+                    const loginResponse = await userService.authenticate({
+                        username: this.props.registerUsername,
+                        password: this.props.registerPassword
+                    });
+
+                    this.props.reset();
+                    this.props.loggedIn(loginResponse.data.access_token);
+                } else {
+                    this.props.errorMessage('Unknown error during registration');
+                }
+            } catch (error) {
+                if (error.response.data.error) {
+                    this.props.errorMessage(error.response.data.error);
+                } else {
+                    this.props.errorMessage('Unknown error during registration');
+                }
+            }
         }
-    };
-
-    handleKeyPress = event => {
-        switch (event.keyCode) {
-            case 13:
-                event.preventDefault();
-                this.nextStep();
-                break;
-            case 9:
-                event.preventDefault();
-                this.nextStep();
-                break;
-            default:
-                break;
-        }
-    };
-
+    }
 
     render() {
         return (
@@ -74,7 +89,7 @@ class RegisterForm extends React.Component {
                         : 'form loginForm'
                 }
             >
-                <form onSubmit={this.props.handleSubmit}>
+                <form onSubmit={this.handleSubmit}>
                     <legend>Register</legend>
                     <div className="formControl">
                         <input
@@ -84,14 +99,46 @@ class RegisterForm extends React.Component {
                             placeholder="Käyttäjätunnus"
                             value={this.props.registerUsername}
                             onChange={(event) => this.props.handleInputEvent(event)}
-                            onKeyDown={this.handleKeyUp}
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             className="input fullWidth"
-                            disabled={this.props.registerUsernameDisabled}
                             ref={input => {
                                 this.registerUsernameInput = input;
+                            }}
+                        />
+                    </div>
+                    <div className="formControl">
+                        <input
+                            type="text"
+                            id="registerEmail"
+                            name="registerEmail"
+                            placeholder="Sähköpostiosoite"
+                            value={this.props.registerEmail}
+                            onChange={(event) => this.props.handleInputEvent(event)}
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            className="input fullWidth"
+                            ref={input => {
+                                this.registerEmailInput = input;
+                            }}
+                        />
+                    </div>
+                    <div className="formControl">
+                        <input
+                            type="text"
+                            id="registerRealname"
+                            name="registerRealname"
+                            placeholder="Oikea nimi"
+                            value={this.props.registerRealname}
+                            onChange={(event) => this.props.handleInputEvent(event)}
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            className="input fullWidth"
+                            ref={input => {
+                                this.registerRealnameInput = input;
                             }}
                         />
                     </div>
@@ -103,14 +150,35 @@ class RegisterForm extends React.Component {
                             placeholder="Salasana"
                             value={this.props.registerPassword}
                             onChange={(event) => this.props.handleInputEvent(event)}
-                            onKeyDown={this.handleKeyUp}
                             className="input fullWidth"
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
-                            disabled={this.props.registerPasswordDisabled}
                             ref={input => {
                                 this.registerPasswordInput = input;
+                            }}
+                        />
+                    </div>
+                    <div className="formControl">
+                        <input
+                            type="password"
+                            id="registerPasswordConfirm"
+                            name="registerPasswordConfirm"
+                            placeholder="Salasana uudelleen"
+                            value={this.props.registerPasswordConfirm}
+                            onChange={(event) => {
+                                this.props.handleInputEvent(event);
+                                this.props.checkPasswordsMatch(
+                                    this.props.registerPassword, 
+                                    event.target.value
+                                );
+                            }}
+                            className="input fullWidth"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            autoCapitalize="off"
+                            ref={input => {
+                                this.registerPasswordConfirmInput = input;
                             }}
                         />
                     </div>
@@ -118,13 +186,7 @@ class RegisterForm extends React.Component {
                         <SuccessBtn
                             fill
                             loader={this.props.loader}
-                            disabled={
-                                !(
-                                    !this.props.submitDisabled &&
-                                    this.props.registerPassword.length >
-                                        this.props.minPasswordLength
-                                )
-                            }
+                            disabled={!this.formValid()}
                             style={{ width: '100%' }}
                         >
                             Rekisteröidy (ENTER)
@@ -140,19 +202,30 @@ const mapDispatchToProps = {
     handleInputEvent,
     reset,
     focusPasswordField,
-    setRegistering
+    setRegistering,
+    focusPasswordConfirmField,
+    checkPasswordsMatch,
+    successMessage,
+    errorMessage,
+    loggedIn
 };
 
 const mapStateToProps = state => {
     return {
         registerUsername: state.register.registerUsername,
         registerPassword: state.register.registerPassword,
+        registerEmail: state.register.registerEmail,
+        registerRealname: state.register.registerRealname,
         minPasswordLength: state.register.minPasswordLength,
+        minUsernameLength: state.register.minUsernameLength,
         registerStep: state.register.registerStep,
         registerUsernameDisabled: state.register.registerUsernameDisabled,
         registerPasswordDisabled: state.register.registerPasswordDisabled,
         submitDisabled: state.register.submitDisabled,
-        loader: state.register.loader
+        loader: state.register.loader,
+        registerPasswordConfirmDisabled: state.register.registerPasswordConfirmDisabled,
+        passwordsMatch: state.register.passwordsMatch,
+        registerPasswordConfirm: state.register.registerPasswordConfirm
     };
 };
 

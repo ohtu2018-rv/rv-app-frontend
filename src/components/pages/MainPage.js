@@ -13,6 +13,12 @@ import {
     clearProductsFromNotification
 } from './../../reducers/notificationReducer';
 
+import {
+    increaseBalance,
+    decreaseBalance,
+    resetUserData
+} from './../../reducers/userReducer';
+
 import userService from '../../services/userService';
 
 class MainPage extends Component {
@@ -21,37 +27,45 @@ class MainPage extends Component {
 
         super(props);
         this.state = {
-            user: {
-                username: '',
-                full_name: '',
-                email: '',
-                account_balance: 0
-            },
             timeoutHandler: null,
-            balance: null
+            notificationInterval: null
         };
         this.buy = this.buy.bind(this);
-        this.store = this.store.bind(this);
+        this.deposit = this.deposit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
-    handleKeyPress = event => {
+    handleKeyPress(event) {
         switch (event.keyCode) {
-            case 13:
+        case 13:
+            if (this.props.terminalInput === '') {
+                this.props.resetUserData();
                 this.props.logout();
-                break;
-            default:
-                console.log(event.keyCode);
+            }
+            break;
+        default:
+            console.log(event.keyCode);
         }
-    };
+    }
 
     componentDidMount() {
+        const notificationInterval = setInterval(() => {
+            if (this.props.purchaseNotificationStartTime != null) {
+                const delta =
+                    new Date().getTime() -
+                    this.props.purchaseNotificationStartTime.getTime();
+                if (delta > this.props.purchaseNotificationTimeout) {
+                    this.props.clearProductsFromNotification();
+                }
+            }
+        }, 100);
+        this.setState({ notificationInterval });
         document.addEventListener('keypress', this.handleKeyPress);
-        userService.getUser(this.props.token).then(user => {
-            this.setState({ user: user });
-        });
     }
 
     componentWillUnmount() {
+        clearInterval(this.state.notificationInterval);
+        this.setState({ notificationInterval: null });
         document.removeEventListener('keypress', this.handleKeyPress);
     }
 
@@ -60,10 +74,7 @@ class MainPage extends Component {
      */
     async buy(product) {
         try {
-            var newBalance = await userService.reduceBalance(
-                this.props.token,
-                product.price
-            );
+            await userService.reduceBalance(this.props.token, product.price);
 
             // If timeout is set, clear it to prevent notification from disappearing
             if (this.state.timeoutHandler) {
@@ -71,9 +82,7 @@ class MainPage extends Component {
                 this.setState({ timeoutHandler: null });
             }
 
-            let user = Object.assign(this.state.user);
-            user.account_balance = newBalance;
-            this.setState({ user: user });
+            this.props.decreaseBalance(product.price);
 
             // Add product to notification
             this.props.addProductToNotification(product);
@@ -87,27 +96,24 @@ class MainPage extends Component {
                 timeoutHandler
             });
         } catch (error) {
-            this.props.errorMessage('Virhe ostamisessa');
+            const errorResponse = error.response;
+            this.props.errorMessage(errorResponse.data.message);
         }
     }
 
-    async store(product) {
+    // Make this a reducer function. If named store like before, breaks redux
+    async deposit(product) {
         try {
-            var newBalance = await userService.increaseBalance(
-                this.props.token,
-                product.price
-            );
-
-            let user = Object.assign(this.state.user);
-            user.account_balance = newBalance;
-            this.setState({ user: user });
+            await userService.increaseBalance(this.props.token, product.price);
+            this.props.increaseBalance(product.price);
             this.props.successMessage(
                 'Talletettu RV-tilille ' +
                     parseFloat(product.price / 100).toFixed(2) +
                     ' €'
             );
         } catch (error) {
-            this.props.errorMessage('Virhe tallettamisessa');
+            const errorResponse = error.response;
+            this.props.errorMessage(errorResponse.data.message);
         }
     }
 
@@ -116,11 +122,11 @@ class MainPage extends Component {
             <div>
                 <Header
                     logout={this.props.logout}
-                    user={this.state.user}
+                    user={this.props.user}
                     buy={this.buy}
-                    store={this.store}
+                    deposit={this.deposit}
                 />
-                <Content balance={this.state.balance} />
+                <Content balance={this.state.balance} deposit={this.deposit} />
             </div>
         );
     }
@@ -131,14 +137,21 @@ const mapDispatchToProps = {
     errorMessage,
     logout,
     addProductToNotification,
-    clearProductsFromNotification
+    clearProductsFromNotification,
+    increaseBalance,
+    decreaseBalance,
+    resetUserData
 };
 
 const mapStateToProps = state => {
     return {
         token: state.authentication.access_token,
         purchaseNotificationTimeout:
-            state.notification.purchaseNotificationTimeout
+            state.notification.purchaseNotificationTimeout,
+        purchaseNotificationStartTime:
+            state.notification.purchaseNotificationStartTime,
+        user: state.user,
+        terminalInput: state.terminal.terminalInput
     };
 };
 

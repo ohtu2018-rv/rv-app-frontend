@@ -1,22 +1,23 @@
+@import "vars";
+
 .error-message {
-  font-size: 12pt;
-  padding: 20px;
+  font-size: $notification-font-size;
+  padding: $base-padding;
   text-align: center;
   display: block;
-  padding-top: 10px;
   white-space: nowrap;
-  background-color: rgba(189, 61, 52, 0.9);
-  border-radius: 5px;
-  color: white;
-  margin: 5px;
+  background-color: $error-notification-bgcolor;
+  border-radius: $notification-border-radius;
+  color: $error-notification-textcolor;
+  margin: $base-margin;
 }
 
 .error-message-shadow {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: $box-shadow;
 }
 
 .cross {
-  stroke: white;
+  stroke: $error-notification-textcolor;
   stroke-linecap: round;
-  stroke-width: 2;
+  stroke-width: $error-notification-cross-width;
 }

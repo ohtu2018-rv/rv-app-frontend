@@ -2,7 +2,7 @@ import React from 'react';
 import './styles/Content.css';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import FeaturedProducts from './FeaturedProducts';
-import ShoppingCart from './ShoppingCart';
+import Terminal from './Terminal';
 
 import { connect } from 'react-redux';
 
@@ -15,28 +15,18 @@ export class Content extends React.Component {
     render() {
         return (
             <main>
-                <button
-                    onClick={() =>
-                        this.props.successMessage('Success message test')
-                    }
-                >
-                    Trigger success
-                </button>
-                <button
-                    onClick={() =>
-                        this.props.errorMessage('Error message test')
-                    }
-                >
-                    Trigger error
-                </button>
-                <Grid style={{width: '100%'}}>
+                <Grid style={{ width: '100%' }}>
                     <Row>
-                        <Col xs={6}>
+                        <Col xs={12}>
                             <FeaturedProducts />
                         </Col>
-                        <Col xs={6}>
-                            <ShoppingCart />
+                    </Row>
+                    <Row>
+                        <Col xs={2} />
+                        <Col xs={8}>
+                            <Terminal deposit={this.props.deposit} />
                         </Col>
+                        <Col xs={2} />
                     </Row>
                 </Grid>
             </main>

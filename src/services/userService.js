@@ -3,6 +3,23 @@
 const axios = require('axios');
 
 /**
+ * Register new user with backend to database
+ * @param {object} newUSer
+ */
+const registerUser = newUser => {
+    
+    return axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/user/register`, {
+            username: newUser.username,
+            password: newUser.password,
+            realname: newUser.realname,
+            email: newUser.email
+        }
+    );
+};
+
+
+/**
  * Fetches user information from backend.
  * @param {string} token access token
  */
@@ -12,6 +29,20 @@ const getUser = async token => {
             headers: { Authorization: 'Bearer ' + token }
         })
         .then(res => res.data);
+};
+
+/**
+ * Authenticates the user with back-end. Returns a promise.
+ * @param {object} user
+ */
+const authenticate = user => {
+    return axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/user/authenticate`,
+        {
+            username: user.username,
+            password: user.password
+        }
+    );
 };
 
 /**
@@ -59,5 +90,7 @@ const increaseBalance = async (token, amount) => {
 export default {
     getUser,
     reduceBalance,
-    increaseBalance
+    increaseBalance,
+    authenticate,
+    registerUser
 };

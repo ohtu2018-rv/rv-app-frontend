@@ -1,56 +1,52 @@
-const axios = require('axios');
+import userService from './../services/userService';
+
+import { setUserData } from './../reducers/userReducer';
+
+export const authenticationActions = {
+    LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
+    LOGGING_IN: 'LOGGING_IN',
+    LOGGED_IN: 'LOGGED_IN',
+    LOGIN_FAILED: 'LOGIN_FAILED'
+};
 
 export const initialState = {
     isLoggingIn: false,
     loggedIn: false,
-    access_token: '',
-    error: ''
-};
-
-/**
- * Login sequence.
- * @param {object} user
- */
-export const login = user => {
-    return async dispatch => {
-        verifyLogin(user).then(res =>
-            dispatch(setLoggedState(res.access_token))
-        );
-    };
+    access_token: ''
 };
 
 export const logout = () => {
     return {
-        type: 'LOGOUT_SUCCESS'
+        type: authenticationActions.LOGOUT_SUCCESS
     };
 };
 
-export const setLoggingIn = () => {
+export const loggingIn = () => {
     return {
-        type: 'LOGGING_IN'
+        type: authenticationActions.LOGGING_IN
     };
 };
 
-function setLoggedState(token) {
-    if (token) {
-        return {
-            type: 'LOGIN_SUCCESS',
-            token
-        };
-    }
-    return {
-        type: 'LOGIN_FAILED'
+export const loggedIn = token => {
+    return async dispatch => {
+        try {
+            const userData = await userService.getUser(token);
+            dispatch(setUserData(userData));
+            dispatch({
+                type: authenticationActions.LOGGED_IN,
+                token
+            });
+        } catch (err) {
+            console.error(err);
+        }
     };
-}
+};
 
-function verifyLogin(user) {
-    return axios
-        .post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/user/authenticate`, {
-            username: user.username,
-            password: user.password
-        })
-        .then(res => res.data);
-}
+export const loginFailed = () => {
+    return {
+        type: authenticationActions.LOGIN_FAILED
+    };
+};
 
 /**
  * Authentication reducer.
@@ -59,22 +55,25 @@ function verifyLogin(user) {
  */
 const authenticationReducer = (state = initialState, action) => {
     switch (action.type) {
-    case 'LOGGING_IN':
+    case authenticationActions.LOGGING_IN:
         return Object.assign({}, state, { isLoggingIn: true });
-    case 'LOGIN_SUCCESS':
+    case authenticationActions.LOGGED_IN:
         return Object.assign({}, state, {
             loggedIn: true,
             access_token: action.token,
             isLoggingIn: false
         });
-    case 'LOGIN_FAILED':
+    case authenticationActions.LOGIN_FAILED:
         return Object.assign({}, state, {
             loggedIn: false,
             access_token: '',
             isLoggingIn: false
         });
-    case 'LOGOUT_SUCCESS':
-        return Object.assign({}, { loggedIn: false, access_token: '' });
+    case authenticationActions.LOGOUT_SUCCESS:
+        return Object.assign({}, state, {
+            loggedIn: false,
+            access_token: ''
+        });
     default:
         return state;
     }

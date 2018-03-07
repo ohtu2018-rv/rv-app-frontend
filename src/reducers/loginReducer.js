@@ -1,3 +1,11 @@
+export const loginActions = {
+    RESET: 'RESET',
+    INPUT_EVENT: 'INPUT_EVENT',
+    FOCUS_PASSWORD_FIELD: 'FOCUS_PASSWORD_FIELD',
+    FOCUS_USERNAME_FIELD: 'FOCUS_USERNAME_FIELD',
+    CLEAR_FORM: 'CLEAR_FORM'
+};
+
 export const initialState = {
     username: '',
     password: '',
@@ -6,40 +14,40 @@ export const initialState = {
     usernameDisabled: false,
     passwordDisabled: true,
     submitDisabled: true,
-    loader: false,
     loginStep: 1
 };
 
 export const reset = () => {
     return {
-        type: 'RESET'
+        type: loginActions.RESET
     };
 };
 
 export const handleInputEvent = event => {
     return {
-        type: 'INPUT_EVENT',
+        type: loginActions.INPUT_EVENT,
         target: event.target.name,
         value: event.target.value
     };
 };
 
-export const setLogging = event => {
-    return {
-        type: 'LOGGING_IN',
-        usernameDisabled: true,
-        passwordDisabled: true,
-        loader: true
-    };
-};
-
 export const focusPasswordField = () => {
     return {
-        type: 'FOCUS_PASSWORD_FIELD',
+        type: loginActions.FOCUS_PASSWORD_FIELD,
         loginStep: 2,
         usernameDisabled: true,
         passwordDisabled: false,
         submitDisabled: false
+    };
+};
+
+export const focusUsernameField = () => {
+    return {
+        type: loginActions.FOCUS_USERNAME_FIELD,
+        loginStep: 1,
+        usernameDisabled: false,
+        passwordDisabled: true,
+        submitDisabled: true
     };
 };
 
@@ -50,22 +58,28 @@ export const focusPasswordField = () => {
  */
 const loginReducer = (state = initialState, action) => {
     switch (action.type) {
-    case 'RESET':
+    case loginActions.RESET:
         return Object.assign({}, initialState);
-    case 'INPUT_EVENT':
+    case loginActions.INPUT_EVENT:
         return Object.assign({}, state, { [action.target]: action.value });
-    case 'FOCUS_PASSWORD_FIELD':
+    case loginActions.FOCUS_PASSWORD_FIELD:
         return Object.assign({}, state, {
             loginStep: action.loginStep,
             usernameDisabled: action.usernameDisabled,
             passwordDisabled: action.passwordDisabled,
             submitDisabled: action.submitDisabled
         });
-    case 'LOGGING_IN':
+    case loginActions.FOCUS_USERNAME_FIELD:
         return Object.assign({}, state, {
-            usernameDisabled: true,
-            passwordDisabled: true,
-            loader: true
+            loginStep: action.loginStep,
+            usernameDisabled: action.usernameDisabled,
+            passwordDisabled: action.passwordDisabled,
+            submitDisabled: action.submitDisabled
+        });
+    case loginActions.CLEAR_FORM:
+        return Object.assign({}, state, {
+            username: '',
+            password: ''
         });
     default:
         return state;

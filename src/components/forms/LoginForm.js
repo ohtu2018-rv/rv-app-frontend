@@ -4,18 +4,38 @@ import './styles/LoginForm.css';
 import SuccessBtn from './../buttons/SuccessBtn';
 
 import { connect } from 'react-redux';
-import { login, setLoggingIn } from './../../reducers/authenticationReducer';
+import {
+    loggingIn,
+    loggedIn,
+    loginFailed
+} from './../../reducers/authenticationReducer';
+import { errorMessage } from './../../reducers/notificationReducer';
+import userService from './../../services/userService';
 import {
     handleInputEvent,
     reset,
     focusPasswordField,
-    setLogging
+    focusUsernameField
 } from './../../reducers/loginReducer';
+
+import { Link } from 'react-router-dom';
 
 // Remove for something smarter
 let timeout;
 
 class LoginForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.nextStep = this.nextStep.bind(this);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+    }
+
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
         document.addEventListener('keypress', this.handleKeyPress);
@@ -29,63 +49,79 @@ class LoginForm extends React.Component {
         this.props.reset();
     }
 
-    wait = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+    wait(timeout) {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
 
-    nextStep = async () => {
+    async nextStep() {
         if (this.props.loginStep === 1) {
             this.props.focusPasswordField();
             this.passwordInput.focus();
         } else if (this.props.loginStep === 2) {
-            this.props.setLogging();
-            this.props.setLoggingIn();
-
-            // Replace timeout with something smarter
-            timeout = setTimeout(() => {
-                this.props.reset();
-            }, 2000);
-
-            this.props.authenticate({
-                username: this.props.username,
-                password: this.props.password
-            });
-
-            /* authenticate does't return a boolean
-            if (
-                !this.props.authenticate({
+            // Set loggingIn
+            this.props.loggingIn();
+            // Try to login
+            try {
+                const res = await userService.authenticate({
                     username: this.props.username,
                     password: this.props.password
-                })
-            ) {
-                this.setprops({
-                    loginStep: 1,
-                    usernameDisabled: false,
-                    passwordDisabled: true,
-                    submitDisabled: true,
-                    username: '',
-                    password: '',
-                    loader: false
                 });
+                // If access token is found, set it and login
+                if (res.data.access_token) {
+                    this.props.loggedIn(res.data.access_token);
+                } else {
+                    // Reset form
+                    this.props.reset();
+                    // Login has failed
+                    this.props.loginFailed();
+                    // Focus username input
+                    this.usernameInput.focus();
+                    // Set login step to 1
+                    this.props.focusUsernameField();
+                    // Send error message
+                    this.props.errorMessage(
+                        'Unknown error while logging in.',
+                        2500
+                    );
+                }
+            } catch (err) {
+                // Error response
+                const errorResponse = err.response;
+                // Reset form
+                this.props.reset();
+                // Send login failed
+                this.props.loginFailed();
+                // Focus username input
                 this.usernameInput.focus();
-            } else {
-                clearTimeout(timeout)
-            */
+                this.props.focusUsernameField();
+                // Server error
+                if (errorResponse.status === 500) {
+                    this.props.errorMessage('Server error', 2500);
+                } else if (
+                    errorResponse.status === 403 ||
+                    errorResponse.status === 400
+                ) {
+                    // Validation error
+                    this.props.errorMessage(errorResponse.data.message, 2500);
+                }
+            }
         }
-    };
+    }
 
-    handleKeyPress = event => {
+    handleKeyPress(event) {
         switch (event.keyCode) {
-            case 13:
-                event.preventDefault();
-                this.nextStep();
-                break;
-            case 9:
-                event.preventDefault();
-                this.nextStep();
-                break;
-            default:
-                break;
+        case 13:
+            event.preventDefault();
+            this.nextStep();
+            break;
+        case 9:
+            event.preventDefault();
+            this.nextStep();
+            break;
+        default:
+            break;
         }
-    };
+    }
 
     render() {
         return (
@@ -96,7 +132,7 @@ class LoginForm extends React.Component {
                         : 'form loginForm'
                 }
             >
-                <form onSubmit={this.props.handleSubmit}>
+                <form onSubmit={this.handleSubmit}>
                     <legend>Log in</legend>
                     <div className="formControl">
                         <input
@@ -143,7 +179,7 @@ class LoginForm extends React.Component {
                     <div className="formControl">
                         <SuccessBtn
                             fill
-                            loader={this.props.loader}
+                            loader={this.props.isLoggingIn}
                             disabled={
                                 !(
                                     !this.props.submitDisabled &&
@@ -157,18 +193,23 @@ class LoginForm extends React.Component {
                         </SuccessBtn>
                     </div>
                 </form>
+                <div>
+                    <Link to="/register">Ei tunnusta? Rekisteröidy!</Link>
+                </div>
             </div>
         );
     }
 }
 
 const mapDispatchToProps = {
-    login,
-    setLoggingIn,
     reset,
     handleInputEvent,
     focusPasswordField,
-    setLogging
+    focusUsernameField,
+    loggingIn,
+    loggedIn,
+    errorMessage,
+    loginFailed
 };
 
 const mapStateToProps = state => {
@@ -180,7 +221,7 @@ const mapStateToProps = state => {
         usernameDisabled: state.login.usernameDisabled,
         passwordDisabled: state.login.passwordDisabled,
         submitDisabled: state.login.submitDisabled,
-        loader: state.login.loader
+        isLoggingIn: state.authentication.isLoggingIn
     };
 };
 

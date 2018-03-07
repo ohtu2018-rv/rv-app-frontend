@@ -61,7 +61,7 @@ export class Header extends React.Component {
                     <Margin margin={5} inlineBlock>
                         <BasicBtn
                             hover
-                            onClick={() => this.props.store(items[1])}
+                            onClick={() => this.props.deposit(items[1])}
                         >
                             Testitalletus ({parseFloat(
                                 items[1].price / 100

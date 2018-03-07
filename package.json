@@ -12,6 +12,7 @@
         "react-dom": "^16.2.0",
         "react-flexbox-grid": "^2.0.0",
         "react-redux": "^5.0.6",
+        "react-router-dom": "^4.2.2",
         "react-scripts": "1.1.0",
         "react-transition-group": "^2.2.1",
         "redux-thunk": "^2.2.0"
@@ -26,10 +27,8 @@
         "fix-js": "eslint --fix src/**/*.{js,jsx}",
         "build-js": "react-scripts build",
         "build": "npm-run-all build-css build-js",
-        "build-css":
-            "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
-        "watch-css":
-            "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+        "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
+        "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
         "lint-css": "stylelint src/**/*.scss --syntax=scss",
         "fix-css": "stylelint src/**/*.scss --syntax=scss --fix",
         "test": "react-scripts test --env=jsdom",
@@ -61,10 +60,28 @@
         "redux-immutable-state-invariant": "^2.1.0",
         "redux-mock-store": "^1.5.1",
         "stylelint": "^8.4.0",
-        "stylelint-config-standard": "^18.0.0"
+        "stylelint-config-standard": "^18.0.0",
+        "stylelint-scss": "^2.3.0"
     },
     "lint-staged": {
-        "src/**/*.{js,jsx}": ["eslint", "git add"],
-        "src/**/*.scss": ["stylelint --syntax=scss", "git add"]
+        "src/**/*.{js,jsx}": [
+            "eslint",
+            "git add"
+        ],
+        "src/**/*.scss": [
+            "stylelint --syntax=scss",
+            "git add"
+        ]
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/components/**/*.{js,jsx}",
+            "src/reducers/**/*.{js,jsx}",
+            "src/services/**/*.{js,jsx}",
+            "src/*.{js,jsx}"
+        ],
+        "coverageReporters": [
+            "lcov"
+        ]
     }
 }

@@ -1,9 +1,22 @@
 import uuidv1 from 'node-uuid';
 
+export const notificationActions = {
+    MESSAGE: 'MESSAGE',
+    CLEAR_MESSAGE: 'CLEAR_MESSAGE',
+    ADD_PRODUCT_TO_PURCHASE: 'ADD_PRODUCT_TO_PURCHASE',
+    CLEAR_ITEMS: 'CLEAR_ITEMS'
+};
+
+export const notificationTypes = {
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR'
+};
+
 export const initialState = {
     notifications: [],
     purchasedItems: [],
-    purchaseNotificationTimeout: 2500
+    purchaseNotificationTimeout: 2500,
+    purchaseNotificationStartTime: null
 };
 
 const getId = () => uuidv1();
@@ -18,13 +31,13 @@ export const successMessage = (message, duration = 4000) => {
     return async dispatch => {
         dispatch({
             id,
-            type: 'MESSAGE',
-            messageType: 'SUCCESS',
+            type: notificationActions.MESSAGE,
+            messageType: notificationTypes.SUCCESS,
             message
         });
         await wait(duration);
         dispatch({
-            type: 'CLEAR_MESSAGE',
+            type: notificationActions.CLEAR_MESSAGE,
             id
         });
     };
@@ -40,13 +53,13 @@ export const errorMessage = (message, duration = 4000) => {
     return async dispatch => {
         dispatch({
             id,
-            type: 'MESSAGE',
-            messageType: 'ERROR',
+            type: notificationActions.MESSAGE,
+            messageType: notificationTypes.ERROR,
             message
         });
         await wait(duration);
         dispatch({
-            type: 'CLEAR_MESSAGE',
+            type: notificationActions.CLEAR_MESSAGE,
             id
         });
     };
@@ -58,14 +71,14 @@ export const errorMessage = (message, duration = 4000) => {
  */
 export const addProductToNotification = product => {
     return {
-        type: 'ADD_PRODUCT_TO_PURCHASE',
+        type: notificationActions.ADD_PRODUCT_TO_PURCHASE,
         data: product
     };
 };
 
 export const clearProductsFromNotification = () => {
     return {
-        type: 'CLEAR_ITEMS'
+        type: notificationActions.CLEAR_ITEMS
     };
 };
 
@@ -83,7 +96,7 @@ const wait = duration =>
  */
 const notificationReducer = (state = initialState, action) => {
     switch (action.type) {
-    case 'MESSAGE': {
+    case notificationActions.MESSAGE: {
         return Object.assign({}, state, {
             notifications: [
                 ...state.notifications,
@@ -95,7 +108,7 @@ const notificationReducer = (state = initialState, action) => {
             ]
         });
     }
-    case 'CLEAR_MESSAGE': {
+    case notificationActions.CLEAR_MESSAGE: {
         const newNotifications = state.notifications.filter(
             notification => notification.id !== action.id
         );
@@ -103,7 +116,7 @@ const notificationReducer = (state = initialState, action) => {
             notifications: [...newNotifications]
         });
     }
-    case 'ADD_PRODUCT_TO_PURCHASE': {
+    case notificationActions.ADD_PRODUCT_TO_PURCHASE: {
         // Product
         const product = state.purchasedItems.find(
             product => product.barcode === action.data.barcode
@@ -111,7 +124,8 @@ const notificationReducer = (state = initialState, action) => {
 
         if (!product) {
             return Object.assign({}, state, {
-                purchasedItems: [...state.purchasedItems, action.data]
+                purchasedItems: [...state.purchasedItems, action.data],
+                purchaseNotificationStartTime: new Date()
             });
         } else {
             // Product exists, increment amount
@@ -126,12 +140,16 @@ const notificationReducer = (state = initialState, action) => {
                 }
             });
             return Object.assign({}, state, {
-                purchasedItems: [...products]
+                purchasedItems: [...products],
+                purchaseNotificationStartTime: new Date()
             });
         }
     }
-    case 'CLEAR_ITEMS':
-        return Object.assign({}, state, { purchasedItems: [] });
+    case notificationActions.CLEAR_ITEMS:
+        return Object.assign({}, state, {
+            purchasedItems: [],
+            purchaseNotificationStartTime: null
+        });
     default:
         return state;
     }

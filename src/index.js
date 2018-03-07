@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './reset.css';
 import './components/animations/animations.css';
+import './index.css';
 
 import App from './App';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
@@ -15,6 +16,8 @@ import authenticationReducer from './reducers/authenticationReducer';
 import shoppingCartReducer from './reducers/shoppingCartReducer';
 import registerReducer from './reducers/registerReducer';
 import loginReducer from './reducers/loginReducer';
+import terminalReducer from './reducers/terminalReducer';
+import userReducer from './reducers/userReducer';
 
 // Combine reducers
 const reducer = combineReducers({
@@ -22,7 +25,9 @@ const reducer = combineReducers({
     authentication: authenticationReducer,
     shoppingCart: shoppingCartReducer,
     register: registerReducer,
-    login: loginReducer
+    login: loginReducer,
+    terminal: terminalReducer,
+    user: userReducer
 });
 
 const middleware =
@@ -43,6 +48,7 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
     // Log initial state
     console.log(store.getState());
+    console.log('Back-end url: %s', process.env.REACT_APP_BACKEND_URL);
 }
 
 ReactDOM.render(

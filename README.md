@@ -1,6 +1,6 @@
 # rv-app-frontend
 
-[![Build Status](https://travis-ci.org/ohtu2018-rv/rv-app-frontend.svg?branch=develop)](https://travis-ci.org/ohtu2018-rv/rv-app-frontend) [Codecov badge]
+[![Build Status](https://travis-ci.org/ohtu2018-rv/rv-app-frontend.svg?branch=develop)](https://travis-ci.org/ohtu2018-rv/rv-app-frontend) [![codecov](https://codecov.io/gh/ohtu2018-rv/rv-app-frontend/branch/develop/graph/badge.svg)](https://codecov.io/gh/ohtu2018-rv/rv-app-frontend)
 
 ## Introduction
 
@@ -65,6 +65,66 @@ New features or fixes must have a branch. Pushing directly to develop or master 
 ## Build pipeline
 
 When code is pushed to GitHub and a pull request is made to either ```develop``` or ```master``` branch, Travis CI will run tests for the project and deploy it to Heroku, if all test have passed.
+
+## Project Structure
+
+```
+src/
+  index.js
+    Setups the project, combines reducers to a store.
+  app.js
+    Renders all other components.
+  __tests__/
+    Contains all tests.
+  services/
+    Contains all communication with backend.
+  reducers/
+    Contains Redux-implementations. Most of functionality stored here.
+  components/
+    animations/
+    buttons/
+    forms/
+    helpers/
+      Constains helpers for styling.
+    loaders/
+      Contains styled loading icons.
+    notifications/
+    pages/
+      Contains main views. ~Login, Mainpage
+    sections/
+      Contains all structural elements.
+```
+
+## Component rendering tree
+
+```
+App
+    NotificationDrawer
+        SuccessNotification
+        ErrorNotification
+        PurchaseNotification
+            SuccessNotification
+    LoginPage
+        LoginHeader
+        LoginForm
+            SuccessBtn
+        TopBalanceUsers
+    RegistrationPage
+        LoginHeader
+        RegisterForm
+            SuccessBtn
+    MainPage
+        Header
+            DangerBtn
+                Loader
+            BasicBtn
+                Loader
+            Margin
+        Content
+            FeaturedProducts
+            Terminal
+```
+
 
 ## License
 
