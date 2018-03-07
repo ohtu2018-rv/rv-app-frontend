@@ -95,6 +95,37 @@ src/
       Contains all structural elements.
 ```
 
+## Component rendering tree
+
+```
+App
+    NotificationDrawer
+        SuccessNotification
+        ErrorNotification
+        PurchaseNotification
+            SuccessNotification
+    LoginPage
+        LoginHeader
+        LoginForm
+            SuccessBtn
+        TopBalanceUsers
+    RegistrationPage
+        LoginHeader
+        RegisterForm
+            SuccessBtn
+    MainPage
+        Header
+            DangerBtn
+                Loader
+            BasicBtn
+                Loader
+            Margin
+        Content
+            FeaturedProducts
+            Terminal
+```
+
+
 ## License
 
 This project is licensed with GNU GPL v2 license.
