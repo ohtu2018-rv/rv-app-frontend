@@ -4,7 +4,7 @@ import RegisterForm from '../components/forms/RegisterForm';
 import configureStore from 'redux-mock-store';
 import initialState from './initialState.js';
 import { Provider } from 'react-redux';
-import { mount} from 'enzyme';
+import { mount } from 'enzyme';
 
 describe('RegisterForm component', () => {
     const mockStore = configureStore();
@@ -27,7 +27,7 @@ describe('RegisterForm component', () => {
 
         it('if passwords dont match submit is disabled', () => {
             const registerForm = mount(<RegisterForm store={store} />);
-    
+
             const username = registerForm.find('#registerUsername');
             const email = registerForm.find('#registerEmail');
             const realname = registerForm.find('#registerRealname');
@@ -48,7 +48,7 @@ describe('RegisterForm component', () => {
 
         it('if passwords match submit is enabled', () => {
             const registerForm = mount(<RegisterForm store={store} />);
-    
+
             const username = registerForm.find('#registerUsername');
             const email = registerForm.find('#registerEmail');
             const realname = registerForm.find('#registerRealname');
@@ -61,7 +61,6 @@ describe('RegisterForm component', () => {
 
             console.log(submit.props().disabled);
             */
-            
         });
     });
 });
