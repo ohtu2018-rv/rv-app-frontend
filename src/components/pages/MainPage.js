@@ -19,6 +19,8 @@ import {
     resetUserData
 } from './../../reducers/userReducer';
 
+import { getProducts } from './../../reducers/productReducer';
+
 import userService from '../../services/userService';
 
 class MainPage extends Component {
@@ -61,6 +63,7 @@ class MainPage extends Component {
         }, 100);
         this.setState({ notificationInterval });
         document.addEventListener('keypress', this.handleKeyPress);
+        this.props.getProducts();
     }
 
     componentWillUnmount() {
@@ -140,7 +143,8 @@ const mapDispatchToProps = {
     clearProductsFromNotification,
     increaseBalance,
     decreaseBalance,
-    resetUserData
+    resetUserData,
+    getProducts
 };
 
 const mapStateToProps = state => {
