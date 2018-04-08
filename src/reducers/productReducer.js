@@ -2,11 +2,13 @@ import productService from '../services/productService';
 
 export const productActions = {
     SET_GETTING_PRODUCTS: 'GETTING_PRODUCTS',
-    SET_PRODUCTS: 'SET_PRODUCTS'
+    SET_PRODUCTS: 'SET_PRODUCTS',
+    SET_FILTERED_PRODUCTS: 'SET_FILTERED_PRODUCTS'
 };
 
 export const initialState = {
     products: [],
+    filteredProducts: [],
     gettingProducts: false
 };
 
@@ -25,6 +27,16 @@ export const getProducts = () => {
     };
 };
 
+export const filterProducts = (searchString, products) => {
+    const filteredProducts = products.filter(product => 
+        product.product_name.trim().toLowerCase().includes(searchString.trim().toLowerCase())
+    );
+    return {
+        type: productActions.SET_FILTERED_PRODUCTS,
+        filteredProducts
+    };
+};
+
 /**
 * Product reducer.
 * @param {object} state
@@ -40,6 +52,10 @@ const productReducer = (state = initialState, action) => {
         return Object.assign({}, state, {
             products: action.products,
             gettingProducts: false
+        });
+    case productActions.SET_FILTERED_PRODUCTS:
+        return Object.assign({}, state, {
+            filteredProducts: action.filteredProducts
         });
     default:
         return state;
