@@ -43,6 +43,9 @@ class MainPage extends Component {
                 this.props.logout();
             }
             break;
+        case 100:
+            
+            break;
         default:
             console.log(event.keyCode);
         }

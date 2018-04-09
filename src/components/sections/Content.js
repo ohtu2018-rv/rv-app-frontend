@@ -2,6 +2,7 @@ import React from 'react';
 import './styles/Content.css';
 import { Grid, Col, Row } from 'react-flexbox-grid';
 import FeaturedProducts from './FeaturedProducts';
+import Deposit from './Deposit';
 import Terminal from './Terminal';
 
 import { connect } from 'react-redux';
@@ -28,6 +29,7 @@ export class Content extends React.Component {
                         </Col>
                         <Col xs={2} />
                     </Row>
+                    <Deposit />
                 </Grid>
             </main>
         );
