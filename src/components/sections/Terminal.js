@@ -60,7 +60,7 @@ const mapStateToProps = state => {
     return {
         terminalInput: state.terminal.terminalInput,
         inputValid: state.terminal.inputValid,
-        token: state.authentication.access_token
+        token: state.user.accessToken
     };
 };
 

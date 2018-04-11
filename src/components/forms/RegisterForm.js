@@ -17,7 +17,6 @@ import {
     errorMessage
 } from '../../reducers/notificationReducer';
 
-import { loggedIn } from '../../reducers/authenticationReducer';
 import userService from '../../services/userService';
 
 class RegisterForm extends React.Component {
@@ -49,34 +48,7 @@ class RegisterForm extends React.Component {
         event.preventDefault();
 
         if (this.formValid()) {
-            try {
-                // Register new user
-                const response = await userService.registerUser({
-                    username: this.props.registerUsername,
-                    password: this.props.registerPassword,
-                    realname: this.props.registerRealname,
-                    email: this.props.registerEmail
-                });
-
-                // registration successful, log in
-                if (response.status === 201) {
-                    const loginResponse = await userService.authenticate({
-                        username: this.props.registerUsername,
-                        password: this.props.registerPassword
-                    });
-
-                    this.props.reset();
-                    this.props.loggedIn(loginResponse.data.access_token);
-                } else {
-                    this.props.errorMessage('Unknown error during registration');
-                }
-            } catch (error) {
-                if (error.response.data.error) {
-                    this.props.errorMessage(error.response.data.error);
-                } else {
-                    this.props.errorMessage('Unknown error during registration');
-                }
-            }
+            return;
         }
     }
 
@@ -206,8 +178,7 @@ const mapDispatchToProps = {
     focusPasswordConfirmField,
     checkPasswordsMatch,
     successMessage,
-    errorMessage,
-    loggedIn
+    errorMessage
 };
 
 const mapStateToProps = state => {

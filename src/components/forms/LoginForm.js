@@ -4,123 +4,38 @@ import './styles/LoginForm.css';
 import SuccessBtn from './../buttons/SuccessBtn';
 
 import { connect } from 'react-redux';
-import {
-    loggingIn,
-    loggedIn,
-    loginFailed
-} from './../../reducers/authenticationReducer';
 import { errorMessage } from './../../reducers/notificationReducer';
-import userService from './../../services/userService';
-import {
-    handleInputEvent,
-    reset,
-    focusPasswordField,
-    focusUsernameField
-} from './../../reducers/loginReducer';
-
 import { Link } from 'react-router-dom';
-
-// Remove for something smarter
-let timeout;
+import { login } from '../../reducers/userReducer';
 
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
-
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-        this.nextStep = this.nextStep.bind(this);
+        this.validateForm = this.validateForm.bind(this);
+        this.state = {
+            formValid: false
+        };
     }
 
     handleSubmit(e) {
         e.preventDefault();
+        if (this.state.formValid) {
+            this.props.login(
+                this.usernameInput.value,
+                this.passwordInput.value
+            );
+        }
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyPress);
-        document.addEventListener('keypress', this.handleKeyPress);
         this.usernameInput.focus();
     }
 
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyPress);
-        document.removeEventListener('keypress', this.handleKeyPress);
-        clearTimeout(timeout);
-        this.props.reset();
-    }
-
-    wait(timeout) {
-        return new Promise(resolve => setTimeout(resolve, timeout));
-    }
-
-    async nextStep() {
-        if (this.props.loginStep === 1) {
-            this.props.focusPasswordField();
-            this.passwordInput.focus();
-        } else if (this.props.loginStep === 2) {
-            // Set loggingIn
-            this.props.loggingIn();
-            // Try to login
-            try {
-                const res = await userService.authenticate({
-                    username: this.props.username,
-                    password: this.props.password
-                });
-                // If access token is found, set it and login
-                if (res.data.access_token) {
-                    this.props.loggedIn(res.data.access_token);
-                } else {
-                    // Reset form
-                    this.props.reset();
-                    // Login has failed
-                    this.props.loginFailed();
-                    // Focus username input
-                    this.usernameInput.focus();
-                    // Set login step to 1
-                    this.props.focusUsernameField();
-                    // Send error message
-                    this.props.errorMessage(
-                        'Unknown error while logging in.',
-                        2500
-                    );
-                }
-            } catch (err) {
-                // Error response
-                const errorResponse = err.response;
-                // Reset form
-                this.props.reset();
-                // Send login failed
-                this.props.loginFailed();
-                // Focus username input
-                this.usernameInput.focus();
-                this.props.focusUsernameField();
-                // Server error
-                if (errorResponse.status === 500) {
-                    this.props.errorMessage('Server error', 2500);
-                } else if (
-                    errorResponse.status === 403 ||
-                    errorResponse.status === 400
-                ) {
-                    // Validation error
-                    this.props.errorMessage(errorResponse.data.message, 2500);
-                }
-            }
-        }
-    }
-
-    handleKeyPress(event) {
-        switch (event.keyCode) {
-        case 13:
-            event.preventDefault();
-            this.nextStep();
-            break;
-        case 9:
-            event.preventDefault();
-            this.nextStep();
-            break;
-        default:
-            break;
-        }
+    validateForm() {
+        this.setState({
+            formValid: this.usernameInput.value && this.passwordInput.value
+        });
     }
 
     render() {
@@ -140,16 +55,11 @@ class LoginForm extends React.Component {
                             id="username"
                             name="username"
                             placeholder="Käyttäjätunnus"
-                            value={this.props.username}
-                            onChange={event =>
-                                this.props.handleInputEvent(event)
-                            }
-                            onKeyDown={this.handleKeyUp}
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             className="input fullWidth"
-                            disabled={this.props.usernameDisabled}
+                            onChange={this.validateForm}
                             ref={input => {
                                 this.usernameInput = input;
                             }}
@@ -161,16 +71,11 @@ class LoginForm extends React.Component {
                             id="password"
                             name="password"
                             placeholder="Salasana"
-                            value={this.props.password}
-                            onChange={event =>
-                                this.props.handleInputEvent(event)
-                            }
-                            onKeyDown={this.handleKeyUp}
                             className="input fullWidth"
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
-                            disabled={this.props.passwordDisabled}
+                            onChange={this.validateForm}
                             ref={input => {
                                 this.passwordInput = input;
                             }}
@@ -180,13 +85,7 @@ class LoginForm extends React.Component {
                         <SuccessBtn
                             fill
                             loader={this.props.isLoggingIn}
-                            disabled={
-                                !(
-                                    !this.props.submitDisabled &&
-                                    this.props.password.length >
-                                        this.props.minPasswordLength
-                                )
-                            }
+                            disabled={!this.state.formValid}
                             style={{ width: '100%' }}
                         >
                             Kirjaudu sisään (ENTER)
@@ -202,26 +101,13 @@ class LoginForm extends React.Component {
 }
 
 const mapDispatchToProps = {
-    reset,
-    handleInputEvent,
-    focusPasswordField,
-    focusUsernameField,
-    loggingIn,
-    loggedIn,
     errorMessage,
-    loginFailed
+    login
 };
 
 const mapStateToProps = state => {
     return {
-        username: state.login.username,
-        password: state.login.password,
-        minPasswordLength: state.login.minPasswordLength,
-        loginStep: state.login.loginStep,
-        usernameDisabled: state.login.usernameDisabled,
-        passwordDisabled: state.login.passwordDisabled,
-        submitDisabled: state.login.submitDisabled,
-        isLoggingIn: state.authentication.isLoggingIn
+        isLoggingIn: state.user.isLoggingIn
     };
 };
 

@@ -4,8 +4,6 @@ import Content from '../sections/Content';
 
 import { connect } from 'react-redux';
 
-import { logout } from './../../reducers/authenticationReducer';
-
 import {
     successMessage,
     errorMessage,
@@ -16,7 +14,7 @@ import {
 import {
     increaseBalance,
     decreaseBalance,
-    resetUserData
+    logout
 } from './../../reducers/userReducer';
 
 import { getProducts } from './../../reducers/productReducer';
@@ -41,7 +39,6 @@ class MainPage extends Component {
         switch (event.keyCode) {
         case 13:
             if (this.props.terminalInput === '') {
-                this.props.resetUserData();
                 this.props.logout();
             }
             break;
@@ -143,18 +140,17 @@ const mapDispatchToProps = {
     clearProductsFromNotification,
     increaseBalance,
     decreaseBalance,
-    resetUserData,
     getProducts
 };
 
 const mapStateToProps = state => {
     return {
-        token: state.authentication.access_token,
+        token: state.user.accessToken,
         purchaseNotificationTimeout:
             state.notification.purchaseNotificationTimeout,
         purchaseNotificationStartTime:
             state.notification.purchaseNotificationStartTime,
-        user: state.user,
+        user: state.user.profile,
         terminalInput: state.terminal.terminalInput
     };
 };
