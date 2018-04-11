@@ -91,14 +91,24 @@ export class Deposit extends Component {
                     >
                         + 20.00 €
                     </button>
-                    <button className="btn number cancel">Peruuta</button>
+                    <button 
+                        className="btn number cancel"
+                        onClick={this.props.close}
+                    >
+                        Peruuta
+                    </button>
                     <button
                         className="btn number increment"
                         onClick={this.handleIncrementChange(5000)}
                     >
                         + 50.00 €
                     </button>
-                    <button className="btn number success">OK</button>
+                    <button 
+                        className="btn number success"
+                        onClick={this.props.close}
+                    >
+                        OK
+                    </button>
                 </div>
             </div>
         );
