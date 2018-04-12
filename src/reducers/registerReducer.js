@@ -1,111 +1,38 @@
+import userService from '../services/userService';
+import { login } from './userReducer';
+import { errorMessage } from './notificationReducer';
+
 export const initialState = {
-    registerVisible: false,
-    registerUsername: '',
-    registerPassword: '',
-    registerEmail: '',
-    registerRealname: '',
-    registerPasswordConfirm: '',
-    minUsernameLength: 4,
-    minPasswordLength: 4,
-    registerUsernameDisabled: false,
-    registerPasswordDisabled: true,
-    registerEmailDisabled: true,
-    registerRealnameDisabled: true,
-    submitDisabled: true,
-    loader: false,
-    registerStep: 1,
-    registerPasswordConfirmDisabled: true,
-    passwordsMatch: false
+    isRegistering: false
 };
 
 export const registerActions = {
-    TOGGLE_REGISTER_VISIBILITY: 'TOGGLE_REGISTER_VISIBILITY',
-    RESET_REGISTER: 'RESET_REGISTER',
-    INPUT_EVENT_REGISTER: 'INPUT_EVENT_REGISTER',
-    REGISTERING: 'REGISTERING',
-    FOCUS_PASSWORD_FIELD_REGISTER: 'FOCUS_PASSWORD_FIELD_REGISTER',
-    FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER: 'FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER',
-    MARK_PASSWORD_MATCH: 'MARK_PASSWORD_MATCH',
-    FOCUS_EMAIL_FIELD: 'FOCUS_EMAIL_FIELD',
-    FOCUS_REALNAME_FIELD: 'FOCUS_REALNAME_FIELD'
+    SET_REGISTERING: 'SET_REGISTERING'
 };
 
-export const toggleRegisterVisibility = () => {
-    return {
-        type: registerActions.TOGGLE_REGISTER_VISIBILITY
+export const setRegistering = registering => ({
+    type: registerActions.SET_REGISTERING,
+    isRegistering: registering
+});
+
+
+export const submitRegistration = user => {
+    return async dispatch => {
+        dispatch(setRegistering(true));
+        try {
+            await userService.registerUser(user);
+            dispatch(login(user.username, user.password));
+        } catch (err) {
+            if (err.response) {
+                dispatch(errorMessage(err.response.data.error));
+            } else {
+                dispatch(errorMessage('Tuntematon virhe rekisteröitymisessä'));
+            }
+        } finally {
+            dispatch(setRegistering(false));
+        }
     };
 };
-
-export const checkPasswordsMatch = (password, confirmPassword) => {
-    return {
-        type: registerActions.MARK_PASSWORD_MATCH,
-        passwordsMatch: (password === confirmPassword)
-    };
-};
-
-export const reset = () => {
-    return {
-        type: registerActions.RESET_REGISTER
-    };
-};
-
-export const handleInputEvent = event => {
-    return {
-        type: registerActions.INPUT_EVENT_REGISTER,
-        target: event.target.name,
-        value: event.target.value
-    };
-};
-
-export const setRegistering = event => {
-    return {
-        type: registerActions.REGISTERING,
-        registerUsernameDisabled: true,
-        registerPasswordDisabled: true,
-        loader: true
-    };
-};
-
-export const focusEmailField = () => {
-    return {
-        type: registerActions.FOCUS_EMAIL_FIELD,
-        registerStep: 2,
-        registerUsernameDisabled: true
-    };
-};
-
-export const focusRealnameField = () => {
-    return {
-        type: registerActions.FOCUS_REALNAME_FIELD,
-        registerStep: 3,
-        registerUsernameDisabled: true,
-        registerEmailDisabled: true,
-        registerPasswordDisabled: true
-    };
-};
-
-export const focusPasswordField = () => {
-    return {
-        type: registerActions.FOCUS_PASSWORD_FIELD_REGISTER,
-        registerStep: 4,
-        registerUsernameDisabled: true,
-        registerEmailDisabled: true,
-        registerRealnameDisabled: true,
-        registerRealnamedDisabled: true
-    };
-};
-
-export const focusPasswordConfirmField = () => {
-    return {
-        type: registerActions.FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER,
-        registerStep: 5,
-        registerUsernameDisabled: true,
-        registerPasswordDisabled: true,
-        registerPasswordConfirmDisabled: false,
-        submitDisabled: false
-    };
-};
-
 
 /**
  * Registration reducer.
@@ -114,44 +41,9 @@ export const focusPasswordConfirmField = () => {
  */
 const registerReducer = (state = initialState, action) => {
     switch (action.type) {
-    case registerActions.TOGGLE_REGISTER_VISIBILITY:
+    case registerActions.SET_REGISTERING:
         return Object.assign({}, state, {
-            registerVisible: !state.registerVisible
-        });
-    case registerActions.RESET_REGISTER:
-        return Object.assign({}, initialState);
-    case registerActions.INPUT_EVENT_REGISTER:
-        return Object.assign({}, state, { [action.target]: action.value });
-    case registerActions.FOCUS_PASSWORD_FIELD_REGISTER:
-        return Object.assign({}, state, {
-            registerStep: action.registerStep,
-            registerUsernameDisabled: action.registerUsernameDisabled,
-            registerPasswordDisabled: action.registerPasswordDisabled,
-            submitDisabled: action.submitDisabled
-        });
-    case registerActions.FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER:
-        return Object.assign({}, state, {
-            registerStep: action.registerStep,
-            registerUsernameDisabled: action.registerUsernameDisabled,
-            registerPasswordDisabled: action.registerPasswordDisabled,
-            registerPasswordConfirmDisabled: action.registerConfirmPasswordDisabled,
-            submitDisabled: action.submitDisabled
-        });
-    case registerActions.REGISTERING:
-        return Object.assign({}, state, {
-            registerUsernameDisabled: true,
-            registerPasswordDisabled: true,
-            loader: true
-        });
-    case registerActions.MARK_PASSWORD_MATCH:
-        return Object.assign({}, state, {
-            passwordsMatch: action.passwordsMatch
-        });
-    case registerActions.FOCUS_EMAIL_FIELD:
-    case registerActions.FOCUS_REALNAME_FIELD:
-        return Object.assign({}, state, {
-            ...state,
-            action
+            isRegistering: action.isRegistering
         });
     default:
         return state;

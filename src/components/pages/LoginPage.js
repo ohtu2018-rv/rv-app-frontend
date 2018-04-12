@@ -6,7 +6,6 @@ import TopBalanceUsers from '../sections/TopBalanceUsers';
 import './styles/LoginPage.css';
 
 import { connect } from 'react-redux';
-import { toggleRegisterVisibility } from './../../reducers/registerReducer';
 import { Redirect } from 'react-router-dom';
 
 class LoginPage extends React.Component {
@@ -37,13 +36,10 @@ class LoginPage extends React.Component {
     }
 }
 
-const mapDispatchToProps = {
-    toggleRegisterVisibility
-};
+const mapDispatchToProps = {};
 
 const mapStateToProps = state => {
     return {
-        registerVisible: state.register.registerVisible,
         loggedIn: state.user.loggedIn
     };
 };
