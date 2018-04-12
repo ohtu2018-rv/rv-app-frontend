@@ -12,7 +12,6 @@ import thunk from 'redux-thunk';
 
 // Import reducers
 import notificationReducer from './reducers/notificationReducer';
-import shoppingCartReducer from './reducers/shoppingCartReducer';
 import registerReducer from './reducers/registerReducer';
 import terminalReducer from './reducers/terminalReducer';
 import userReducer from './reducers/userReducer';
@@ -21,7 +20,6 @@ import productReducer from './reducers/productReducer';
 // Combine reducers
 const reducer = combineReducers({
     notification: notificationReducer,
-    shoppingCart: shoppingCartReducer,
     register: registerReducer,
     terminal: terminalReducer,
     user: userReducer,
