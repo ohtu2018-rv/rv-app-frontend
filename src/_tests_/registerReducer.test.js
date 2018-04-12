@@ -1,39 +1,75 @@
-import RegisterReducer from '../reducers/registerReducer'
 import { 
-    toggleRegisterVisibility,
-    checkPasswordsMatch,
-    reset,
-    handleInputEvent,
     setRegistering,
-    focusEmailField,
-    focusRealnameField,
-    focusPasswordField,
-    focusPasswordConfirmField
-} from '../reducers/registerReducer'
+    submitRegistration
+} from '../reducers/registerReducer';
+
+import {
+    setLoggingIn,
+    setAccessToken
+} from '../reducers/userReducer';
+
+import {
+    errorMessage
+} from '../reducers/notificationReducer';
+
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
+jest.mock('axios');
+
+const initialState = require('./initialState');
+let mockStore = configureStore([thunk])(initialState);
 
 describe('RegisterReducer', () => {
+    beforeEach(() => {
+        mockStore = configureStore([thunk])(initialState);
+    });
+
     it('action creators return correct actions', () => {
-        expect(toggleRegisterVisibility()).toEqual({"type": "TOGGLE_REGISTER_VISIBILITY"})
-        expect(checkPasswordsMatch()).toEqual({"passwordsMatch": true, "type": "MARK_PASSWORD_MATCH"})
-        expect(reset()).toEqual({"type": "RESET_REGISTER"})
-        expect(handleInputEvent({ target: { value: "e" } })).toEqual({"target": undefined, "type": "INPUT_EVENT_REGISTER", "value": "e"})
-        expect(setRegistering()).toEqual({"loader": true, "registerPasswordDisabled": true, "registerUsernameDisabled": true, "type": "REGISTERING"})
-        expect(focusEmailField()).toEqual({"registerStep": 2, "registerUsernameDisabled": true, "type": "FOCUS_EMAIL_FIELD"})
-        expect(focusRealnameField()).toEqual({"registerEmailDisabled": true, "registerPasswordDisabled": true, "registerStep": 3, "registerUsernameDisabled": true, "type": "FOCUS_REALNAME_FIELD"})
-        expect(focusPasswordConfirmField()).toEqual({"registerPasswordConfirmDisabled": false, "registerPasswordDisabled": true, "registerStep": 5, "registerUsernameDisabled": true, "submitDisabled": false, "type": "FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER"})
+        expect(setRegistering(true)).toEqual({ type: 'SET_REGISTERING', isRegistering: true });
+        expect(setRegistering(false)).toEqual({ type: 'SET_REGISTERING', isRegistering: false });
     });
 
-    it('input is dispatched correctly', () => {
-        expect(handleInputEvent({ target: { value: "test" } })).toEqual({"target": undefined, "type": "INPUT_EVENT_REGISTER", "value": "test"})
-    });
+    it('successful registration dispatches correct actions', () => {
+        return mockStore.dispatch(submitRegistration({
+            username: 'user',
+            realname: 'User',
+            email: 'something@example.com',
+            password: 'pass'
+        })).then(() => {
+            const expectedActions = [
+                setRegistering(true),
+                setLoggingIn(true),
+                setRegistering(false),
+                setAccessToken('access token')
+            ];
 
-    describe('Password match', () => {
-        it('dispatched false on not equal', () => {
-            expect(checkPasswordsMatch("is", "not is")).toEqual({"passwordsMatch": false, "type": "MARK_PASSWORD_MATCH"})
+            expect(mockStore.getActions()).toEqual(expectedActions);
         });
-    
-        it('dispatched true on equal', () => {
-            expect(checkPasswordsMatch("is", "is")).toEqual({"passwordsMatch": true, "type": "MARK_PASSWORD_MATCH"})
-        });  
+
+    });
+
+    it('unsuccessful registration dispatches correct actions', () => {
+        return mockStore.dispatch(submitRegistration({
+            username: 'duplicate',
+            realname: 'User',
+            email: 'something@example.com',
+            password: 'pass'
+        })).then(() => {
+            const expectedActions = [
+                setRegistering(true),
+                {
+                    type: 'MESSAGE',
+                    messageType: 'ERROR',
+                    message: 'error'
+                },
+                setRegistering(false)
+            ];
+            
+            let actions = mockStore.getActions();
+            delete actions[1]['id'];
+
+            expect(actions).toEqual(expectedActions);
+        });
     });
 });

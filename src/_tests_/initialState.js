@@ -1,18 +1,13 @@
-/*
-    Initial state of the application for mocking React Redux
-*/
-import { initialState as notification } from './../reducers/notificationReducer';
-import { initialState as authentication } from './../reducers/authenticationReducer';
-import { initialState as login } from './../reducers/loginReducer';
-import { initialState as register } from './../reducers/registerReducer';
-import { initialState as shoppingCart } from './../reducers/shoppingCartReducer';
+import { initialState as notificationState } from '../reducers/notificationReducer';
+import { initialState as registerState } from '../reducers/registerReducer';
+import { initialState as terminalState } from '../reducers/terminalReducer';
+import { initialState as userState } from '../reducers/userReducer';
 
-const initialState = {
-    notification,
-    shoppingCart,
-    authentication,
-    login,
-    register
+const state = {
+    notification: notificationState,
+    register: registerState,
+    terminal: terminalState,
+    user: userState
 };
 
-export default initialState;
+export default state;

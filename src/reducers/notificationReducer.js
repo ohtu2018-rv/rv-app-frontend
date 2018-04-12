@@ -1,4 +1,4 @@
-import uuidv1 from 'node-uuid';
+import uuidv1 from 'uuid/v1';
 
 export const notificationActions = {
     MESSAGE: 'MESSAGE',
