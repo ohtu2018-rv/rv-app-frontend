@@ -5,7 +5,12 @@ import {
 } from '../reducers/notificationReducer';
 
 export const initialState = {
-    profile: null,
+    profile: {
+        username: null,
+        full_name: null,
+        email: null,
+        acount_balance: null
+    },
     isLoggingIn: false,
     loggedIn: false,
     accessToken: null

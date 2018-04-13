@@ -53,6 +53,24 @@ const registerMock = (data, resolve, reject) => {
     }
 };
 
+const productsMock = (data, resolve, reject) => {
+    resolve({
+        data: {
+            products: [
+                {
+                    product_id: 123,
+                    product_name: 'Test product',
+                    product_barcode: '123456789012',
+                    product_group: 1,
+                    sellprice: 100,
+                    buyprice: 80,
+                    quantity: 100
+                }
+            ]
+        }
+    });
+};
+
 function post(url, data = {}) {
     return new Promise((resolve, reject) => {
         if (url === `${BACKEND_URL}/api/v1/user/authenticate`) {
@@ -76,7 +94,10 @@ function get(url, data = {}) {
     return new Promise((resolve, reject) => {
         if (url === `${BACKEND_URL}/api/v1/user/account`) {
             userDataMock(data, resolve, reject);
-        } else {
+        } else if (url === `${BACKEND_URL}/api/v1/user/products`) {
+            productsMock(data, resolve, reject);
+        }
+        else {
             reject({
                 data: {},
                 status: 404,

@@ -4,7 +4,7 @@ import { RegisterForm } from '../components/forms/RegisterForm';
 import configureStore from 'redux-mock-store';
 import initialState from './initialState.js';
 import { Provider } from 'react-redux';
-import { mount} from 'enzyme';
+import { mount } from 'enzyme';
 
 describe('RegisterForm component', () => {
     const mockStore = configureStore();
@@ -15,8 +15,7 @@ describe('RegisterForm component', () => {
     });
 
     it('renders without crashing', () => {
-        const div = document.createElement('div');
-        ReactDOM.render(<RegisterForm store={store} />, div);
+        mount(<RegisterForm/>);
     });
     
 });

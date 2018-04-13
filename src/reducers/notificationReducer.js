@@ -88,10 +88,10 @@ export const buyNotification = product => {
         const duration = getState().notification.purchaseNotificationTimeout;
 
         if (timeoutId) {
-            window.clearTimeout(timeoutId);
+            clearTimeout(timeoutId);
         }
 
-        dispatch(setPurchaseTimeoutId(window.setTimeout(() => {
+        dispatch(setPurchaseTimeoutId(setTimeout(() => {
             dispatch(clearProductsFromNotification());
             dispatch(setPurchaseTimeoutId(null));
         }, duration)));

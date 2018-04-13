@@ -4,6 +4,7 @@ import Content from '../components/sections/Content';
 import configureStore from 'redux-mock-store';
 import initialState from './initialState.js';
 import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
 
 describe('Content component', () => {
     const mockStore = configureStore();
@@ -13,13 +14,10 @@ describe('Content component', () => {
     });
 
     it('renders without crashing', () => {
-        const div = document.createElement('div');
-        /*ReactDOM.render(
+        mount(
             <Provider store={store}>
                 <Content deposit={() => {}} />
-            </Provider>,
-            div
+            </Provider>
         );
-        */
     });
 });
