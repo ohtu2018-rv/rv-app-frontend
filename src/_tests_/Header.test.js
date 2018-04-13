@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Header from '../components/sections/header';
+import Header from '../components/sections/Header';
 import configureStore from 'redux-mock-store';
 import initialState from './initialState';
 import { Provider } from 'react-redux';
