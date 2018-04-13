@@ -1,4 +1,9 @@
 import productService from '../services/productService';
+import {
+    errorMessage,
+    buyNotification
+} from './notificationReducer';
+import { setBalance } from './userReducer';
 
 export const productActions = {
     SET_GETTING_PRODUCTS: 'GETTING_PRODUCTS',
@@ -34,6 +39,33 @@ export const filterProducts = (searchString, products) => {
     return {
         type: productActions.SET_FILTERED_PRODUCTS,
         filteredProducts
+    };
+};
+
+export const buyProduct = (barcode, quantity) => {
+    return async (dispatch, getState) => {
+        const token = getState().user.accessToken;
+
+        try {
+            const res = await productService.buyProduct(barcode, quantity, token);
+
+            const accountBalance = res.data.account_balance;
+            dispatch(setBalance(accountBalance));
+
+            const prod = {
+                barcode: res.data.barcode,
+                quantity: res.data.quantity,
+                product_name: res.data.product_name,
+                price: res.data.price
+            };
+            dispatch(buyNotification(prod));
+        } catch (err) {
+            dispatch(
+                errorMessage(
+                    'Error buying product: ' + err.response.data.message
+                )
+            );
+        }
     };
 };
 

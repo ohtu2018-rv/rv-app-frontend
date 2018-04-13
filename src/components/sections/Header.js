@@ -2,26 +2,10 @@ import React from 'react';
 import DangerBtn from '../buttons/DangerBtn';
 import BasicBtn from '../buttons/BasicBtn';
 import Margin from '../helpers/Margin';
+import { deposit, logout } from '../../reducers/userReducer';
+import { connect } from 'react-redux';
 
 import './styles/Header.css';
-
-const items = [
-    {
-        barcode: '0001',
-        price: 180,
-        product_name: 'Coca-Cola Zero 0.5l'
-    },
-    {
-        barcode: '0002',
-        price: 500,
-        product_name: 'deposit'
-    },
-    {
-        barcode: '0003',
-        price: 120,
-        product_name: 'Twix'
-    }
-];
 
 export class Header extends React.Component {
     render() {
@@ -31,42 +15,9 @@ export class Header extends React.Component {
                     <Margin margin={5} inlineBlock>
                         <BasicBtn
                             hover
-                            onClick={() =>
-                                this.props.buy(
-                                    Object.assign({}, items[0], { quantity: 1 })
-                                )
-                            }
+                            onClick={() => this.props.deposit(500)}
                         >
-                            Testiostos 1 ({parseFloat(
-                                items[0].price / 100
-                            ).toFixed(2)}{' '}
-                            &euro;)
-                        </BasicBtn>
-                    </Margin>
-                    <Margin margin={5} inlineBlock>
-                        <BasicBtn
-                            hover
-                            onClick={() =>
-                                this.props.buy(
-                                    Object.assign({}, items[2], { quantity: 1 })
-                                )
-                            }
-                        >
-                            Testiostos 2 ({parseFloat(
-                                items[2].price / 100
-                            ).toFixed(2)}{' '}
-                            &euro;)
-                        </BasicBtn>
-                    </Margin>
-                    <Margin margin={5} inlineBlock>
-                        <BasicBtn
-                            hover
-                            onClick={() => this.props.deposit(items[1])}
-                        >
-                            Testitalletus ({parseFloat(
-                                items[1].price / 100
-                            ).toFixed(2)}{' '}
-                            &euro;)
+                            Testitalletus 5,00 &euro;
                         </BasicBtn>
                     </Margin>
                 </div>
@@ -92,3 +43,14 @@ export class Header extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps = {
+    deposit,
+    logout
+};
+
+const mapStateToProps = state => ({
+    user: state.user.profile
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

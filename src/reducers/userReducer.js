@@ -1,5 +1,8 @@
 import userService from '../services/userService';
-import { errorMessage } from '../reducers/notificationReducer';
+import { 
+    successMessage,
+    errorMessage 
+} from '../reducers/notificationReducer';
 
 export const initialState = {
     profile: null,
@@ -97,6 +100,26 @@ export const login = (username, password) => {
             dispatch(setLoggingIn(false));
         }
     };
+};
+
+export const deposit = amount => async (dispatch, getState) => {
+    const token = getState().user.accessToken;
+
+    try {
+        await userService.increaseBalance(token, amount);
+        dispatch(increaseBalance(amount));
+        dispatch(successMessage(
+            'Talletettu RV-tilille ' +
+                parseFloat(amount / 100).toFixed(2) +
+                ' €'
+        ));
+    } catch (err) {
+        if (err.response) {
+            dispatch(errorMessage(err.response.data.message));
+        } else {
+            dispatch(errorMessage('Tuntematon virhe saldon lisäämisessä'));
+        }
+    }
 };
 
 /**

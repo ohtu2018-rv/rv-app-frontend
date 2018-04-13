@@ -18,9 +18,7 @@ class Terminal extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         this.props.handleTerminalSubmit(
-            this.props.terminalInput,
-            this.props.deposit,
-            this.props.token
+            this.props.terminalInput
         );
     }
 
@@ -59,8 +57,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
     return {
         terminalInput: state.terminal.terminalInput,
-        inputValid: state.terminal.inputValid,
-        token: state.user.accessToken
+        inputValid: state.terminal.inputValid
     };
 };
 
