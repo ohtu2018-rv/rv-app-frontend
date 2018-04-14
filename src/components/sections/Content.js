@@ -4,14 +4,7 @@ import { Grid, Col, Row } from 'react-flexbox-grid';
 import FeaturedProducts from './FeaturedProducts';
 import Terminal from './Terminal';
 
-import { connect } from 'react-redux';
-
-import {
-    successMessage,
-    errorMessage
-} from './../../reducers/notificationReducer';
-
-export class Content extends React.Component {
+export default class Content extends React.Component {
     render() {
         return (
             <main>
@@ -24,7 +17,7 @@ export class Content extends React.Component {
                     <Row>
                         <Col xs={2} />
                         <Col xs={8}>
-                            <Terminal deposit={this.props.deposit} />
+                            <Terminal />
                         </Col>
                         <Col xs={2} />
                     </Row>
@@ -33,17 +26,3 @@ export class Content extends React.Component {
         );
     }
 }
-
-const mapDispatchToProps = {
-    successMessage,
-    errorMessage
-};
-
-const mapStateToProps = state => {
-    return {
-        success: state.notification.success,
-        error: state.notification.error
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Content);

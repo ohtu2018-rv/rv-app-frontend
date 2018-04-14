@@ -2,85 +2,80 @@ import React from 'react';
 import './styles/LoginForm.css';
 import SuccessBtn from './../buttons/SuccessBtn';
 import { connect } from 'react-redux';
+import { submitRegistration } from '../../reducers/registerReducer';
+import { withRouter } from 'react-router-dom';
 
-import { 
-    handleInputEvent, 
-    reset,
-    focusPasswordField,
-    setRegistering,
-    focusPasswordConfirmField,
-    checkPasswordsMatch
-} from './../../reducers/registerReducer';
-
-import {
-    successMessage,
-    errorMessage
-} from '../../reducers/notificationReducer';
-
-import { loggedIn } from '../../reducers/authenticationReducer';
-import userService from '../../services/userService';
-
-class RegisterForm extends React.Component {
+export class RegisterForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.formValid = this.formValid.bind(this);
+        this.validateForm = this.validateForm.bind(this);
+        this.validationErrors = {};
+
+        this.state = {
+            formValid: false
+        };
     }
 
     componentDidMount() {
-        this.registerUsernameInput.focus();
+        this.usernameInput.focus();
     }
 
-    componentWillUnmount() {
-        this.props.reset();
-    }
+    validateForm() {
+        let username = this.usernameInput.value.trim();
+        let email = this.emailInput.value.trim();
+        let realname = this.realnameInput.value.trim();
+        let password = this.passwordInput.value;
+        let passwordConfirm = this.passwordConfirmInput.value;
 
-    formValid() {
-        return (
-            this.props.registerUsername.length >= this.props.minUsernameLength &&
-            (this.props.passwordsMatch && this.props.registerPassword.length >= this.props.minPasswordLength) &&
-            this.props.registerRealname.length > 0 &&
-            this.props.registerEmail.split('@').length === 2
-        );
+        this.validationErrors = {};
+
+        if (username && username.length < 4) {
+            this.validationErrors['username'] = 'Käyttäjänimen pitää olla vähintään 4 merkkiä pitkä';
+        }
+
+        let emailParts = email.split('@');
+        if (email && (emailParts.length !== 2 || emailParts[1].length < 1)) {
+            this.validationErrors['email'] = 'Anna kelvollinen sähköpostiosoite';
+        }
+
+        if (realname.length === 0) {
+            this.validationErrors['realname'] = 'Anna nimi';
+        }
+
+        if (password.length < 4) {
+            this.validationErrors['password'] = 'Salasanan pitää olla vähintään 4 merkkiä pitkä';
+        }
+
+        if (password !== passwordConfirm) {
+            this.validationErrors['passwordConfirm'] = 'Salasanat eivät täsmää';
+        }
+
+        this.setState({
+            formValid: Object.keys(this.validationErrors).length === 0
+        });
     }
 
     async handleSubmit(event) {
         event.preventDefault();
 
-        if (this.formValid()) {
-            try {
-                // Register new user
-                const response = await userService.registerUser({
-                    username: this.props.registerUsername,
-                    password: this.props.registerPassword,
-                    realname: this.props.registerRealname,
-                    email: this.props.registerEmail
-                });
-
-                // registration successful, log in
-                if (response.status === 201) {
-                    const loginResponse = await userService.authenticate({
-                        username: this.props.registerUsername,
-                        password: this.props.registerPassword
-                    });
-
-                    this.props.reset();
-                    this.props.loggedIn(loginResponse.data.access_token);
-                } else {
-                    this.props.errorMessage('Unknown error during registration');
-                }
-            } catch (error) {
-                if (error.response.data.error) {
-                    this.props.errorMessage(error.response.data.error);
-                } else {
-                    this.props.errorMessage('Unknown error during registration');
-                }
-            }
+        if (this.state.formValid) {
+            this.props.submitRegistration({
+                username: this.usernameInput.value,
+                email: this.emailInput.value,
+                realname: this.realnameInput.value,
+                password: this.passwordInput.value
+            });
         }
     }
 
     render() {
+        if (this.props.isLoggedIn) {
+            this.props.history.push('/');
+            return;
+        }
+
         return (
             <div
                 className={
@@ -94,53 +89,59 @@ class RegisterForm extends React.Component {
                     <div className="formControl">
                         <input
                             type="text"
-                            id="registerUsername"
-                            name="registerUsername"
+                            id="username"
+                            name="username"
                             placeholder="Käyttäjätunnus"
-                            value={this.props.registerUsername}
-                            onChange={(event) => this.props.handleInputEvent(event)}
+                            onChange={this.validateForm}
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             className="input fullWidth"
-                            ref={input => {
-                                this.registerUsernameInput = input;
-                            }}
+                            ref={input => this.usernameInput = input}
                         />
+                        { this.validationErrors['username'] &&
+                            <div className="input-error-message">
+                                {this.validationErrors['username']}
+                            </div>
+                        }
                     </div>
                     <div className="formControl">
                         <input
                             type="text"
-                            id="registerEmail"
-                            name="registerEmail"
+                            id="email"
+                            name="email"
                             placeholder="Sähköpostiosoite"
-                            value={this.props.registerEmail}
-                            onChange={(event) => this.props.handleInputEvent(event)}
+                            onChange={this.validateForm}
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             className="input fullWidth"
-                            ref={input => {
-                                this.registerEmailInput = input;
-                            }}
+                            ref={input => this.emailInput = input}
                         />
+                        { this.validationErrors['email'] &&
+                            <div className="input-error-message">
+                                {this.validationErrors['email']}
+                            </div>
+                        }
                     </div>
                     <div className="formControl">
                         <input
                             type="text"
-                            id="registerRealname"
-                            name="registerRealname"
+                            id="realname"
+                            name="realname"
                             placeholder="Oikea nimi"
-                            value={this.props.registerRealname}
-                            onChange={(event) => this.props.handleInputEvent(event)}
+                            onChange={this.validateForm}
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
                             className="input fullWidth"
-                            ref={input => {
-                                this.registerRealnameInput = input;
-                            }}
+                            ref={input => this.realnameInput = input}
                         />
+                        { this.validationErrors['realname'] &&
+                            <div className="input-error-message">
+                                {this.validationErrors['realname']}
+                            </div>
+                        }
                     </div>
                     <div className="formControl">
                         <input
@@ -148,16 +149,18 @@ class RegisterForm extends React.Component {
                             id="registerPassword"
                             name="registerPassword"
                             placeholder="Salasana"
-                            value={this.props.registerPassword}
-                            onChange={(event) => this.props.handleInputEvent(event)}
+                            onChange={this.validateForm}
                             className="input fullWidth"
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
-                            ref={input => {
-                                this.registerPasswordInput = input;
-                            }}
+                            ref={input => this.passwordInput = input}
                         />
+                        { this.validationErrors['password'] &&
+                            <div className="input-error-message">
+                                {this.validationErrors['password']}
+                            </div>
+                        }
                     </div>
                     <div className="formControl">
                         <input
@@ -165,29 +168,25 @@ class RegisterForm extends React.Component {
                             id="registerPasswordConfirm"
                             name="registerPasswordConfirm"
                             placeholder="Salasana uudelleen"
-                            value={this.props.registerPasswordConfirm}
-                            onChange={(event) => {
-                                this.props.handleInputEvent(event);
-                                this.props.checkPasswordsMatch(
-                                    this.props.registerPassword, 
-                                    event.target.value
-                                );
-                            }}
+                            onChange={this.validateForm}
                             className="input fullWidth"
                             autoComplete="off"
                             autoCorrect="off"
                             autoCapitalize="off"
-                            ref={input => {
-                                this.registerPasswordConfirmInput = input;
-                            }}
+                            ref={input => this.passwordConfirmInput = input}
                         />
+                        { this.validationErrors['passwordConfirm'] &&
+                            <div className="input-error-message">
+                                {this.validationErrors['passwordConfirm']}
+                            </div>
+                        }
                     </div>
                     <div className="formControl">
                         <SuccessBtn
                             fill
-                            loader={this.props.loader}
-                            disabled={!this.formValid()}
+                            disabled={!this.state.formValid}
                             style={{ width: '100%' }}
+                            loader={this.props.isRegistering}
                         >
                             Rekisteröidy (ENTER)
                         </SuccessBtn>
@@ -199,34 +198,12 @@ class RegisterForm extends React.Component {
 }
 
 const mapDispatchToProps = {
-    handleInputEvent,
-    reset,
-    focusPasswordField,
-    setRegistering,
-    focusPasswordConfirmField,
-    checkPasswordsMatch,
-    successMessage,
-    errorMessage,
-    loggedIn
+    submitRegistration
 };
 
-const mapStateToProps = state => {
-    return {
-        registerUsername: state.register.registerUsername,
-        registerPassword: state.register.registerPassword,
-        registerEmail: state.register.registerEmail,
-        registerRealname: state.register.registerRealname,
-        minPasswordLength: state.register.minPasswordLength,
-        minUsernameLength: state.register.minUsernameLength,
-        registerStep: state.register.registerStep,
-        registerUsernameDisabled: state.register.registerUsernameDisabled,
-        registerPasswordDisabled: state.register.registerPasswordDisabled,
-        submitDisabled: state.register.submitDisabled,
-        loader: state.register.loader,
-        registerPasswordConfirmDisabled: state.register.registerPasswordConfirmDisabled,
-        passwordsMatch: state.register.passwordsMatch,
-        registerPasswordConfirm: state.register.registerPasswordConfirm
-    };
-};
+const mapStateToProps = state => ({
+    isRegistering: state.register.isRegistering,
+    loggedIn: state.user.loggedIn
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RegisterForm));

@@ -1,10 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LoginPage from '../components/pages/LoginPage';
-import Enzyme from 'enzyme';
+import { RegisterForm } from '../components/forms/RegisterForm';
+import configureStore from 'redux-mock-store';
+import initialState from './initialState.js';
+import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
 
-it('temporary test', () => {
-    false == 0;
-    '' == 0;
-    null == 0;
+describe('RegisterForm component', () => {
+    const mockStore = configureStore();
+    let store;
+
+    beforeEach(() => {
+        store = mockStore(initialState);
+    });
+
+    it('renders without crashing', () => {
+        mount(<RegisterForm/>);
+    });
+    
 });

@@ -1,10 +1,11 @@
-import uuidv1 from 'node-uuid';
+import uuidv1 from 'uuid/v1';
 
 export const notificationActions = {
     MESSAGE: 'MESSAGE',
     CLEAR_MESSAGE: 'CLEAR_MESSAGE',
     ADD_PRODUCT_TO_PURCHASE: 'ADD_PRODUCT_TO_PURCHASE',
-    CLEAR_ITEMS: 'CLEAR_ITEMS'
+    CLEAR_ITEMS: 'CLEAR_ITEMS',
+    SET_PURCHASE_TIMEOUT_ID: 'SET_PURCHASE_TIMEOUT_ID'
 };
 
 export const notificationTypes = {
@@ -16,7 +17,7 @@ export const initialState = {
     notifications: [],
     purchasedItems: [],
     purchaseNotificationTimeout: 2500,
-    purchaseNotificationStartTime: null
+    purchaseNotificationTimeOutId: null
 };
 
 const getId = () => uuidv1();
@@ -76,6 +77,29 @@ export const addProductToNotification = product => {
     };
 };
 
+export const setPurchaseTimeoutId = id => ({
+    type: notificationActions.SET_PURCHASE_TIMEOUT_ID,
+    id
+});
+
+export const buyNotification = product => {
+    return async (dispatch, getState) => {
+        const timeoutId = getState().notification.purchaseNotificationTimeOutId;
+        const duration = getState().notification.purchaseNotificationTimeout;
+
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+
+        dispatch(setPurchaseTimeoutId(setTimeout(() => {
+            dispatch(clearProductsFromNotification());
+            dispatch(setPurchaseTimeoutId(null));
+        }, duration)));
+
+        dispatch(addProductToNotification(product));
+    };
+};
+
 export const clearProductsFromNotification = () => {
     return {
         type: notificationActions.CLEAR_ITEMS
@@ -124,8 +148,7 @@ const notificationReducer = (state = initialState, action) => {
 
         if (!product) {
             return Object.assign({}, state, {
-                purchasedItems: [...state.purchasedItems, action.data],
-                purchaseNotificationStartTime: new Date()
+                purchasedItems: [...state.purchasedItems, action.data]
             });
         } else {
             // Product exists, increment amount
@@ -140,15 +163,17 @@ const notificationReducer = (state = initialState, action) => {
                 }
             });
             return Object.assign({}, state, {
-                purchasedItems: [...products],
-                purchaseNotificationStartTime: new Date()
+                purchasedItems: [...products]
             });
         }
     }
     case notificationActions.CLEAR_ITEMS:
         return Object.assign({}, state, {
-            purchasedItems: [],
-            purchaseNotificationStartTime: null
+            purchasedItems: []
+        });
+    case notificationActions.SET_PURCHASE_TIMEOUT_ID:
+        return Object.assign({}, state, {
+            purchaseNotificationTimeOutId: action.id
         });
     default:
         return state;

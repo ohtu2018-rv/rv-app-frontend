@@ -1,17 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Header } from '../components/sections/Header';
-import Enzyme from 'enzyme';
+import Header from '../components/sections/Header';
+import configureStore from 'redux-mock-store';
+import initialState from './initialState';
+import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
 
-/**
- * Mock
- */
-const user = {
-    full_name: 'John Doe',
-    account_balance: 1000
-};
+describe('RegisterForm component', () => {
+    const mockStore = configureStore();
+    let store;
 
-it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<Header user={user} />, div);
+    beforeEach(() => {
+        store = mockStore(initialState);
+    });
+
+    it('renders without crashing', () => {
+        mount(<Provider store={store}><Header/></Provider>);
+    });
+    
 });

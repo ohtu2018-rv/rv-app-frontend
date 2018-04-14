@@ -31,7 +31,13 @@
   color: $input-text-color;
   background-color: transparent;
   text-align: center;
-  
+  opacity: 1;
+  -webkit-transition: opacity 0.25s ease-in-out;
+  -moz-transition: opacity 0.25s ease-in-out;
+  -ms-transition: opacity 0.25s ease-in-out;
+  -o-transition: opacity 0.25s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
+
   @if $input-box-shadow {
     box-shadow: $box_shadow;
   }
@@ -43,11 +49,6 @@
 
 .input:disabled {
   opacity: 0.2;
-  -webkit-transition: opacity 0.25s ease-in-out;
-  -moz-transition: opacity 0.25s ease-in-out;
-  -ms-transition: opacity 0.25s ease-in-out;
-  -o-transition: opacity 0.25s ease-in-out;
-  transition: opacity 0.25s ease-in-out;
 }
 
 .input::placeholder {

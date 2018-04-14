@@ -10,14 +10,12 @@ describe.only('<DangerBtn />', () => {
         };
 
         const dangerBtnComponent = shallow(<DangerBtn>{data.text}</DangerBtn>);
-        console.log(dangerBtnComponent.debug());
         const contentDiv = dangerBtnComponent.find('.btnContent');
         expect(contentDiv.text()).toContain(data.text);
     });
 
     it('shows loader correctly', () => {
         const dangerBtnComponent = shallow(<DangerBtn loader={true} />);
-        console.log(dangerBtnComponent.debug());
         expect(dangerBtnComponent.contains(<Loader />)).toBe(true);
     });
 

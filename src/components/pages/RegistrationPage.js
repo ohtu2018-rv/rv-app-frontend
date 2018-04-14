@@ -38,7 +38,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
-        loggedIn: state.authentication.loggedIn
+        loggedIn: state.user.loggedIn
     };
 };
 

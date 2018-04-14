@@ -12,10 +12,7 @@ import thunk from 'redux-thunk';
 
 // Import reducers
 import notificationReducer from './reducers/notificationReducer';
-import authenticationReducer from './reducers/authenticationReducer';
-import shoppingCartReducer from './reducers/shoppingCartReducer';
 import registerReducer from './reducers/registerReducer';
-import loginReducer from './reducers/loginReducer';
 import terminalReducer from './reducers/terminalReducer';
 import userReducer from './reducers/userReducer';
 import productReducer from './reducers/productReducer';
@@ -23,10 +20,7 @@ import productReducer from './reducers/productReducer';
 // Combine reducers
 const reducer = combineReducers({
     notification: notificationReducer,
-    authentication: authenticationReducer,
-    shoppingCart: shoppingCartReducer,
     register: registerReducer,
-    login: loginReducer,
     terminal: terminalReducer,
     user: userReducer,
     products: productReducer
@@ -48,9 +42,6 @@ const store = createStore(
 // Load config
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
-    // Log initial state
-    console.log(store.getState());
-    console.log('Back-end url: %s', process.env.REACT_APP_BACKEND_URL);
 }
 
 ReactDOM.render(

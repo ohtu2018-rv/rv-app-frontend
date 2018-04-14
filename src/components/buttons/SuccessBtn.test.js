@@ -12,14 +12,12 @@ describe.only('<SuccessBtn />', () => {
         const successBtnComponent = shallow(
             <SuccessBtn>{data.text}</SuccessBtn>
         );
-        console.log(successBtnComponent.debug());
         const contentDiv = successBtnComponent.find('.btnContent');
         expect(contentDiv.text()).toContain(data.text);
     });
 
     it('shows loader correctly', () => {
         const successBtnComponent = shallow(<SuccessBtn loader={true} />);
-        console.log(successBtnComponent.debug());
         expect(successBtnComponent.contains(<Loader />)).toBe(true);
     });
 

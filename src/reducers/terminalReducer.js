@@ -1,7 +1,7 @@
 import eanValidator from './../services/eanValidator';
-import productService from './../services/productService';
-import { addProductToNotification, errorMessage } from './notificationReducer';
-import { setBalance } from './userReducer';
+import { errorMessage } from './notificationReducer';
+import { deposit } from './userReducer';
+import { buyProduct } from './productReducer';
 
 export const initialState = {
     terminalInput: '',
@@ -41,36 +41,14 @@ export const handleInputEvent = event => {
     };
 };
 
-export const handleTerminalSubmit = (value, deposit, token) => {
-    /**implement regex here
-     *
-     */
+export const handleTerminalSubmit = value => {
     return async dispatch => {
         const depositRegexMatch = getRegexMatch(value);
         if (depositRegexMatch) {
-            const product = { price: parseRegexToCents(depositRegexMatch) };
-            deposit(product);
+            const amount = parseRegexToCents(depositRegexMatch);
+            dispatch(deposit(amount));
         } else if (eanValidator.validateEan(value)) {
-            try {
-                const res = await productService.buyProduct(value, 1, token);
-
-                const accountBalance = res.data.account_balance;
-                dispatch(setBalance(accountBalance));
-
-                const prod = {
-                    barcode: res.data.barcode,
-                    quantity: res.data.quantity,
-                    product_name: res.data.product_name,
-                    price: res.data.price
-                };
-                dispatch(addProductToNotification(prod));
-            } catch (err) {
-                dispatch(
-                    errorMessage(
-                        'Error buing product: ' + err.response.data.message
-                    )
-                );
-            }
+            dispatch(buyProduct(value, 1));
         } else {
             // Invalid EAN / command
             dispatch(errorMessage('Invalid command'));
