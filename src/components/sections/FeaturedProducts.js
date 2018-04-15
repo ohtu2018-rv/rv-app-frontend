@@ -3,6 +3,7 @@ import { Row, Col } from 'react-flexbox-grid';
 import './styles/FeaturedProducts.css';
 import { connect } from 'react-redux';
 import { buyProduct } from '../../reducers/productReducer';
+import Loader from '../loaders/Loader';
 
 class FeaturedProductInfo extends React.Component {
     render() {
@@ -45,7 +46,7 @@ export class FeaturedProducts extends React.Component {
                 <div className="featured-header">
                     <h2>Suositut tuotteet</h2>
                 </div>
-                <ul>{productList}</ul>
+                {this.props.loading ? <Loader/> : <ul>{productList}</ul>}
             </div>
         );
     }
@@ -56,7 +57,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-    products: state.products.products
+    products: state.products.products,
+    loading: state.products.gettingProducts
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeaturedProducts);

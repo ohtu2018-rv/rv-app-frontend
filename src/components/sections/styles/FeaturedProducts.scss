@@ -23,6 +23,11 @@
     }
   }
 
+  .loader {
+    margin-top: 50px;
+    border-top-color: #777;
+  }
+
   ul {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -51,6 +56,10 @@
         
         &:active {
           color: #000;
+        }
+
+        &:focus {
+          outline: 0;
         }
 
         .featured-price {

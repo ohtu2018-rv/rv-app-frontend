@@ -8,16 +8,14 @@ import './styles/ProductBrowser.css';
 
 export class ProductBrowser extends React.Component {
     createProductsList() {
-        const productList = this.props.products.sort(
+        const productList = this.props.products.slice().sort(
             (a, b) => {
                 const [aname, bname] = [
                     a.product_name.toLowerCase(),
                     b.product_name.toLowerCase()
                 ];
 
-                if (aname < bname) return -1;
-                else if (aname > bname) return 0;
-                else return 1;
+                return a.sellprice - b.sellprice;
             }
         ).filter(p => p.product_group !== 65535).map(p => (
             <li key={p.product_id} className="product-list-item">
@@ -28,8 +26,8 @@ export class ProductBrowser extends React.Component {
                             product: p
                         });
                     }}>
-                    <span class="product-list-item-name">{p.product_name}</span>
-                    <span class="product-list-item-price">{
+                    <span className="product-list-item-name">{p.product_name}</span>
+                    <span className="product-list-item-price">{
                         (p.sellprice / 100).toFixed(2).replace('.', ',')
                     } &euro;</span>
                 </button>
@@ -50,7 +48,7 @@ export class ProductBrowser extends React.Component {
                     </select>
                     <input type="text" placeholder="Etsi tuote..."/>
                 </div>
-                <div class="product-browser-list">
+                <div className="product-browser-list">
                     { this.props.loading ? <Loader/> : <ul>{this.createProductsList()}</ul> }
                 </div>
             </div>
