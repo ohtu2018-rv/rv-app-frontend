@@ -3,6 +3,7 @@ import MainPage from './components/pages/MainPage';
 import LoginPage from './components/pages/LoginPage';
 import RegistrationPage from './components/pages/RegistrationPage';
 import NotificationDrawer from './components/helpers/NotificationDrawer';
+import ModalContainer from './components/modals/ModalContainer';
 
 import { connect } from 'react-redux';
 
@@ -40,12 +41,13 @@ class App extends Component {
                     products={this.props.products}
                 />
                 <Router>
-                    <div>
+                    <div className="pages">
                         <AuthenticatedRoute exact path="/" authenticated={this.props.loggedIn} component={MainPage}/>
                         <Route path="/login" component={LoginPage}/>
                         <Route path="/register" component={RegistrationPage}/>
                     </div>
                 </Router>
+                <ModalContainer/>
             </div>
         );
     }

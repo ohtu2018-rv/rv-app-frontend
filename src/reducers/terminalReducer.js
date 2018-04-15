@@ -67,7 +67,7 @@ export const handleTerminalSubmit = (value, deposit, token) => {
             } catch (err) {
                 dispatch(
                     errorMessage(
-                        'Error buing product: ' + err.response.data.message
+                        'Error buying product: ' + err.response.data.message
                     )
                 );
             }

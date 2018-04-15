@@ -1,0 +1,124 @@
+@import "vars";
+
+.product-browser-container {
+  background: $container-background-color;
+  color: $container-text-color;
+  border-radius: $base-border-radius;
+  box-shadow: $box-shadow;
+  height: 100%;
+  overflow: hidden;
+
+  .product-filter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: #ddd;
+
+    input {
+      font-size: 1em;
+      padding: 8px;
+      width: 99%;
+      margin-left: 15px;
+      box-sizing: border-box;
+      border: 1px solid #aaa;
+      border-radius: 3px;
+    }
+    
+    select {
+      width: 100%;
+      padding: 8px;
+      font-size: 1em;
+      align-self: stretch;
+      background: #fff;
+      border-radius: 3px;
+      border: 1px solid #aaa;
+      box-sizing: border-box;
+    }
+  }
+
+  .product-browser-list {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: calc(100% - 72px);
+
+    .loader {
+      margin-top: 100px;
+      border-top-color: #777;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 16px 0 0 16px;
+
+      li {
+        display: block;
+        width: 20%;
+        background: transparent;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+                
+        img {
+          display: block;
+          width: 100%;
+          height: auto;
+          opacity: 0;
+        }
+
+        button {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: calc(100% - 16px);
+          height: calc(100% - 16px);
+          border: none;
+          box-sizing: border-box;
+          border-radius: 3px;
+          background: rgb(230, 230, 230);
+          z-index: 1;
+          -webkit-appearance: none;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 1em;
+          text-align: left;
+          color: #000;
+          cursor: pointer;
+          transition: transform 0.2s ease-in-out;
+
+          .product-list-item-name {
+            text-align: center;
+            padding: 0 10px;
+            margin-bottom: 16px;
+            word-break: break-word;
+            min-height: 3.3em;
+            line-height: 1.1em;
+            width: 100%;
+            box-sizing: border-box;
+          }
+
+          .product-list-item-price {
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+          }
+
+          &:active {
+            transform: scale(0.9);
+          }
+
+          &:focus {
+            outline: 0;
+          }
+        }
+      }
+    }
+  }
+}

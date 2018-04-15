@@ -122,7 +122,7 @@ class MainPage extends Component {
 
     render() {
         return (
-            <div>
+            <div className="mainpage">
                 <Header
                     logout={this.props.logout}
                     user={this.props.user}
