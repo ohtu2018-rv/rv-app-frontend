@@ -7,19 +7,19 @@ header {
   vertical-align: middle;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  display: inline-block;
   background-color: $header-bgcolor;
   box-shadow: $box-shadow;
-}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-.header-left {
-  width: 50%;
-  float: left;
-  text-align: left;
+  h1 {
+    font-size: 1.6em;
+    font-weight: normal;
+    margin: 0 16px;
+  }
 }
 
 .header-right {
-  width: 50%;
-  float: right;
-  text-align: right;
+  margin-left: auto;
 }

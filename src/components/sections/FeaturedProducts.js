@@ -1,5 +1,4 @@
 import React from 'react';
-import { Row, Col } from 'react-flexbox-grid';
 import './styles/FeaturedProducts.css';
 import { connect } from 'react-redux';
 import { buyProduct } from '../../reducers/productReducer';
@@ -11,14 +10,21 @@ class FeaturedProductInfo extends React.Component {
 
         return (
             <li>
-                <button onClick={() => this.props.buy()}>
+                <a
+                    href="/"
+                    role="button"
+                    onClick={e => {
+                        e.preventDefault();
+                        this.props.buy();
+                    }}
+                >
                     <div className="featured-name">
                         {product.product_name}
                     </div>
                     <div className="featured-price">
                         {(product.sellprice / 100).toFixed(2).replace('.', ',')} &euro;
                     </div>
-                </button>
+                </a>
             </li>
         );
     }

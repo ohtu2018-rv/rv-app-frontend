@@ -27,37 +27,8 @@ export class Header extends React.Component {
     render() {
         return (
             <header>
+                <h1>Ruokavälitys</h1>
                 <div className="header-left">
-                    <Margin margin={5} inlineBlock>
-                        <BasicBtn
-                            hover
-                            onClick={() =>
-                                this.props.buy(
-                                    Object.assign({}, items[0], { quantity: 1 })
-                                )
-                            }
-                        >
-                            Testiostos 1 ({parseFloat(
-                                items[0].price / 100
-                            ).toFixed(2)}{' '}
-                            &euro;)
-                        </BasicBtn>
-                    </Margin>
-                    <Margin margin={5} inlineBlock>
-                        <BasicBtn
-                            hover
-                            onClick={() =>
-                                this.props.buy(
-                                    Object.assign({}, items[2], { quantity: 1 })
-                                )
-                            }
-                        >
-                            Testiostos 2 ({parseFloat(
-                                items[2].price / 100
-                            ).toFixed(2)}{' '}
-                            &euro;)
-                        </BasicBtn>
-                    </Margin>
                     <Margin margin={5} inlineBlock>
                         <BasicBtn
                             hover

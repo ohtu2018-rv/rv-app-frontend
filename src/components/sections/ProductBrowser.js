@@ -15,13 +15,16 @@ export class ProductBrowser extends React.Component {
                     b.product_name.toLowerCase()
                 ];
 
-                return a.sellprice - b.sellprice;
+                return aname < bname ? -1 : (aname === bname ? 0 : 1);
             }
         ).filter(p => p.product_group !== 65535).map(p => (
             <li key={p.product_id} className="product-list-item">
                 <img src={pimg} alt=""/>
-                <button
-                    onClick={() => {
+                <a
+                    role="button"
+                    href="/"
+                    onClick={e => {
+                        e.preventDefault();
                         this.props.showModal(ProductPopup, { 
                             product: p
                         });
@@ -30,7 +33,7 @@ export class ProductBrowser extends React.Component {
                     <span className="product-list-item-price">{
                         (p.sellprice / 100).toFixed(2).replace('.', ',')
                     } &euro;</span>
-                </button>
+                </a>
             </li>
         ));
 
