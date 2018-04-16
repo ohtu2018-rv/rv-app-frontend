@@ -17,13 +17,6 @@ export class Deposit extends Component {
         };
     }
 
-    handleClose() {
-        return event => {
-            event.preventDefault();
-            this.props.toggleVisibility(false);
-        };
-    }
-
     render() {
         return (
             <div className="deposit-wrapper">
@@ -96,7 +89,7 @@ export class Deposit extends Component {
                         className="btn number cancel"
                         onClick={() => {
                             this.props.resetAmount();
-                            this.handleClose();
+                            this.props.toggleVisibility(true);
                         }}
                     >
                         Peruuta
@@ -115,8 +108,7 @@ export class Deposit extends Component {
                                 this.props.depositAmount
                             );
                             this.props.resetAmount();
-                            this.handleClose();
-                        }}
+                            this.props.toggleVisibility(true);}}
                     >
                         OK
                     </button>
