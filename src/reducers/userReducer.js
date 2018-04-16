@@ -1,4 +1,5 @@
 import userService from '../services/userService';
+import { successMessage, errorMessage } from './notificationReducer';
 
 export const initialState = {
     username: '',
@@ -32,7 +33,15 @@ export const increaseBalance = (token, amount) => {
     return async dispatch => {
         try {
             dispatch({ type: userActions.INCREASE_BALANCE });
+            amount;
             const balance = await userService.increaseBalance(token, amount);
+            dispatch(
+                successMessage(
+                    'Talletettu RV-tilille ' +
+                        parseFloat(amount / 100).toFixed(2) +
+                        ' €'
+                )
+            );
             dispatch({
                 type: userActions.SET_BALANCE,
                 balance
@@ -72,7 +81,7 @@ const userReducer = (state = initialState, action) => {
         return Object.assign({}, state, initialState);
     case userActions.INCREASE_BALANCE:
         return Object.assign({}, state, {
-            account_balance: state.account_balance + action.balance
+            account_balance: state.account_balance + action.amount
         });
     case userActions.DECREASE_BALANCE:
         return Object.assign({}, state, {
