@@ -2,19 +2,32 @@ import React from 'react';
 import { closeModal } from '../../reducers/modalReducer';
 import { connect } from 'react-redux';
 import './styles/ModalContainer.css';
+import { CSSTransition } from 'react-transition-group';
 
 export class ModalContainer extends React.Component {
     render() {
         const ModalContent = this.props.contentComponent;
 
-        return this.props.modalVisible && (
-            <div className="modal-overlay" onClick={e => {
-                this.props.closeModal();
-            }}>
-                <div className="modal-container" onClick={e => e.stopPropagation()}>
-                    <ModalContent {...this.props.modalProps}/>
-                </div>
-            </div>
+        return (
+            <CSSTransition
+                in={this.props.modalVisible}
+                timeout={200}
+                classNames="overlay"
+                mountOnEnter
+                unmountOnExit
+            >
+                {(state) => {
+                    return (
+                        <div className="modal-overlay" onClick={e => {
+                            this.props.closeModal();
+                        }}>
+                            <div className="modal-container" onClick={e => e.stopPropagation()}>
+                                <ModalContent {...this.props.modalProps}/>
+                            </div>
+                        </div>
+                    );
+                }}
+            </CSSTransition>
         );
     }
 }

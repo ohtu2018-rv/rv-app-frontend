@@ -9,4 +9,17 @@
   justify-content: center;
   background: rgba(0, 0, 0, 0.6);
   z-index: 100;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlay-enter {
+  opacity: 0.01;
+}
+
+.overlay-enter.overlay-enter-active {
+  opacity: 1;
+}
+
+.overlay-exit.overlay-exit-active {
+  opacity: 0;
 }

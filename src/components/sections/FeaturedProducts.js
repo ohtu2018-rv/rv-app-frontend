@@ -4,54 +4,52 @@ import { connect } from 'react-redux';
 import { buyProduct } from '../../reducers/productReducer';
 import Loader from '../loaders/Loader';
 
-class FeaturedProductInfo extends React.Component {
-    render() {
-        const product = this.props.product;
+const FeaturedProductsList = props => {
+    const products = props.products;
 
-        return (
-            <li>
-                <a
-                    href="/"
-                    role="button"
-                    onClick={e => {
-                        e.preventDefault();
-                        this.props.buy();
-                    }}
-                >
-                    <div className="featured-name">
-                        {product.product_name}
-                    </div>
-                    <div className="featured-price">
-                        {(product.sellprice / 100).toFixed(2).replace('.', ',')} &euro;
-                    </div>
-                </a>
-            </li>
-        );
-    }
-}
+    const productsList = products.map((p) => 
+        <li key={p.product_id}>
+            <a
+                href="/"
+                role="button"
+                onClick={e => {
+                    e.preventDefault();
+                    props.buy(p);
+                }}
+            >
+                <div className="featured-name">
+                    {p.product_name}
+                </div>
+                <div className="featured-price">
+                    {(p.sellprice / 100).toFixed(2).replace('.', ',')} &euro;
+                </div>
+            </a>
+        </li>
+    );
+
+    return <ul>{productsList}</ul>;
+};
+
 
 export class FeaturedProducts extends React.Component {
-    getFeaturedProducts() {
+    render() {
         // these will some day come from backend, hardcoded for now
         const featuredProductIds = [54, 50, 52, 626, 344];
-        return featuredProductIds
-            .map(pid => Object.assign({}, this.props.products.find(p => p.product_id === pid)))
-            .map(p => 
-                <FeaturedProductInfo
-                    key={p.product_id}
-                    product={p}
-                    buy={() => this.props.buyProduct(p, 1)}
-                />
-            );
-    }
+        const featuredProducts = this.props.products
+            .filter(p => featuredProductIds.includes(p.product_id));
 
-    render() {
         return (
             <div className="featured-products">
                 <div className="featured-header">
                     <h2>Suositut tuotteet</h2>
                 </div>
-                {this.props.loading ? <Loader/> : <ul>{this.getFeaturedProducts()}</ul>}
+                {this.props.loading 
+                    ? <Loader/> : 
+                    <FeaturedProductsList 
+                        products={featuredProducts} 
+                        buy={p => this.props.buyProduct(p, 1)}
+                    />
+                }
             </div>
         );
     }

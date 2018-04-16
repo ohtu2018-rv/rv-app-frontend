@@ -2,6 +2,7 @@ import React from 'react';
 import HeaderBtn from '../buttons/HeaderBtn';
 import Margin from '../helpers/Margin';
 import Logo from '../../images/tkoaly2.svg';
+import { connect } from 'react-redux';
 import './styles/Header.css';
 
 export class Header extends React.Component {
@@ -12,7 +13,7 @@ export class Header extends React.Component {
                     <img src={Logo} alt="logo" />
                     <h1>Ruokavälitys</h1>
                 </div>
-                <div className="header-right">
+                { this.props.loggedIn && <div className="header-right">
                     <Margin margin={5} inlineBlock>
                         <HeaderBtn fill>
                             <span>
@@ -29,8 +30,14 @@ export class Header extends React.Component {
                             Kirjaudu ulos (ENTER)
                         </HeaderBtn>
                     </Margin>
-                </div>
+                </div>}
             </header>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    loggedIn: state.authentication.loggedIn
+});
+
+export default connect(mapStateToProps)(Header);

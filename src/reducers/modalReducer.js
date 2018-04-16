@@ -29,9 +29,7 @@ const modalReducer = (state = initialState, action) => {
         });
     case modalActions.CLOSE_MODAL:
         return Object.assign({}, state, {
-            modalVisible: false,
-            modalContent: null,
-            props: null
+            modalVisible: false
         });
     default:
         return state;

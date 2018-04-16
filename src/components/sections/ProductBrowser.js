@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { showModal } from '../../reducers/modalReducer';
 import ProductPopup from '../modals/ProductPopup';
-import pimg from '../../images/product_mock.png';
 import Loader from '../loaders/Loader';
 import './styles/ProductBrowser.css';
 
@@ -19,7 +18,6 @@ export class ProductBrowser extends React.Component {
             }
         ).filter(p => p.product_group !== 65535).map(p => (
             <li key={p.product_id} className="product-list-item">
-                <img src={pimg} alt=""/>
                 <a
                     role="button"
                     href="/"

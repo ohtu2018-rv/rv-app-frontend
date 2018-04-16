@@ -20,7 +20,7 @@
       color: rgba(0, 0, 0, 0.7);
       background: #fc3;
       height: 100%;
-      padding: 24px 16px;
+      padding: 22px 16px;
       box-sizing: border-box;
       width: 100%;
     }
@@ -58,7 +58,7 @@
         cursor: pointer;
         color: #000;
         transition: transform 0.2s ease-in-out;
-        
+
         &:active {
           color: #000;
           transform: scale(0.9);

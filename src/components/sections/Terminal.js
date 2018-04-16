@@ -34,7 +34,6 @@ class Terminal extends React.Component {
             : 'input fullWidth invalid';
         return (
             <div className="terminal">
-                Pepsi Max: 6413600013082
                 <form onSubmit={this.handleSubmit}>
                     <input
                         className={className}
