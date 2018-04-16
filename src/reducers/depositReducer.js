@@ -1,9 +1,8 @@
-import { increaseBalance } from './userReducer';
-
 export const depositActions = {
     TOGGLE_VISIBILITY: 'TOGGLE_VISIBILITY',
     SET_AMOUNT: 'SET_AMOUNT',
-    RESET_DEPOSIT: 'RESET_DEPOSIT'
+    RESET_DEPOSIT: 'RESET_DEPOSIT',
+    INCREASE_AMOUNT: 'INCREASE_AMOUNT'
 };
 
 export const initialState = {
@@ -31,6 +30,13 @@ export const setAmount = value => {
     };
 };
 
+export const increaseAmount = value => {
+    return {
+        type: depositActions.INCREASE_AMOUNT,
+        value
+    };
+};
+
 const depositReducer = (state = initialState, action) => {
     switch (action.type) {
     case depositActions.TOGGLE_VISIBILITY:
@@ -44,6 +50,10 @@ const depositReducer = (state = initialState, action) => {
     case depositActions.SET_AMOUNT:
         return Object.assign({}, state, {
             depositAmount: action.value
+        });
+    case depositActions.INCREASE_AMOUNT:
+        return Object.assign({}, state, {
+            depositAmount: state.depositAmount + action.value
         });
     default:
         return state;

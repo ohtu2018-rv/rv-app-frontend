@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './styles/Deposit.css';
+import { increaseAmount, resetAmount } from './../../reducers/depositReducer';
+import { increaseBalance } from './../../reducers/userReducer';
 
 export class Deposit extends Component {
     constructor() {
         super();
-
-        this.state = {
-            amount: 0
-        };
         this.handleIncrementChange = this.handleIncrementChange.bind(this);
     }
 
     handleIncrementChange(increment) {
         return event => {
             event.preventDefault();
-            this.setState({ amount: this.state.amount + increment });
+            this.props.increaseAmount(increment);
         };
     }
 
@@ -24,16 +22,12 @@ export class Deposit extends Component {
             <div className="deposit-wrapper">
                 <div className="deposit">
                     <div className="btn money">
-                        {this.state.amount % 100 === 0
-                            ? this.state.amount / 100 + '.00'
-                            : this.state.amount % 10 === 0
-                                ? this.state.amount / 100 + '0'
-                                : this.state.amount / 100}{' '}
+                        {parseFloat(this.props.depositAmount / 100).toFixed(2)}
                         &euro;
                     </div>
                     <button
                         className="btn erase-btn erase"
-                        onClick={() => this.setState({ amount: 0 })}
+                        onClick={this.props.resetAmount}
                     >
                         &#9003;
                     </button>
@@ -91,9 +85,12 @@ export class Deposit extends Component {
                     >
                         + 20.00 €
                     </button>
-                    <button 
+                    <button
                         className="btn number cancel"
-                        onClick={this.props.close}
+                        onClick={() => {
+                            this.props.resetAmount();
+                            this.props.close();
+                        }}
                     >
                         Peruuta
                     </button>
@@ -103,9 +100,16 @@ export class Deposit extends Component {
                     >
                         + 50.00 €
                     </button>
-                    <button 
+                    <button
                         className="btn number success"
-                        onClick={this.props.close}
+                        onClick={() => {
+                            this.props.increaseBalance(
+                                this.props.token,
+                                this.props.depositAmount
+                            );
+                            this.props.resetAmount();
+                            this.props.close();
+                        }}
                     >
                         OK
                     </button>
@@ -115,8 +119,15 @@ export class Deposit extends Component {
     }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    depositAmount: state.deposit.depositAmount,
+    token: state.authentication.access_token
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    increaseAmount,
+    resetAmount,
+    increaseBalance
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Deposit);
