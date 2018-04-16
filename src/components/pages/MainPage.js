@@ -23,6 +23,11 @@ import { getProducts } from './../../reducers/productReducer';
 
 import userService from '../../services/userService';
 
+
+import Modal from './../modal/Modal';
+import Deposit from './../sections/Deposit';
+
+
 class MainPage extends Component {
     constructor(props) {
         /* REMOVE contructer after demo 1 */
@@ -30,8 +35,10 @@ class MainPage extends Component {
         super(props);
         this.state = {
             timeoutHandler: null,
-            notificationInterval: null
+            notificationInterval: null,
+            show: false
         };
+        this.depositShow = this.depositShow.bind(this);
         this.buy = this.buy.bind(this);
         this.deposit = this.deposit.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -123,6 +130,14 @@ class MainPage extends Component {
         }
     }
 
+
+    depositShow() {    
+        this.setState({
+            show: !this.state.show
+        });
+        
+    }
+
     render() {
         return (
             <div>
@@ -131,8 +146,12 @@ class MainPage extends Component {
                     user={this.props.user}
                     buy={this.buy}
                     deposit={this.deposit}
+                    show={this.depositShow}
                 />
                 <Content balance={this.state.balance} deposit={this.deposit} />
+                <Modal show={ this.state.show }>
+                    <Deposit close={this.depositShow}/>
+                </Modal>
             </div>
         );
     }

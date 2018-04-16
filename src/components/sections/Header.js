@@ -72,6 +72,11 @@ export class Header extends React.Component {
                 </div>
                 <div className="header-right">
                     <Margin margin={5} inlineBlock>
+                        <BasicBtn onClick={this.props.show} hover>
+                            deposit
+                        </BasicBtn>
+                    </Margin>
+                    <Margin margin={5} inlineBlock>
                         <BasicBtn>
                             <span>
                                 <b>{this.props.user.full_name}</b>{' '}
@@ -86,7 +91,7 @@ export class Header extends React.Component {
                         <DangerBtn onClick={this.props.logout} hover>
                             Kirjaudu ulos (ENTER)
                         </DangerBtn>
-                    </Margin>
+                    </Margin>                   
                 </div>
             </header>
         );
