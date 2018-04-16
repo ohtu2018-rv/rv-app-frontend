@@ -1,3 +1,5 @@
+import userService from '../services/userService';
+
 export const initialState = {
     username: '',
     full_name: '',
@@ -26,10 +28,18 @@ export const setUserData = user => {
     };
 };
 
-export const increaseBalance = balance => {
-    return {
-        type: userActions.INCREASE_BALANCE,
-        balance
+export const increaseBalance = (token, amount) => {
+    return async dispatch => {
+        try {
+            dispatch({ type: userActions.INCREASE_BALANCE });
+            const balance = await userService.increaseBalance(token, amount);
+            dispatch({
+                type: userActions.SET_BALANCE,
+                balance
+            });
+        } catch (err) {
+            console.error(err);
+        }
     };
 };
 
