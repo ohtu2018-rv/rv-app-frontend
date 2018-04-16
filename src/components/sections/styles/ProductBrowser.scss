@@ -13,7 +13,7 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 10px 16px;
-    background: #ddd;
+    background: #fc3;
 
     input {
       font-size: 1em;
@@ -83,7 +83,7 @@
           height: calc(100% - 16px);
           border: none;
           box-sizing: border-box;
-          border-radius: 3px;
+          border-radius: 5px;
           background: rgb(230, 230, 230);
           z-index: 1;
           text-decoration: none;

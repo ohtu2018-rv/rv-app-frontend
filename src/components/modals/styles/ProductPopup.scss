@@ -2,6 +2,8 @@
   background: #fff;
   width: 710px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
 
   button {
     outline: none;
@@ -9,6 +11,7 @@
     -webkit-appearance: none;
     cursor: pointer;
     font-size: 1em;
+    border-radius: 5px;
   }
 
   .product-actions {
@@ -30,6 +33,16 @@
 
     .purchase-btn {
       background: rgb(95, 161, 41);
+    }
+  }
+  
+  .product-popup-header {
+    background: #fc3;
+    padding: 16px;
+
+    h3 {
+      font-size: 1.2em;
+      color: rgba(0, 0, 0, 0.7);
     }
   }
   

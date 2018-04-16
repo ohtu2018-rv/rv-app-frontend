@@ -2,44 +2,16 @@ import React from 'react';
 import DangerBtn from '../buttons/DangerBtn';
 import BasicBtn from '../buttons/BasicBtn';
 import Margin from '../helpers/Margin';
-
+import Logo from '../../images/tkoaly.svg';
 import './styles/Header.css';
-
-const items = [
-    {
-        barcode: '0001',
-        price: 180,
-        product_name: 'Coca-Cola Zero 0.5l'
-    },
-    {
-        barcode: '0002',
-        price: 500,
-        product_name: 'deposit'
-    },
-    {
-        barcode: '0003',
-        price: 120,
-        product_name: 'Twix'
-    }
-];
 
 export class Header extends React.Component {
     render() {
         return (
             <header>
-                <h1>Ruokavälitys</h1>
-                <div className="header-left">
-                    <Margin margin={5} inlineBlock>
-                        <BasicBtn
-                            hover
-                            onClick={() => this.props.deposit(items[1])}
-                        >
-                            Testitalletus ({parseFloat(
-                                items[1].price / 100
-                            ).toFixed(2)}{' '}
-                            &euro;)
-                        </BasicBtn>
-                    </Margin>
+                <div className="header-title">
+                    <img src={Logo} alt="logo"/>
+                    <h1>Ruokavälitys</h1>
                 </div>
                 <div className="header-right">
                     <Margin margin={5} inlineBlock>

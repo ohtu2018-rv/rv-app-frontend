@@ -23,6 +23,8 @@ import { getProducts } from './../../reducers/productReducer';
 
 import userService from '../../services/userService';
 
+import { closeModal } from '../../reducers/modalReducer';
+
 class MainPage extends Component {
     constructor(props) {
         /* REMOVE contructer after demo 1 */
@@ -42,6 +44,7 @@ class MainPage extends Component {
         case 13:
             if (this.props.terminalInput === '') {
                 this.props.resetUserData();
+                this.props.closeModal();
                 this.props.logout();
             }
             break;
@@ -144,7 +147,8 @@ const mapDispatchToProps = {
     increaseBalance,
     decreaseBalance,
     resetUserData,
-    getProducts
+    getProducts,
+    closeModal
 };
 
 const mapStateToProps = state => {

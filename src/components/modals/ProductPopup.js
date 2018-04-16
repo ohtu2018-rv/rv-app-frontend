@@ -26,6 +26,9 @@ export class ProductPopup extends React.Component {
         const prod = this.props.product;
 
         return <div className="product-popup">
+            <div className="product-popup-header">
+                <h3>Osta tuote</h3>
+            </div>
             <div className="product-info">
                 <div className="product-name">
                     {prod.product_name}
