@@ -20,4 +20,10 @@ const getAllProducts = () => {
         .then(res => res.data.products);
 };
 
-export default { buyProduct, getAllProducts };
+const getAllCategories = () => {
+    return axios
+        .get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/categories`)
+        .then(res => res.data.categories);
+};
+
+export default { buyProduct, getAllProducts, getAllCategories };

@@ -1,14 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { showModal } from '../../reducers/modalReducer';
+import {
+    setFilter,
+    setCategorySelected
+} from '../../reducers/productReducer';
 import ProductPopup from '../modals/ProductPopup';
 import pimg from '../../images/product_mock.png';
 import Loader from '../loaders/Loader';
 import './styles/ProductBrowser.css';
 
 export class ProductBrowser extends React.Component {
-    createProductsList() {
-        const productList = this.props.products.slice().sort(
+    sortProducts = (products) => {
+        return products.sort(
             (a, b) => {
                 const [aname, bname] = [
                     a.product_name.toLowerCase(),
@@ -17,7 +21,20 @@ export class ProductBrowser extends React.Component {
 
                 return aname < bname ? -1 : (aname === bname ? 0 : 1);
             }
-        ).filter(p => p.product_group !== 65535).map(p => (
+        )
+    }
+
+    filterProducts = (products) => {
+        return products.filter(p => {
+            return (
+                this.props.selectedCategory === -1
+                || p.product_group === this.props.selectedCategory)
+            && p.product_name.toLowerCase().trim().includes(this.props.filter.toLowerCase().trim())
+        })
+    }
+
+    createElements = (products) => {
+        return products.map(p => (
             <li key={p.product_id} className="product-list-item">
                 <img src={pimg} alt=""/>
                 <a
@@ -36,23 +53,46 @@ export class ProductBrowser extends React.Component {
                 </a>
             </li>
         ));
+    }
 
-        return productList;
+    handleChangeFilter = (e) => {
+        this.props.setFilter(e.target.value)
+    }
+
+    handleChangeCategory = (e) => {
+        this.props.setCategorySelected(parseInt(e.target.value))
+    }
+
+    createProductList() {
+        const prods = this.props.products.slice()
+        const sortedProds = this.sortProducts(prods)
+        const sortedFilteredProds = this.filterProducts(sortedProds)
+        return this.createElements(sortedFilteredProds)
     }
 
     render() {
         return (
             <div className="product-browser-container">
                 <div className="product-filter">
-                    <select>
-                        <option value="0">Kaikki tuotteet</option>
-                        <option value="1">Kategoria 1</option>
-                        <option value="2">Kategoria 2</option>
+                    <select value={this.props.selectedCategory} onChange={this.handleChangeCategory}>
+                        <option value={-1}>Kaikki tuotteet</option>
+                        { this.props.categories.map(category => 
+                            <option
+                                value={category.category_id}
+                                key={category.category_id}>
+                                {category.category_description}
+                            </option>
+                            )
+                        }
                     </select>
-                    <input type="text" placeholder="Etsi tuote..."/>
+                    <input
+                        type="text"
+                        placeholder="Etsi tuote..."
+                        value={this.props.filter}
+                        onChange={this.handleChangeFilter}/>
                 </div>
                 <div className="product-browser-list">
-                    { this.props.loading ? <Loader/> : <ul>{this.createProductsList()}</ul> }
+                    { this.props.loading ? <Loader/> : <ul>{this.createProductList()}</ul> }
                 </div>
             </div>
         );
@@ -60,12 +100,17 @@ export class ProductBrowser extends React.Component {
 }
 
 const mapDispatchToProps = {
-    showModal
+    showModal,
+    setFilter,
+    setCategorySelected
 };
 
 const mapStateToProps = state => ({
     products: state.products.products,
-    loading: state.products.gettingProducts
+    loading: state.products.gettingProducts,
+    filter: state.products.filter,
+    selectedCategory: state.products.selectedCategory,
+    categories: state.products.categories
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductBrowser);
