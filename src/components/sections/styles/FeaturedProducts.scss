@@ -57,9 +57,11 @@
         text-decoration: none;
         cursor: pointer;
         color: #000;
+        transition: transform 0.2s ease-in-out;
         
         &:active {
           color: #000;
+          transform: scale(0.9);
         }
 
         &:focus {

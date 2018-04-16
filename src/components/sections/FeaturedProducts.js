@@ -31,28 +31,27 @@ class FeaturedProductInfo extends React.Component {
 }
 
 export class FeaturedProducts extends React.Component {
-    render() {
+    getFeaturedProducts() {
         // these will some day come from backend, hardcoded for now
         const featuredProductIds = [54, 50, 52, 626, 344];
+        return featuredProductIds
+            .map(pid => Object.assign({}, this.props.products.find(p => p.product_id === pid)))
+            .map(p => 
+                <FeaturedProductInfo
+                    key={p.product_id}
+                    product={p}
+                    buy={() => this.props.buyProduct(p, 1)}
+                />
+            );
+    }
 
-        const productList = this.props.products.filter(
-            p => featuredProductIds.includes(p.product_id)
-        ).map(p => (
-            <FeaturedProductInfo 
-                key={p.product_id}
-                product={p}
-                buy={() => {
-                    this.props.buyProduct(p, 1);
-                }}
-            />
-        ));
-
+    render() {
         return (
             <div className="featured-products">
                 <div className="featured-header">
                     <h2>Suositut tuotteet</h2>
                 </div>
-                {this.props.loading ? <Loader/> : <ul>{productList}</ul>}
+                {this.props.loading ? <Loader/> : <ul>{this.getFeaturedProducts()}</ul>}
             </div>
         );
     }
