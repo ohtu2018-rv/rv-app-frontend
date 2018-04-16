@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './styles/Deposit.css';
 import { increaseAmount, resetAmount } from './../../reducers/depositReducer';
 import { increaseBalance } from './../../reducers/userReducer';
-
+import { toggleVisibility } from './../../reducers/modalReducer';
 export class Deposit extends Component {
     constructor() {
         super();
@@ -20,7 +20,7 @@ export class Deposit extends Component {
     handleClose() {
         return event => {
             event.preventDefault();
-            
+            this.props.toggleVisibility(false);
         };
     }
 
@@ -96,7 +96,7 @@ export class Deposit extends Component {
                         className="btn number cancel"
                         onClick={() => {
                             this.props.resetAmount();
-                            this.props.close();
+                            this.handleClose();
                         }}
                     >
                         Peruuta
@@ -115,7 +115,7 @@ export class Deposit extends Component {
                                 this.props.depositAmount
                             );
                             this.props.resetAmount();
-                            this.props.close();
+                            this.handleClose();
                         }}
                     >
                         OK
@@ -134,7 +134,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     increaseAmount,
     resetAmount,
-    increaseBalance
+    increaseBalance,
+    toggleVisibility
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Deposit);
