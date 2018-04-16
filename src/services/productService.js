@@ -14,4 +14,10 @@ const buyProduct = (barcode, quantity, token) => {
     );
 };
 
-export default { buyProduct };
+const getAllProducts = () => {
+    return axios
+        .get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/user/products`)
+        .then(res => res.data.products);
+};
+
+export default { buyProduct, getAllProducts };
