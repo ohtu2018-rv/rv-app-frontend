@@ -11,7 +11,7 @@ export const authenticationActions = {
 
 export const initialState = {
     isLoggingIn: false,
-    loggedIn: true,
+    loggedIn: false,
     access_token: ''
 };
 
