@@ -5,7 +5,7 @@ import Content from '../sections/Content';
 import { connect } from 'react-redux';
 
 import { logout } from './../../reducers/authenticationReducer';
-
+import { toggleVisibility } from './../../reducers/modalReducer';
 import {
     successMessage,
     errorMessage,
@@ -38,7 +38,6 @@ class MainPage extends Component {
             notificationInterval: null,
             show: false
         };
-        this.depositShow = this.depositShow.bind(this);
         this.buy = this.buy.bind(this);
         this.deposit = this.deposit.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -130,12 +129,11 @@ class MainPage extends Component {
         }
     }
 
-
-    depositShow() {    
-        this.setState({
-            show: !this.state.show
-        });
-        
+    show() {
+        return (event) => {
+            event.preventDefault();
+            this.props.toggleVisibility(this.props.modalVisibility);
+        };
     }
 
     render() {
@@ -146,11 +144,11 @@ class MainPage extends Component {
                     user={this.props.user}
                     buy={this.buy}
                     deposit={this.deposit}
-                    show={this.depositShow}
+                    show={this.show()}
                 />
                 <Content balance={this.state.balance} deposit={this.deposit} />
-                <Modal show={ this.state.show }>
-                    <Deposit close={this.depositShow}/>
+                <Modal show={this.props.modalVisibility}>
+                    <Deposit/>
                 </Modal>
             </div>
         );
@@ -166,7 +164,8 @@ const mapDispatchToProps = {
     increaseBalance,
     decreaseBalance,
     resetUserData,
-    getProducts
+    getProducts,
+    toggleVisibility
 };
 
 const mapStateToProps = state => {
@@ -177,7 +176,8 @@ const mapStateToProps = state => {
         purchaseNotificationStartTime:
             state.notification.purchaseNotificationStartTime,
         user: state.user,
-        terminalInput: state.terminal.terminalInput
+        terminalInput: state.terminal.terminalInput,
+        modalVisibility: state.modal.modalVisibility  
     };
 };
 

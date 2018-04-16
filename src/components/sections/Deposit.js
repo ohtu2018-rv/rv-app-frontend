@@ -17,6 +17,13 @@ export class Deposit extends Component {
         };
     }
 
+    handleClose() {
+        return event => {
+            event.preventDefault();
+            
+        };
+    }
+
     render() {
         return (
             <div className="deposit-wrapper">

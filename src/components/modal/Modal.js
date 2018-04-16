@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './Modal.css';
 
-class Modal extends React.Component {
-    
 
+
+class Modal extends Component {
+   
     render() {
         if (!this.props.show) {
             return null;

@@ -20,6 +20,7 @@ import terminalReducer from './reducers/terminalReducer';
 import userReducer from './reducers/userReducer';
 import productReducer from './reducers/productReducer';
 import depositReducer from './reducers/depositReducer';
+import modalReducer from './reducers/modalReducer';
 
 // Combine reducers
 const reducer = combineReducers({
@@ -31,7 +32,8 @@ const reducer = combineReducers({
     terminal: terminalReducer,
     user: userReducer,
     products: productReducer,
-    deposit: depositReducer
+    deposit: depositReducer,
+    modal: modalReducer
 });
 
 const middleware =
