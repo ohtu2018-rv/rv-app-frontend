@@ -13,6 +13,9 @@ import {
     clearProductsFromNotification
 } from './../../reducers/notificationReducer';
 
+import { TransitionGroup } from 'react-transition-group';
+import { Fade } from './../animations/Animations';
+
 import {
     increaseBalance,
     decreaseBalance,
@@ -23,10 +26,8 @@ import { getProducts } from './../../reducers/productReducer';
 
 import userService from '../../services/userService';
 
-
 import Modal from './../modal/Modal';
 import Deposit from './../sections/Deposit';
-
 
 class MainPage extends Component {
     constructor(props) {
@@ -53,7 +54,6 @@ class MainPage extends Component {
             }
             break;
         case 100:
-            
             break;
         default:
             console.log(event.keyCode);
@@ -130,12 +130,10 @@ class MainPage extends Component {
         }
     }
 
-
-    depositShow() {    
+    depositShow() {
         this.setState({
             show: !this.state.show
         });
-        
     }
 
     render() {
@@ -149,9 +147,15 @@ class MainPage extends Component {
                     show={this.depositShow}
                 />
                 <Content balance={this.state.balance} deposit={this.deposit} />
-                <Modal show={ this.state.show }>
-                    <Deposit close={this.depositShow}/>
-                </Modal>
+                <TransitionGroup>
+                    {this.state.show && (
+                        <Fade>
+                            <Modal show={this.state.show}>
+                                <Deposit close={this.depositShow} />
+                            </Modal>
+                        </Fade>
+                    )}
+                </TransitionGroup>
             </div>
         );
     }
