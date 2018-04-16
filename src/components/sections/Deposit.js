@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './styles/Deposit.css';
+import depositReducer from './../../reducers/depositReducer';
+import userReducer from './../../reducers/userReducer';
 
 export class Deposit extends Component {
     constructor() {
         super();
-
-        this.state = {
-            amount: 0
-        };
         this.handleIncrementChange = this.handleIncrementChange.bind(this);
     }
 
     handleIncrementChange(increment) {
         return event => {
             event.preventDefault();
-            this.setState({ amount: this.state.amount + increment });
+            depositReducer.increaseAmount(increment);
         };
     }
 
@@ -24,11 +22,11 @@ export class Deposit extends Component {
             <div className="deposit-wrapper">
                 <div className="deposit">
                     <div className="btn money">
-                        {this.state.amount % 100 === 0
-                            ? this.state.amount / 100 + '.00'
-                            : this.state.amount % 10 === 0
-                                ? this.state.amount / 100 + '0'
-                                : this.state.amount / 100}{' '}
+                        {this.depositAmount % 100 === 0
+                            ? this.depositAmount / 100 + '.00'
+                            : this.depositAmount % 10 === 0
+                                ? this.depositAmount / 100 + '0'
+                                : this.depositAmount / 100}{' '}
                         &euro;
                     </div>
                     <button
@@ -105,7 +103,9 @@ export class Deposit extends Component {
     }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    depositAmount: state.deposit.depositAmount
+});
 
 const mapDispatchToProps = {};
 
