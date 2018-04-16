@@ -22,11 +22,7 @@ export class Deposit extends Component {
             <div className="deposit-wrapper">
                 <div className="deposit">
                     <div className="btn money">
-                        {this.props.depositAmount % 100 === 0
-                            ? this.props.depositAmount / 100 + '.00'
-                            : this.props.depositAmount % 10 === 0
-                                ? this.props.depositAmount / 100 + '0'
-                                : this.props.depositAmount / 100}{' '}
+                        {parseFloat(this.props.depositAmount / 100).toFixed(2)}
                         &euro;
                     </div>
                     <button
@@ -107,7 +103,10 @@ export class Deposit extends Component {
                     <button
                         className="btn number success"
                         onClick={() => {
-                            this.props.increaseBalance(this.props.token, this.props.depositAmount);
+                            this.props.increaseBalance(
+                                this.props.token,
+                                this.props.depositAmount
+                            );
                             this.props.resetAmount();
                             this.props.close();
                         }}

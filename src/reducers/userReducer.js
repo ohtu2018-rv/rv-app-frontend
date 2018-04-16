@@ -32,9 +32,11 @@ export const setUserData = user => {
 export const increaseBalance = (token, amount) => {
     return async dispatch => {
         try {
-            dispatch({ type: userActions.INCREASE_BALANCE });
-            amount;
             const balance = await userService.increaseBalance(token, amount);
+            dispatch({
+                type: userActions.INCREASE_BALANCE,
+                amount
+            });
             dispatch(
                 successMessage(
                     'Talletettu RV-tilille ' +
@@ -42,12 +44,8 @@ export const increaseBalance = (token, amount) => {
                         ' €'
                 )
             );
-            dispatch({
-                type: userActions.SET_BALANCE,
-                balance
-            });
         } catch (err) {
-            console.error(err);
+            dispatch(errorMessage('Error while making a deposit: ' + err));
         }
     };
 };
