@@ -1,19 +1,19 @@
 export const depositActions = {
-    TOGGLE_VISIBILITY: 'TOGGLE_VISIBILITY',
+    TOGGLE_CONFIRMATION_VISIBILITY: 'TOGGLE_CONFIRMATION_VISIBILITY',
     SET_AMOUNT: 'SET_AMOUNT',
     RESET_DEPOSIT: 'RESET_DEPOSIT',
     INCREASE_AMOUNT: 'INCREASE_AMOUNT'
 };
 
 export const initialState = {
-    depositVisibility: false,
+    confirmationVisibility: false,
     depositAmount: 0
 };
 
-export const toggleVisibility = value => {
+export const toggleConfirmationVisibility = value => {
     return {
-        type: depositActions.TOGGLE_VISIBILITY,
-        value: value ? false : true
+        type: depositActions.TOGGLE_CONFIRMATION_VISIBILITY,
+        value: !value
     };
 };
 
@@ -39,9 +39,9 @@ export const increaseAmount = value => {
 
 const depositReducer = (state = initialState, action) => {
     switch (action.type) {
-    case depositActions.TOGGLE_VISIBILITY:
+    case depositActions.TOGGLE_CONFIRMATION_VISIBILITY:
         return Object.assign({}, state, {
-            depositVisibility: action.value
+            confirmationVisibility: action.value
         });
     case depositActions.RESET_DEPOSIT:
         return Object.assign({}, state, {

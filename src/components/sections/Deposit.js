@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './styles/Deposit.css';
-import { increaseAmount, resetAmount } from './../../reducers/depositReducer';
+import {
+    increaseAmount,
+    resetAmount,
+    toggleConfirmationVisibility
+} from './../../reducers/depositReducer';
 import { increaseBalance } from './../../reducers/userReducer';
 import { toggleVisibility } from './../../reducers/modalReducer';
+import { TransitionGroup } from 'react-transition-group';
+import { Fade } from './../animations/Animations';
+import Modal from './../modal/Modal';
+import Confirmation from './Confirmation';
 export class Deposit extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.handleIncrementChange = this.handleIncrementChange.bind(this);
     }
 
@@ -103,16 +111,34 @@ export class Deposit extends Component {
                     <button
                         className="btn number success"
                         onClick={() => {
-                            this.props.increaseBalance(
-                                this.props.token,
-                                this.props.depositAmount
+                            this.props.toggleConfirmationVisibility(
+                                this.props.confirmationVisibility
                             );
-                            this.props.resetAmount();
-                            this.props.toggleVisibility(true);}}
+                        }}
                     >
                         OK
                     </button>
                 </div>
+                <TransitionGroup>
+                    {this.props.confirmationVisibility && (
+                        <Fade>
+                            <Modal show={this.props.confirmationVisibility}>
+                                <Confirmation
+                                    depositAmount={this.props.depositAmount}
+                                    token={this.props.token}
+                                    increaseBalance={this.props.increaseBalance}
+                                    resetAmount={this.props.resetAmount}
+                                    toggleVisibility={
+                                        this.props.toggleVisibility
+                                    }
+                                    toggleConfirmationVisibility={
+                                        this.props.toggleConfirmationVisibility
+                                    }
+                                />
+                            </Modal>
+                        </Fade>
+                    )}
+                </TransitionGroup>
             </div>
         );
     }
@@ -120,14 +146,16 @@ export class Deposit extends Component {
 
 const mapStateToProps = state => ({
     depositAmount: state.deposit.depositAmount,
-    token: state.authentication.access_token
+    token: state.authentication.access_token,
+    confirmationVisibility: state.deposit.confirmationVisibility
 });
 
 const mapDispatchToProps = {
     increaseAmount,
     resetAmount,
     increaseBalance,
-    toggleVisibility
+    toggleVisibility,
+    toggleConfirmationVisibility
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Deposit);
