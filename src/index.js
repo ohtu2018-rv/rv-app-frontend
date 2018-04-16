@@ -19,6 +19,7 @@ import loginReducer from './reducers/loginReducer';
 import terminalReducer from './reducers/terminalReducer';
 import userReducer from './reducers/userReducer';
 import productReducer from './reducers/productReducer';
+import depositReducer from './reducers/depositReducer';
 
 // Combine reducers
 const reducer = combineReducers({
@@ -29,7 +30,8 @@ const reducer = combineReducers({
     login: loginReducer,
     terminal: terminalReducer,
     user: userReducer,
-    products: productReducer
+    products: productReducer,
+    deposit: depositReducer
 });
 
 const middleware =

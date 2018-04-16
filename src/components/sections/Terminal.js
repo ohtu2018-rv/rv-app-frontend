@@ -8,7 +8,6 @@ import {
     handleInputEvent,
     handleTerminalSubmit
 } from './../../reducers/terminalReducer';
-
 class Terminal extends React.Component {
     constructor(props) {
         super(props);
@@ -53,7 +52,7 @@ class Terminal extends React.Component {
 
 const mapDispatchToProps = {
     handleInputEvent,
-    handleTerminalSubmit
+    handleTerminalSubmit,
 };
 
 const mapStateToProps = state => {
