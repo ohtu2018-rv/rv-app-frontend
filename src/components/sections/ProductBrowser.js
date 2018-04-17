@@ -60,7 +60,7 @@ export class ProductBrowser extends React.Component {
     }
 
     handleChangeCategory = (e) => {
-        this.props.setCategorySelected(parseInt(e.target.value))
+        this.props.setCategorySelected(parseInt(e.target.value, 10))
     }
 
     createProductList() {
