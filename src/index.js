@@ -21,6 +21,7 @@ import loginReducer from './reducers/loginReducer';
 import terminalReducer from './reducers/terminalReducer';
 import userReducer from './reducers/userReducer';
 import productReducer from './reducers/productReducer';
+import depositReducer from './reducers/depositReducer';
 import modalReducer from './reducers/modalReducer';
 
 // Combine reducers
@@ -33,6 +34,7 @@ const reducer = combineReducers({
     terminal: terminalReducer,
     user: userReducer,
     products: productReducer,
+    deposit: depositReducer,
     modal: modalReducer
 });
 

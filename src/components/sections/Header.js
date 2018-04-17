@@ -3,6 +3,8 @@ import HeaderBtn from '../buttons/HeaderBtn';
 import Margin from '../helpers/Margin';
 import Logo from '../../images/tkoaly2.svg';
 import { connect } from 'react-redux';
+import { showModal, closeModal } from '../../reducers/modalReducer';
+import Deposit from '../sections/Deposit';
 import './styles/Header.css';
 
 export class Header extends React.Component {
@@ -13,7 +15,24 @@ export class Header extends React.Component {
                     <img src={Logo} alt="logo" />
                     <h1>Ruokavälitys</h1>
                 </div>
-                { this.props.loggedIn && <div className="header-right">
+                { this.props.loggedIn &&
+                <div className="header-right">
+                    <Margin margin={5} inlineBlock>
+                        <HeaderBtn 
+                            onClick={e => {
+                                e.preventDefault();
+                                this.props.showModal(
+                                    Deposit,
+                                    {
+                                        toggleVisibility: this.props.closeModal
+                                    }          
+                                );
+                            }}
+                            fill
+                        >
+                            deposit
+                        </HeaderBtn>
+                    </Margin>
                     <Margin margin={5} inlineBlock>
                         <HeaderBtn fill>
                             <span>
@@ -36,8 +55,13 @@ export class Header extends React.Component {
     }
 }
 
+const mapDispatchToProps = {
+    showModal,
+    closeModal
+};
+
 const mapStateToProps = state => ({
     loggedIn: state.authentication.loggedIn
 });
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

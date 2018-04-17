@@ -7,7 +7,10 @@ import { CSSTransition } from 'react-transition-group';
 export class ModalContainer extends React.Component {
     render() {
         const ModalContent = this.props.contentComponent;
-
+        if (!ModalContent) {
+            return null;
+        }
+        
         return (
             <CSSTransition
                 in={this.props.modalVisible}

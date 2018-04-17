@@ -27,7 +27,7 @@ export class Content extends React.Component {
                 <Row className="terminal-container">
                     <Col xs={2} />
                     <Col xs={8}>
-                        <Terminal deposit={this.props.deposit} />
+                        <Terminal />
                     </Col>
                     <Col xs={2} />
                 </Row>
