@@ -9,7 +9,6 @@ import {
 import { increaseBalance } from './../../reducers/userReducer';
 import { TransitionGroup } from 'react-transition-group';
 import { Fade } from './../animations/Animations';
-import Modal from './../modal/Modal';
 import Confirmation from './Confirmation';
 
 export class Deposit extends Component {
@@ -122,20 +121,18 @@ export class Deposit extends Component {
                 <TransitionGroup>
                     {this.props.confirmationVisibility && (
                         <Fade>
-                            <Modal show={this.props.confirmationVisibility}>
-                                <Confirmation
-                                    depositAmount={this.props.depositAmount}
-                                    token={this.props.token}
-                                    increaseBalance={this.props.increaseBalance}
-                                    resetAmount={this.props.resetAmount}
-                                    toggleVisibility={
-                                        this.props.toggleVisibility
-                                    }
-                                    toggleConfirmationVisibility={
-                                        this.props.toggleConfirmationVisibility
-                                    }
-                                />
-                            </Modal>
+                            <Confirmation
+                                depositAmount={this.props.depositAmount}
+                                token={this.props.token}
+                                increaseBalance={this.props.increaseBalance}
+                                resetAmount={this.props.resetAmount}
+                                toggleVisibility={
+                                    this.props.toggleVisibility
+                                }
+                                toggleConfirmationVisibility={
+                                    this.props.toggleConfirmationVisibility
+                                }
+                            />
                         </Fade>
                     )}
                 </TransitionGroup>
