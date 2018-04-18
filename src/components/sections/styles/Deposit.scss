@@ -1,4 +1,4 @@
-@import 'vars';
+@import "vars";
 
 .deposit-wrapper {
   
@@ -81,7 +81,7 @@
   }
 
   .success {
-    background-color: green;
+    background-color: rgb(95, 161, 41);
     color: white;
     font-size: 17pt;
     font-weight: bold;
@@ -89,7 +89,7 @@
   }
 
   .cancel {
-    background-color: red;
+    background-color: rgb(209, 66, 66);
     color: white;
     font-size: 17pt;
     font-weight: bold;
