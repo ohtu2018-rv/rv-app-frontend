@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { showModal, closeModal } from '../../reducers/modalReducer';
 import Deposit from '../sections/Deposit';
 import './styles/Header.css';
+import FontAwesome from 'react-fontawesome';
 
 export class Header extends React.Component {
     render() {
@@ -15,41 +16,41 @@ export class Header extends React.Component {
                     <img src={Logo} alt="logo" />
                     <h1>Ruokavälitys</h1>
                 </div>
-                { this.props.loggedIn &&
-                <div className="header-right">
-                    <Margin margin={5} inlineBlock>
-                        <HeaderBtn 
-                            onClick={e => {
-                                e.preventDefault();
-                                this.props.showModal(
-                                    Deposit,
-                                    {
+                {this.props.loggedIn && (
+                    <div className="header-right">
+                        <Margin margin={5} inlineBlock>
+                            <HeaderBtn
+                                onClick={e => {
+                                    e.preventDefault();
+                                    this.props.showModal(Deposit, {
                                         toggleVisibility: this.props.closeModal
-                                    }          
-                                );
-                            }}
-                            fill
-                        >
-                            deposit
-                        </HeaderBtn>
-                    </Margin>
-                    <Margin margin={5} inlineBlock>
-                        <HeaderBtn fill>
-                            <span>
-                                <b>{this.props.user.full_name}</b>{' '}
-                                {parseFloat(
-                                    this.props.user.account_balance / 100
-                                ).toFixed(2)}{' '}
-                                &euro;
-                            </span>
-                        </HeaderBtn>
-                    </Margin>
-                    <Margin margin={5} inlineBlock>
-                        <HeaderBtn onClick={this.props.logout} hover>
-                            Kirjaudu ulos (ENTER)
-                        </HeaderBtn>
-                    </Margin>
-                </div>}
+                                    });
+                                }}
+                                fill
+                            >
+                                Deposit
+                            </HeaderBtn>
+                        </Margin>
+                        <Margin margin={5} inlineBlock>
+                            <HeaderBtn fill>
+                                <FontAwesome name="user-circle" />{' '}
+                                <span>
+                                    <b>{this.props.user.full_name}</b>{' '}
+                                    {parseFloat(
+                                        this.props.user.account_balance / 100
+                                    ).toFixed(2)}{' '}
+                                    &euro;
+                                </span>
+                            </HeaderBtn>
+                        </Margin>
+                        <Margin margin={5} inlineBlock>
+                            <HeaderBtn onClick={this.props.logout} hover>
+                                <FontAwesome name="sign-out" /> Kirjaudu ulos
+                                (ENTER)
+                            </HeaderBtn>
+                        </Margin>
+                    </div>
+                )}
             </header>
         );
     }
