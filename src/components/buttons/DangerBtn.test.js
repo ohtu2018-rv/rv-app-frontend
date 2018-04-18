@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import DangerBtn from './DangerBtn';
 import Loader from './../loaders/Loader';
+import renderer from 'react-test-renderer';
 
 describe.only('<DangerBtn />', () => {
     it('renders text correctly', () => {
@@ -13,12 +14,19 @@ describe.only('<DangerBtn />', () => {
         console.log(dangerBtnComponent.debug());
         const contentDiv = dangerBtnComponent.find('.btnContent');
         expect(contentDiv.text()).toContain(data.text);
+
+        const cmpnt = renderer
+            .create(<DangerBtn>{data.text}</DangerBtn>)
+            .toJSON();
+        expect(cmpnt).toMatchSnapshot();
     });
 
     it('shows loader correctly', () => {
-        const dangerBtnComponent = shallow(<DangerBtn loader={true} />);
+        const dangerBtnComponent = shallow(<DangerBtn loader />);
         console.log(dangerBtnComponent.debug());
         expect(dangerBtnComponent.contains(<Loader />)).toBe(true);
+        const cmpnt = renderer.create(<DangerBtn loader />).toJSON();
+        expect(cmpnt).toMatchSnapshot();
     });
 
     it('onClick event works correctly', () => {
@@ -31,6 +39,11 @@ describe.only('<DangerBtn />', () => {
         const dangerBtnComponent = shallow(<DangerBtn onClick={mockHandler} />);
 
         const button = dangerBtnComponent.find('button');
+
+        const cmpnt = renderer
+            .create(<DangerBtn onClick={mockHandler} />)
+            .toJSON();
+        expect(cmpnt).toMatchSnapshot();
 
         expect(mockHandler.mock.calls.length).toBe(0);
         button.simulate('click');

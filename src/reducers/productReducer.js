@@ -1,8 +1,5 @@
 import productService from '../services/productService';
-import {
-    errorMessage,
-    addProductToNotification
-} from './notificationReducer';
+import { errorMessage, addProductToNotification } from './notificationReducer';
 import { setBalance } from './userReducer';
 
 export const productActions = {
@@ -23,14 +20,14 @@ export const initialState = {
     selectedCategory: -1
 };
 
-export const setFilter = (filter) => {
+export const setFilter = filter => {
     return {
         type: productActions.SET_FILTER,
         filter
     };
 };
 
-export const setCategorySelected = (category) => {
+export const setCategorySelected = category => {
     return {
         type: productActions.SET_SELECTED_CATEGORY,
         category
@@ -47,7 +44,7 @@ export const getProducts = () => {
                 products
             });
         } catch (err) {
-            console.error(err);
+            dispatch(errorMessage('Failed to fetch products'));
         }
     };
 };
@@ -62,7 +59,7 @@ export const getCategories = () => {
                 categories
             });
         } catch (err) {
-            console.error(err);
+            dispatch(errorMessage('Failed to fetch categories'));
         }
     };
 };
@@ -75,17 +72,19 @@ export const buyProduct = (product, quantity) => {
             const res = await productService.buyProduct(
                 product.product_barcode,
                 quantity,
-                token);
-            
-            
+                token
+            );
+
             dispatch(setBalance(res.data.account_balance));
 
-            dispatch(addProductToNotification({
-                product_name: product.product_name,
-                barcode: product.product_barcode,
-                quantity: quantity,
-                price: product.sellprice
-            }));
+            dispatch(
+                addProductToNotification({
+                    product_name: product.product_name,
+                    barcode: product.product_barcode,
+                    quantity: quantity,
+                    price: product.sellprice
+                })
+            );
         } catch (err) {
             if (err.response) {
                 dispatch(errorMessage(err.response.data.message));
@@ -97,19 +96,19 @@ export const buyProduct = (product, quantity) => {
 };
 
 /**
-* Product reducer.
-* @param {object} state
-* @param {object} action
-*/
+ * Product reducer.
+ * @param {object} state
+ * @param {object} action
+ */
 const productReducer = (state = initialState, action) => {
     switch (action.type) {
     case productActions.SET_GETTING_PRODUCTS:
         return Object.assign({}, state, {
-            gettingProducts: true,
+            gettingProducts: true
         });
     case productActions.SET_GETTING_CATEGORIES:
         return Object.assign({}, state, {
-            gettingCategories: true,
+            gettingCategories: true
         });
     case productActions.SET_PRODUCTS:
         return Object.assign({}, state, {

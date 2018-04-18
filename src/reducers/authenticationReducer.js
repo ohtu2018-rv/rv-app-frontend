@@ -1,6 +1,7 @@
 import userService from './../services/userService';
 
 import { setUserData } from './../reducers/userReducer';
+import { errorMessage } from './notificationReducer';
 
 export const authenticationActions = {
     LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
@@ -37,7 +38,7 @@ export const loggedIn = token => {
                 token
             });
         } catch (err) {
-            console.error(err);
+            dispatch(errorMessage('Failed to fetch user data from server'));
         }
     };
 };
