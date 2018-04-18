@@ -133,7 +133,7 @@ class LoginForm extends React.Component {
                 }
             >
                 <form onSubmit={this.handleSubmit}>
-                    <legend>Log in</legend>
+                    <legend>Kirjaudu sisään</legend>
                     <div className="formControl">
                         <input
                             type="text"

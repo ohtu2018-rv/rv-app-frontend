@@ -1,0 +1,33 @@
+@import 'vars';
+
+/*
+  Header buttons
+  */
+
+.headerbtn {
+  color: $header-button-bgcolor;
+  -webkit-transition: background-color 0.1s; /* Safari */
+  transition: background-color 0.1s;
+}
+
+.headerbtn-hover:hover {
+  color: $header-button-textcolor;
+  background-color: $header-button-bgcolor;
+  border-color: $header-button-bgcolor;
+  cursor: pointer;
+}
+
+.headerbtn-fill {
+  color: $header-button-textcolor;
+  background-color: $header-button-bgcolor;
+  border-color: $header-button-bgcolor;
+  -webkit-transition: background-color 0.1s; /* Safari */
+  transition: background-color 0.1s;
+}
+
+.headerbtn-fill-hover:hover {
+  color: $header-button-bgcolor;
+  background-color: transparent;
+  border-color: $header-button-bgcolor;
+  cursor: pointer;
+}

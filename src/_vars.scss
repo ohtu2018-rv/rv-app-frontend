@@ -5,19 +5,19 @@ $base-border-radius: 10px;
 $base-font: Arial, "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
   "Lucida Sans", sans-serif;
 // Body
-$body-background-color: white;
+$body-background-color: #333;
 $body-font-color: black;
 // Containers
 $container-header-font-size: 16pt;
 $container-background-color: white;
 $container-text-color: black;
 // Header
-$header-bgcolor: $container-background-color;
+$header-bgcolor: #333;
 // Input
 $input-height: 48px;
 $input-border-color: black;
 $input-text-color: black;
-$input-font-size: 11pt;
+$input-font-size: 12pt;
 $input-border-radius: $base-border-radius;
 $input-placeholder-color: gray;
 $input-placeholder-font-size: $input-font-size;
@@ -42,6 +42,10 @@ $danger-button-fill-hover-bgcolor: transparent;
 $basic-button-bgcolor: rgb(38, 155, 209);
 $basic-button-textcolor: white;
 $basic-button-fill-hover-bgcolor: transparent;
+// Header button
+$header-button-bgcolor: #fc3;
+$header-button-textcolor: black;
+$header-button-fill-hover-bgcolor: transparent;
 // Loader
 $loader-color: white;
 $loader-width: 2px;

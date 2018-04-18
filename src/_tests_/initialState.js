@@ -6,12 +6,14 @@ import { initialState as authentication } from './../reducers/authenticationRedu
 import { initialState as login } from './../reducers/loginReducer';
 import { initialState as register } from './../reducers/registerReducer';
 import { initialState as shoppingCart } from './../reducers/shoppingCartReducer';
+import { initialState as modal } from '../reducers/modalReducer';
 
 const initialState = {
     notification,
     shoppingCart,
     authentication,
     login,
+    modal,
     register
 };
 
