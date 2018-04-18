@@ -1,7 +1,7 @@
 import eanValidator from './../services/eanValidator';
 import productService from './../services/productService';
 import { addProductToNotification, errorMessage } from './notificationReducer';
-import { setBalance } from './userReducer';
+import { setBalance, increaseBalance } from './userReducer';
 
 export const initialState = {
     terminalInput: '',
@@ -48,8 +48,10 @@ export const handleTerminalSubmit = (value, deposit, token) => {
     return async dispatch => {
         const depositRegexMatch = getRegexMatch(value);
         if (depositRegexMatch) {
-            const product = { price: parseRegexToCents(depositRegexMatch) };
-            deposit(product);
+            dispatch(increaseBalance(
+                token,
+                parseRegexToCents(depositRegexMatch)
+            ));
         } else if (eanValidator.validateEan(value)) {
             try {
                 const res = await productService.buyProduct(value, 1, token);
@@ -67,7 +69,7 @@ export const handleTerminalSubmit = (value, deposit, token) => {
             } catch (err) {
                 dispatch(
                     errorMessage(
-                        'Error buing product: ' + err.response.data.message
+                        'Error buying product: ' + err.response.data.message
                     )
                 );
             }

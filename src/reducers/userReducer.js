@@ -1,3 +1,6 @@
+import userService from '../services/userService';
+import { successMessage, errorMessage } from './notificationReducer';
+
 export const initialState = {
     username: '',
     full_name: '',
@@ -26,10 +29,21 @@ export const setUserData = user => {
     };
 };
 
-export const increaseBalance = balance => {
-    return {
-        type: userActions.INCREASE_BALANCE,
-        balance
+export const increaseBalance = (token, amount) => {
+    return async dispatch => {
+        try {
+            const balance = await userService.increaseBalance(token, amount);
+            dispatch(setBalance(balance));
+            dispatch(
+                successMessage(
+                    'Talletettu RV-tilille ' +
+                        parseFloat(amount / 100).toFixed(2) +
+                        ' €'
+                )
+            );
+        } catch (err) {
+            dispatch(errorMessage('Error while making a deposit: ' + err));
+        }
     };
 };
 
@@ -62,7 +76,7 @@ const userReducer = (state = initialState, action) => {
         return Object.assign({}, state, initialState);
     case userActions.INCREASE_BALANCE:
         return Object.assign({}, state, {
-            account_balance: state.account_balance + action.balance
+            account_balance: state.account_balance + action.amount
         });
     case userActions.DECREASE_BALANCE:
         return Object.assign({}, state, {

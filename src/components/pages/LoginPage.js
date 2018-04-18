@@ -1,10 +1,8 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import LoginForm from '../forms/LoginForm';
-import LoginHeader from '../sections/LoginHeader';
-import TopBalanceUsers from '../sections/TopBalanceUsers';
+import Header from '../sections/Header';
 import './styles/LoginPage.css';
-
 import { connect } from 'react-redux';
 import { toggleRegisterVisibility } from './../../reducers/registerReducer';
 import { Redirect } from 'react-router-dom';
@@ -17,18 +15,11 @@ class LoginPage extends React.Component {
 
         return (
             <div className="loginPage">
+                <Header />
                 <Grid fluid>
-                    <Row>
-                        <Col xs>
-                            <LoginHeader />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={3}>
+                    <Row center="xs">
+                        <Col xs={5}>
                             <LoginForm shadow={true} />
-                        </Col>
-                        <Col xs={9} style={{ textAlign: 'center' }}>
-                            <TopBalanceUsers />
                         </Col>
                     </Row>
                 </Grid>

@@ -90,7 +90,7 @@ class RegisterForm extends React.Component {
                 }
             >
                 <form onSubmit={this.handleSubmit}>
-                    <legend>Register</legend>
+                    <legend>Rekisteröidy käyttäjäksi</legend>
                     <div className="formControl">
                         <input
                             type="text"

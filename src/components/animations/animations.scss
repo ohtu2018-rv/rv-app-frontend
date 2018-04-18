@@ -1,3 +1,6 @@
+$material-design-curve-standard: cubic-bezier(0.4, 0, 0.2, 1);
+$material-design-curve-deceleration: cubic-bezier(0, 0, 0.2, 1);
+
 .slide-enter {
   opacity: 0;
   transform: translateX(100%);
@@ -45,7 +48,7 @@
 }
 
 @keyframes slide-in {
-
+  
   100% {
     opacity: 1;
     transform: translateX(0%);
@@ -147,7 +150,7 @@
 
 .fade-enter.fade-enter-active {
   opacity: 1;
-  transition: opacity 500ms ease-in;
+  transition: opacity 500ms $material-design-curve-standard;
 }
 
 .fade-exit {
@@ -155,6 +158,6 @@
 }
 
 .fade-exit.fade-exit-active {
-  opacity: 0.01;
-  transition: opacity 500ms ease-in;
+  opacity: 0;
+  transition: opacity 500ms $material-design-curve-standard;
 }

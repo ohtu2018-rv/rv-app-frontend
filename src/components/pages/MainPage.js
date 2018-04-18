@@ -1,37 +1,34 @@
 import React, { Component } from 'react';
-import { Header } from '../sections/Header';
+import Header from '../sections/Header';
 import Content from '../sections/Content';
-
 import { connect } from 'react-redux';
-
 import { logout } from './../../reducers/authenticationReducer';
-
 import {
     successMessage,
     errorMessage,
     addProductToNotification,
     clearProductsFromNotification
 } from './../../reducers/notificationReducer';
-
 import {
     increaseBalance,
     decreaseBalance,
     resetUserData
 } from './../../reducers/userReducer';
-
+import {
+    getProducts,
+    getCategories
+} from './../../reducers/productReducer';
 import userService from '../../services/userService';
+import { closeModal } from '../../reducers/modalReducer';
 
 class MainPage extends Component {
     constructor(props) {
-        /* REMOVE contructer after demo 1 */
-
         super(props);
         this.state = {
             timeoutHandler: null,
-            notificationInterval: null
+            notificationInterval: null,
         };
         this.buy = this.buy.bind(this);
-        this.deposit = this.deposit.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
@@ -61,6 +58,8 @@ class MainPage extends Component {
         }, 100);
         this.setState({ notificationInterval });
         document.addEventListener('keypress', this.handleKeyPress);
+        this.props.getProducts();
+        this.props.getCategories();
     }
 
     componentWillUnmount() {
@@ -101,32 +100,21 @@ class MainPage extends Component {
         }
     }
 
-    // Make this a reducer function. If named store like before, breaks redux
-    async deposit(product) {
-        try {
-            await userService.increaseBalance(this.props.token, product.price);
-            this.props.increaseBalance(product.price);
-            this.props.successMessage(
-                'Talletettu RV-tilille ' +
-                    parseFloat(product.price / 100).toFixed(2) +
-                    ' €'
-            );
-        } catch (error) {
-            const errorResponse = error.response;
-            this.props.errorMessage(errorResponse.data.message);
-        }
+    show() {
+        return (event) => {
+            event.preventDefault();
+            this.props.toggleVisibility(this.props.modalVisibility);
+        };
     }
 
     render() {
         return (
-            <div>
+            <div className="mainpage">
                 <Header
                     logout={this.props.logout}
                     user={this.props.user}
-                    buy={this.buy}
-                    deposit={this.deposit}
                 />
-                <Content balance={this.state.balance} deposit={this.deposit} />
+                <Content />
             </div>
         );
     }
@@ -140,7 +128,10 @@ const mapDispatchToProps = {
     clearProductsFromNotification,
     increaseBalance,
     decreaseBalance,
-    resetUserData
+    resetUserData,
+    getProducts,
+    closeModal,
+    getCategories
 };
 
 const mapStateToProps = state => {
@@ -151,7 +142,8 @@ const mapStateToProps = state => {
         purchaseNotificationStartTime:
             state.notification.purchaseNotificationStartTime,
         user: state.user,
-        terminalInput: state.terminal.terminalInput
+        terminalInput: state.terminal.terminalInput,
+        modalVisibility: state.modal.modalVisibility  
     };
 };
 
