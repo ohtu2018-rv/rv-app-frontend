@@ -3,129 +3,15 @@
 exports[`renders without crashing 1`] = `
 <header>
   <div
-    className="header-left"
+    className="header-title"
   >
-    <div
-      className="margin"
-      style={
-        Object {
-          "display": "inline-block",
-          "margin": 5,
-        }
-      }
-    >
-      <button
-        className="btn basic basic-hover"
-        onClick={[Function]}
-      >
-        <span
-          className="btnContent"
-        >
-          Testiostos 1 (
-          1.80
-           
-          €)
-        </span>
-      </button>
-    </div>
-    <div
-      className="margin"
-      style={
-        Object {
-          "display": "inline-block",
-          "margin": 5,
-        }
-      }
-    >
-      <button
-        className="btn basic basic-hover"
-        onClick={[Function]}
-      >
-        <span
-          className="btnContent"
-        >
-          Testiostos 2 (
-          1.20
-           
-          €)
-        </span>
-      </button>
-    </div>
-    <div
-      className="margin"
-      style={
-        Object {
-          "display": "inline-block",
-          "margin": 5,
-        }
-      }
-    >
-      <button
-        className="btn basic basic-hover"
-        onClick={[Function]}
-      >
-        <span
-          className="btnContent"
-        >
-          Testitalletus (
-          5.00
-           
-          €)
-        </span>
-      </button>
-    </div>
-  </div>
-  <div
-    className="header-right"
-  >
-    <div
-      className="margin"
-      style={
-        Object {
-          "display": "inline-block",
-          "margin": 5,
-        }
-      }
-    >
-      <button
-        className="btn basic"
-        onClick={null}
-      >
-        <span
-          className="btnContent"
-        >
-          <span>
-            <b>
-              John Doe
-            </b>
-             
-            10.00
-             
-            €
-          </span>
-        </span>
-      </button>
-    </div>
-    <div
-      className="margin"
-      style={
-        Object {
-          "display": "inline-block",
-          "margin": 5,
-        }
-      }
-    >
-      <button
-        className="btn danger danger-hover"
-        onClick={null}
-      >
-        <span
-          className="btnContent"
-        >
-          Kirjaudu ulos (ENTER)
-        </span>
-      </button>
-    </div>
+    <img
+      alt="logo"
+      src="tkoaly2.svg"
+    />
+    <h1>
+      Ruokavälitys
+    </h1>
   </div>
 </header>
 `;
