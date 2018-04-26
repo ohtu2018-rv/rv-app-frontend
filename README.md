@@ -6,10 +6,11 @@
 
 This repository contains source code for the new RV, coded during University course 'Software development project, Spring 2018'
 
+![alt text](https://raw.githubusercontent.com/ohtu-ohjaajat/OhTuHistory/master/rv-tuoteselain.png)
+
 Production URL for the application is https://rv-frontend.herokuapp.com, while staging can be found at https://rv-frontend-dev.herokuapp.com.
 
 Please login with ```normal_user::hunter2``` to use the application.
-
 
 ## How to get started
 
