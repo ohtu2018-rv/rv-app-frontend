@@ -7,6 +7,7 @@ import { initialState as login } from './../reducers/loginReducer';
 import { initialState as register } from './../reducers/registerReducer';
 import { initialState as shoppingCart } from './../reducers/shoppingCartReducer';
 import { initialState as modal } from '../reducers/modalReducer';
+import { formReducer as form } from 'redux-form';
 
 const initialState = {
     notification,
@@ -14,7 +15,8 @@ const initialState = {
     authentication,
     login,
     modal,
-    register
+    register,
+    form
 };
 
 export default initialState;

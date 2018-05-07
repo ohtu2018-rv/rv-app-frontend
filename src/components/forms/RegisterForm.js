@@ -61,7 +61,7 @@ const renderField = ({
     </div>
 );
 
-class RegisterForm extends React.Component {
+export class RegisterForm extends React.Component {
     render() {
         return (
             <form
@@ -179,7 +179,9 @@ class RegisterForm extends React.Component {
                     </Field>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <Link to="/">Palaa takaisin kirjautumiseen</Link>
+                    <Link to="/" className="backbutton">
+                        Palaa takaisin kirjautumiseen
+                    </Link>
                 </div>
             </form>
         );
