@@ -36,7 +36,7 @@ export const increaseBalance = (token, amount) => {
             dispatch(setBalance(balance));
             dispatch(
                 successMessage(
-                    'Talletettu RV-tilille ' +
+                    'Deposited into RV-account ' +
                         parseFloat(amount / 100).toFixed(2) +
                         ' €'
                 )

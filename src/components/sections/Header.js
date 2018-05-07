@@ -45,7 +45,7 @@ export class Header extends React.Component {
                         </Margin>
                         <Margin margin={5} inlineBlock>
                             <HeaderBtn onClick={this.props.logout} hover>
-                                <FontAwesome name="sign-out" /> Kirjaudu ulos
+                                <FontAwesome name="sign-out" /> Log out
                                 (ENTER)
                             </HeaderBtn>
                         </Margin>

@@ -6,7 +6,7 @@ export class Confirmation extends Component {
         return (
             <div class="confirm-overlay">
                 <div class="confirm">
-                    Vahvista{' '}
+                    Confirm{' '}
                     <b>
                         {parseFloat(this.props.depositAmount / 100).toFixed(2)}{' '}
                         &euro;
@@ -20,7 +20,7 @@ export class Confirmation extends Component {
                             this.props.toggleConfirmationVisibility(true);
                         }}
                     >
-                        Peruuta
+                        Cancel
                     </button>
                     <button
                         class="btn number success confirmBtn"

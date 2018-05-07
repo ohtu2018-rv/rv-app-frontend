@@ -73,7 +73,7 @@ export class ProductBrowser extends React.Component {
             <div className="product-browser-container">
                 <div className="product-filter">
                     <select value={this.props.selectedCategory} onChange={this.handleChangeCategory}>
-                        <option value={-1}>Kaikki tuotteet</option>
+                        <option value={-1}>All products</option>
                         { this.props.categories.map(category => 
                             <option
                                 value={category.category_id}
@@ -85,7 +85,7 @@ export class ProductBrowser extends React.Component {
                     </select>
                     <input
                         type="text"
-                        placeholder="Etsi tuote..."
+                        placeholder="Find product..."
                         value={this.props.filter}
                         onChange={this.handleChangeFilter}/>
                 </div>
