@@ -23,6 +23,7 @@ import userReducer from './reducers/userReducer';
 import productReducer from './reducers/productReducer';
 import depositReducer from './reducers/depositReducer';
 import modalReducer from './reducers/modalReducer';
+import { reducer as formReducer } from 'redux-form';
 
 // Combine reducers
 const reducer = combineReducers({
@@ -35,7 +36,8 @@ const reducer = combineReducers({
     user: userReducer,
     products: productReducer,
     deposit: depositReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    form: formReducer
 });
 
 const rootReducer = (state, action) => {

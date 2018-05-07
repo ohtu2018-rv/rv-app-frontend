@@ -7,9 +7,12 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 class RegistrationPage extends React.Component {
+    submit = values => {
+        console.log(values);
+    };
     render() {
         if (this.props.loggedIn) {
-            return <Redirect to="/"/>;
+            return <Redirect to="/" />;
         }
 
         return (
@@ -17,7 +20,7 @@ class RegistrationPage extends React.Component {
                 <Header />
                 <Row className="centered">
                     <Col xs={5}>
-                        <RegisterForm shadow={true} />
+                        <RegisterForm shadow={true} onSubmit={this.submit} />
                     </Col>
                 </Row>
             </div>
@@ -25,9 +28,7 @@ class RegistrationPage extends React.Component {
     }
 }
 
-const mapDispatchToProps = {
-
-};
+const mapDispatchToProps = {};
 
 const mapStateToProps = state => {
     return {

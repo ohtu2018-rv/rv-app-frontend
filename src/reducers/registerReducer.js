@@ -11,7 +11,7 @@ export const initialState = {
     registerPasswordDisabled: true,
     registerEmailDisabled: true,
     registerRealnameDisabled: true,
-    submitDisabled: true,
+    submitDisabled: false,
     loader: false,
     registerStep: 1,
     registerPasswordConfirmDisabled: true,
