@@ -27,7 +27,7 @@ export class ProductPopup extends React.Component {
 
         return <div className="product-popup">
             <div className="product-popup-header">
-                <h3>Osta tuote</h3>
+                <h3>Buy product</h3>
             </div>
             <div className="product-info">
                 <div className="product-name">
@@ -35,14 +35,14 @@ export class ProductPopup extends React.Component {
                 </div>
             </div>
             <div className="product-quantity">
-                <div>Määrä:</div>
+                <div>Amount:</div>
                 <div className="quantity-picker">
                     <button onClick={() => this.changeQuantity(-1)}>-</button>
                     <span>{this.state.quantity} kpl</span>
                     <button onClick={() => this.changeQuantity(1)}>+</button>
                 </div>
                 <div className="total">
-                    <div>Yhteensä</div>
+                    <div>Total</div>
                     <div className="sum">
                         {
                             ((prod.sellprice * this.state.quantity) / 100)
@@ -56,7 +56,7 @@ export class ProductPopup extends React.Component {
                     className="cancel-btn"
                     onClick={() => this.props.closeModal()}
                 >
-                    Peruuta
+                    Cancel
                 </button>
                 <button 
                     className="purchase-btn"
@@ -65,7 +65,7 @@ export class ProductPopup extends React.Component {
                         this.props.closeModal();
                     }}
                 >
-                    Osta
+                    Buy
                 </button>
             </div>
         </div>;

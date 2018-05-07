@@ -34,14 +34,14 @@ const FeaturedProductsList = props => {
 export class FeaturedProducts extends React.Component {
     render() {
         // these will some day come from backend, hardcoded for now
-        const featuredProductIds = [54, 50, 52, 626, 344];
+        const featuredProductIds = [56, 58, 54, 50, 52, 626, 344];
         const featuredProducts = this.props.products
             .filter(p => featuredProductIds.includes(p.product_id));
 
         return (
             <div className="featured-products">
                 <div className="featured-header">
-                    <h2>Suositut tuotteet</h2>
+                    <h2>Click 'n' Buy</h2>
                 </div>
                 {this.props.loading 
                     ? <Loader/> : 

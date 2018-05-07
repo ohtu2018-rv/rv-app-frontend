@@ -133,13 +133,13 @@ class LoginForm extends React.Component {
                 }
             >
                 <form onSubmit={this.handleSubmit}>
-                    <legend>Kirjaudu sisään</legend>
+                    <legend>Log in</legend>
                     <div className="formControl">
                         <input
                             type="text"
                             id="username"
                             name="username"
-                            placeholder="Käyttäjätunnus"
+                            placeholder="Username"
                             value={this.props.username}
                             onChange={event =>
                                 this.props.handleInputEvent(event)
@@ -160,7 +160,7 @@ class LoginForm extends React.Component {
                             type="password"
                             id="password"
                             name="password"
-                            placeholder="Salasana"
+                            placeholder="Password"
                             value={this.props.password}
                             onChange={event =>
                                 this.props.handleInputEvent(event)
@@ -189,12 +189,12 @@ class LoginForm extends React.Component {
                             }
                             style={{ width: '100%' }}
                         >
-                            Kirjaudu sisään (ENTER)
+                            Log in (ENTER)
                         </SuccessBtn>
                     </div>
                 </form>
                 <div>
-                    <Link to="/register">Ei tunnusta? Rekisteröidy!</Link>
+                    <Link to="/register">Not registered? Sign up!</Link>
                 </div>
             </div>
         );
