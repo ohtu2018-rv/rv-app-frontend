@@ -17,20 +17,20 @@ import { Field, reduxForm } from 'redux-form';
 
 import validator from 'validator';
 
-const required = value => (value ? undefined : 'Vaadittu kenttä');
+const required = value => (value ? undefined : 'Field is required');
 const minLength = (field, min) => value =>
     value && value.length < min
-        ? `${field} täytyy olla vähintään ${min} merkkiä pitkä`
+        ? `${field} must be longer than ${min} characters`
         : undefined;
 const passwordLength = value =>
-    value && value.length < 12 ? 'Harkitse vahvempaa salasanaa.' : undefined;
-const email = value =>
-    value && !validator.isEmail(value)
-        ? 'Virheellinen sähköpostiosoite'
+    value && value.length < 12
+        ? 'Consider using a stonger password.'
         : undefined;
+const email = value =>
+    value && !validator.isEmail(value) ? 'Invalid E-mail address' : undefined;
 
 const passwordsMatch = (value, allValues) =>
-    value !== allValues.password ? 'Salasanat eivät täsmää' : undefined;
+    value !== allValues.password ? 'Passwords do not match' : undefined;
 
 const renderField = ({
     input,
@@ -73,10 +73,8 @@ export class RegisterForm extends React.Component {
                 }
             >
                 <legend>
-                    Rekisteröidy &nbsp;&nbsp;&nbsp;<span
-                        style={{ fontSize: 13 }}
-                    >
-                        Ohje: Vaihda lomakekenttää TAB-näppäimellä
+                    Register &nbsp;&nbsp;&nbsp;<span style={{ fontSize: 13 }}>
+                        Tip: Use TAB to change form fields
                     </span>
                 </legend>
                 <div className="formControl">
@@ -85,7 +83,7 @@ export class RegisterForm extends React.Component {
                         component={renderField}
                         type="text"
                         id="registerUsername"
-                        placeholder="Käyttäjätunnus"
+                        placeholder="Username"
                         autoComplete="off"
                         autoCorrect="off"
                         autoCapitalize="off"
@@ -93,7 +91,7 @@ export class RegisterForm extends React.Component {
                         ref={input => {
                             this.registerUsernameInput = input;
                         }}
-                        validate={[required, minLength('Käyttäjätunnuksen', 4)]}
+                        validate={[required, minLength('Username', 4)]}
                     />
                 </div>
                 <div className="formControl">
@@ -102,7 +100,7 @@ export class RegisterForm extends React.Component {
                         component={renderField}
                         type="text"
                         id="registerEmail"
-                        placeholder="Sähköpostiosoite"
+                        placeholder="E-mail address"
                         autoComplete="off"
                         autoCorrect="off"
                         autoCapitalize="off"
@@ -119,7 +117,7 @@ export class RegisterForm extends React.Component {
                         component={renderField}
                         type="text"
                         id="registerRealname"
-                        placeholder="Etunimi ja sukunimi"
+                        placeholder="First name and last name"
                         autoComplete="off"
                         autoCorrect="off"
                         autoCapitalize="off"
@@ -136,7 +134,7 @@ export class RegisterForm extends React.Component {
                         component={renderField}
                         type="password"
                         id="registerPassword"
-                        placeholder="Salasana"
+                        placeholder="Password"
                         autoComplete="off"
                         autoCorrect="off"
                         autoCapitalize="off"
@@ -144,7 +142,7 @@ export class RegisterForm extends React.Component {
                         ref={input => {
                             this.registerPasswordInput = input;
                         }}
-                        validate={[required, minLength('Salasanan', 4)]}
+                        validate={[required, minLength('Password', 4)]}
                         warn={passwordLength}
                     />
                 </div>
@@ -154,7 +152,7 @@ export class RegisterForm extends React.Component {
                         component={renderField}
                         type="password"
                         id="registerPasswordConfirm"
-                        placeholder="Salasana uudelleen"
+                        placeholder="Password again"
                         autoComplete="off"
                         autoCorrect="off"
                         autoCapitalize="off"
@@ -175,12 +173,12 @@ export class RegisterForm extends React.Component {
                         style={{ width: '100%' }}
                         type="submit"
                     >
-                        Rekisteröidy (ENTER)
+                        Regiister (ENTER)
                     </Field>
                 </div>
                 <div style={{ textAlign: 'center' }}>
                     <Link to="/" className="backbutton">
-                        Palaa takaisin kirjautumiseen
+                        Back to login page
                     </Link>
                 </div>
             </form>

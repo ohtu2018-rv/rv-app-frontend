@@ -5,10 +5,12 @@ import RegisterForm from '../forms/RegisterForm';
 import Header from '../sections/Header';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { registerUser } from './../../reducers/registerReducer';
 
 class RegistrationPage extends React.Component {
     submit = values => {
         console.log(values);
+        this.props.registerUser(values);
     };
     render() {
         if (this.props.loggedIn) {
@@ -28,7 +30,9 @@ class RegistrationPage extends React.Component {
     }
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+    registerUser
+};
 
 const mapStateToProps = state => {
     return {

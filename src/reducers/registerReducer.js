@@ -1,10 +1,9 @@
+import userService from './../services/userService';
+import { errorMessage, successMessage } from './notificationReducer';
+import { loggedIn } from './authenticationReducer';
+
 export const initialState = {
     registerVisible: false,
-    registerUsername: '',
-    registerPassword: '',
-    registerEmail: '',
-    registerRealname: '',
-    registerPasswordConfirm: '',
     minUsernameLength: 4,
     minPasswordLength: 4,
     registerUsernameDisabled: false,
@@ -13,33 +12,56 @@ export const initialState = {
     registerRealnameDisabled: true,
     submitDisabled: false,
     loader: false,
-    registerStep: 1,
-    registerPasswordConfirmDisabled: true,
-    passwordsMatch: false
+    registerPasswordConfirmDisabled: true
 };
 
 export const registerActions = {
     TOGGLE_REGISTER_VISIBILITY: 'TOGGLE_REGISTER_VISIBILITY',
     RESET_REGISTER: 'RESET_REGISTER',
-    INPUT_EVENT_REGISTER: 'INPUT_EVENT_REGISTER',
     REGISTERING: 'REGISTERING',
     FOCUS_PASSWORD_FIELD_REGISTER: 'FOCUS_PASSWORD_FIELD_REGISTER',
-    FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER: 'FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER',
-    MARK_PASSWORD_MATCH: 'MARK_PASSWORD_MATCH',
+    FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER:
+        'FOCUS_PASSWORD_CONFIRM_FIELD_REGISTER',
     FOCUS_EMAIL_FIELD: 'FOCUS_EMAIL_FIELD',
-    FOCUS_REALNAME_FIELD: 'FOCUS_REALNAME_FIELD'
+    FOCUS_REALNAME_FIELD: 'FOCUS_REALNAME_FIELD',
+    REGISTER_USER: 'REGISTER_USER'
+};
+
+export const registerUser = userData => {
+    return async dispatch => {
+        dispatch(setRegistering());
+        try {
+            const registerRequest = await userService.registerUser({
+                username: userData.username,
+                password: userData.password,
+                email: userData.email,
+                realname: userData.realname
+            });
+            if (registerRequest.status === 201) {
+                dispatch(successMessage('User registered'));
+                dispatch(reset());
+                try {
+                    const loginResponse = await userService.authenticate({
+                        username: userData.username,
+                        password: userData.password
+                    });
+                    dispatch(loggedIn(loginResponse.data.access_token));
+                } catch (err) {
+                    dispatch(errorMessage('Error logging user in'));
+                }
+            } else {
+                dispatch(errorMessage('Error registering user'));
+            }
+        } catch (err) {
+            dispatch(reset());
+            dispatch(errorMessage('Error registering user'));
+        }
+    };
 };
 
 export const toggleRegisterVisibility = () => {
     return {
         type: registerActions.TOGGLE_REGISTER_VISIBILITY
-    };
-};
-
-export const checkPasswordsMatch = (password, confirmPassword) => {
-    return {
-        type: registerActions.MARK_PASSWORD_MATCH,
-        passwordsMatch: (password === confirmPassword)
     };
 };
 
@@ -49,19 +71,15 @@ export const reset = () => {
     };
 };
 
-export const handleInputEvent = event => {
-    return {
-        type: registerActions.INPUT_EVENT_REGISTER,
-        target: event.target.name,
-        value: event.target.value
-    };
-};
-
 export const setRegistering = event => {
     return {
         type: registerActions.REGISTERING,
         registerUsernameDisabled: true,
+        registerEmailDisabled: true,
         registerPasswordDisabled: true,
+        registerPasswordConfirmDisabled: true,
+        registerRealnameDisabled: true,
+        submitDisabled: true,
         loader: true
     };
 };
@@ -106,7 +124,6 @@ export const focusPasswordConfirmField = () => {
     };
 };
 
-
 /**
  * Registration reducer.
  * @param {object} state
@@ -134,7 +151,8 @@ const registerReducer = (state = initialState, action) => {
             registerStep: action.registerStep,
             registerUsernameDisabled: action.registerUsernameDisabled,
             registerPasswordDisabled: action.registerPasswordDisabled,
-            registerPasswordConfirmDisabled: action.registerConfirmPasswordDisabled,
+            registerPasswordConfirmDisabled:
+                    action.registerConfirmPasswordDisabled,
             submitDisabled: action.submitDisabled
         });
     case registerActions.REGISTERING:
@@ -142,10 +160,6 @@ const registerReducer = (state = initialState, action) => {
             registerUsernameDisabled: true,
             registerPasswordDisabled: true,
             loader: true
-        });
-    case registerActions.MARK_PASSWORD_MATCH:
-        return Object.assign({}, state, {
-            passwordsMatch: action.passwordsMatch
         });
     case registerActions.FOCUS_EMAIL_FIELD:
     case registerActions.FOCUS_REALNAME_FIELD:
