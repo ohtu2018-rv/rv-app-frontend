@@ -12,13 +12,17 @@ import thunk from 'redux-thunk';
 
 // Import reducers
 import notificationReducer from './reducers/notificationReducer';
-import authenticationReducer from './reducers/authenticationReducer';
+import authenticationReducer, {
+    authenticationActions
+} from './reducers/authenticationReducer';
 import shoppingCartReducer from './reducers/shoppingCartReducer';
 import registerReducer from './reducers/registerReducer';
 import loginReducer from './reducers/loginReducer';
 import terminalReducer from './reducers/terminalReducer';
 import userReducer from './reducers/userReducer';
 import productReducer from './reducers/productReducer';
+import depositReducer from './reducers/depositReducer';
+import modalReducer from './reducers/modalReducer';
 
 // Combine reducers
 const reducer = combineReducers({
@@ -29,8 +33,18 @@ const reducer = combineReducers({
     login: loginReducer,
     terminal: terminalReducer,
     user: userReducer,
-    products: productReducer
+    products: productReducer,
+    deposit: depositReducer,
+    modal: modalReducer
 });
+
+const rootReducer = (state, action) => {
+    if (action.type === authenticationActions.LOGOUT_SUCCESS) {
+        state = undefined;
+    }
+
+    return reducer(state, action);
+};
 
 const middleware =
     process.env.NODE_ENV !== 'production'
@@ -39,7 +53,7 @@ const middleware =
 
 // Create store
 const store = createStore(
-    reducer,
+    rootReducer,
     window.__REDUX_DEVTOOLS_EXTENSION__ &&
         window.__REDUX_DEVTOOLS_EXTENSION__(),
     applyMiddleware(...middleware)

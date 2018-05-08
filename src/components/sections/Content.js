@@ -1,8 +1,9 @@
 import React from 'react';
 import './styles/Content.css';
-import { Grid, Col, Row } from 'react-flexbox-grid';
+import { Col, Row } from 'react-flexbox-grid';
 import FeaturedProducts from './FeaturedProducts';
 import Terminal from './Terminal';
+import ProductBrowser from './ProductBrowser';
 
 import { connect } from 'react-redux';
 
@@ -15,20 +16,21 @@ export class Content extends React.Component {
     render() {
         return (
             <main>
-                <Grid style={{ width: '100%' }}>
-                    <Row>
-                        <Col xs={12}>
-                            <FeaturedProducts />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={2} />
-                        <Col xs={8}>
-                            <Terminal deposit={this.props.deposit} />
-                        </Col>
-                        <Col xs={2} />
-                    </Row>
-                </Grid>
+                <Row className="products-container">
+                    <Col xs={3}>
+                        <FeaturedProducts />
+                    </Col>
+                    <Col xs={9}>
+                        <ProductBrowser />
+                    </Col>
+                </Row>
+                <Row className="terminal-container">
+                    <Col xs={2} />
+                    <Col xs={8}>
+                        <Terminal />
+                    </Col>
+                    <Col xs={2} />
+                </Row>
             </main>
         );
     }

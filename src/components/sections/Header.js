@@ -1,94 +1,68 @@
 import React from 'react';
-import DangerBtn from '../buttons/DangerBtn';
-import BasicBtn from '../buttons/BasicBtn';
+import HeaderBtn from '../buttons/HeaderBtn';
 import Margin from '../helpers/Margin';
-
+import Logo from '../../images/tkoaly2.svg';
+import { connect } from 'react-redux';
+import { showModal, closeModal } from '../../reducers/modalReducer';
+import Deposit from '../sections/Deposit';
 import './styles/Header.css';
-
-const items = [
-    {
-        barcode: '0001',
-        price: 180,
-        product_name: 'Coca-Cola Zero 0.5l'
-    },
-    {
-        barcode: '0002',
-        price: 500,
-        product_name: 'deposit'
-    },
-    {
-        barcode: '0003',
-        price: 120,
-        product_name: 'Twix'
-    }
-];
+import FontAwesome from 'react-fontawesome';
 
 export class Header extends React.Component {
     render() {
         return (
             <header>
-                <div className="header-left">
-                    <Margin margin={5} inlineBlock>
-                        <BasicBtn
-                            hover
-                            onClick={() =>
-                                this.props.buy(
-                                    Object.assign({}, items[0], { quantity: 1 })
-                                )
-                            }
-                        >
-                            Testiostos 1 ({parseFloat(
-                                items[0].price / 100
-                            ).toFixed(2)}{' '}
-                            &euro;)
-                        </BasicBtn>
-                    </Margin>
-                    <Margin margin={5} inlineBlock>
-                        <BasicBtn
-                            hover
-                            onClick={() =>
-                                this.props.buy(
-                                    Object.assign({}, items[2], { quantity: 1 })
-                                )
-                            }
-                        >
-                            Testiostos 2 ({parseFloat(
-                                items[2].price / 100
-                            ).toFixed(2)}{' '}
-                            &euro;)
-                        </BasicBtn>
-                    </Margin>
-                    <Margin margin={5} inlineBlock>
-                        <BasicBtn
-                            hover
-                            onClick={() => this.props.deposit(items[1])}
-                        >
-                            Testitalletus ({parseFloat(
-                                items[1].price / 100
-                            ).toFixed(2)}{' '}
-                            &euro;)
-                        </BasicBtn>
-                    </Margin>
+                <div className="header-title">
+                    <img src={Logo} alt="logo" />
+                    <h1>Ruokavälitys</h1>
                 </div>
-                <div className="header-right">
-                    <Margin margin={5} inlineBlock>
-                        <BasicBtn>
-                            <span>
-                                <b>{this.props.user.full_name}</b>{' '}
-                                {parseFloat(
-                                    this.props.user.account_balance / 100
-                                ).toFixed(2)}{' '}
-                                &euro;
-                            </span>
-                        </BasicBtn>
-                    </Margin>
-                    <Margin margin={5} inlineBlock>
-                        <DangerBtn onClick={this.props.logout} hover>
-                            Kirjaudu ulos (ENTER)
-                        </DangerBtn>
-                    </Margin>
-                </div>
+                {this.props.loggedIn && (
+                    <div className="header-right">
+                        <Margin margin={5} inlineBlock>
+                            <HeaderBtn
+                                onClick={e => {
+                                    e.preventDefault();
+                                    this.props.showModal(Deposit, {
+                                        toggleVisibility: this.props.closeModal
+                                    });
+                                }}
+                                fill
+                            >
+                                Deposit
+                            </HeaderBtn>
+                        </Margin>
+                        <Margin margin={5} inlineBlock>
+                            <HeaderBtn fill>
+                                <FontAwesome name="user-circle" />{' '}
+                                <span>
+                                    <b>{this.props.user.full_name}</b>{' '}
+                                    {parseFloat(
+                                        this.props.user.account_balance / 100
+                                    ).toFixed(2)}{' '}
+                                    &euro;
+                                </span>
+                            </HeaderBtn>
+                        </Margin>
+                        <Margin margin={5} inlineBlock>
+                            <HeaderBtn onClick={this.props.logout} hover>
+                                <FontAwesome name="sign-out" /> Log out
+                                (ENTER)
+                            </HeaderBtn>
+                        </Margin>
+                    </div>
+                )}
             </header>
         );
     }
 }
+
+const mapDispatchToProps = {
+    showModal,
+    closeModal
+};
+
+const mapStateToProps = state => ({
+    loggedIn: state.authentication.loggedIn
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

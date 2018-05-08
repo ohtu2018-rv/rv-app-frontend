@@ -1,9 +1,8 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-flexbox-grid';
-import LoginHeader from '../sections/LoginHeader';
+import { Row, Col } from 'react-flexbox-grid';
 import './styles/RegistrationPage.css';
 import RegisterForm from '../forms/RegisterForm';
-
+import Header from '../sections/Header';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
@@ -15,18 +14,12 @@ class RegistrationPage extends React.Component {
 
         return (
             <div className="registrationPage">
-                <Grid fluid>
-                    <Row>
-                        <Col xs>
-                            <LoginHeader />
-                        </Col>
-                    </Row>
-                    <Row className="centered">
-                        <Col xs={5}>
-                            <RegisterForm shadow={true} />
-                        </Col>
-                    </Row>
-                </Grid>
+                <Header />
+                <Row className="centered">
+                    <Col xs={5}>
+                        <RegisterForm shadow={true} />
+                    </Col>
+                </Row>
             </div>
         );
     }

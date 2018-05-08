@@ -96,7 +96,7 @@ class RegisterForm extends React.Component {
                             type="text"
                             id="registerUsername"
                             name="registerUsername"
-                            placeholder="Käyttäjätunnus"
+                            placeholder="Username"
                             value={this.props.registerUsername}
                             onChange={(event) => this.props.handleInputEvent(event)}
                             autoComplete="off"
@@ -113,7 +113,7 @@ class RegisterForm extends React.Component {
                             type="text"
                             id="registerEmail"
                             name="registerEmail"
-                            placeholder="Sähköpostiosoite"
+                            placeholder="E-mail"
                             value={this.props.registerEmail}
                             onChange={(event) => this.props.handleInputEvent(event)}
                             autoComplete="off"
@@ -130,7 +130,7 @@ class RegisterForm extends React.Component {
                             type="text"
                             id="registerRealname"
                             name="registerRealname"
-                            placeholder="Oikea nimi"
+                            placeholder="Real name"
                             value={this.props.registerRealname}
                             onChange={(event) => this.props.handleInputEvent(event)}
                             autoComplete="off"
@@ -147,7 +147,7 @@ class RegisterForm extends React.Component {
                             type="password"
                             id="registerPassword"
                             name="registerPassword"
-                            placeholder="Salasana"
+                            placeholder="Password"
                             value={this.props.registerPassword}
                             onChange={(event) => this.props.handleInputEvent(event)}
                             className="input fullWidth"
@@ -164,7 +164,7 @@ class RegisterForm extends React.Component {
                             type="password"
                             id="registerPasswordConfirm"
                             name="registerPasswordConfirm"
-                            placeholder="Salasana uudelleen"
+                            placeholder="Confirm Password"
                             value={this.props.registerPasswordConfirm}
                             onChange={(event) => {
                                 this.props.handleInputEvent(event);
@@ -189,7 +189,7 @@ class RegisterForm extends React.Component {
                             disabled={!this.formValid()}
                             style={{ width: '100%' }}
                         >
-                            Rekisteröidy (ENTER)
+                            Register (ENTER)
                         </SuccessBtn>
                     </div>
                 </form>
