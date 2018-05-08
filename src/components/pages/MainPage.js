@@ -14,18 +14,10 @@ import {
     decreaseBalance,
     resetUserData
 } from './../../reducers/userReducer';
-<<<<<<< HEAD
-
-=======
->>>>>>> a9775b101e556e0f4365442a20c8d0ff35364bea
 import {
     getProducts,
     getCategories
 } from './../../reducers/productReducer';
-<<<<<<< HEAD
-
-=======
->>>>>>> a9775b101e556e0f4365442a20c8d0ff35364bea
 import userService from '../../services/userService';
 import { closeModal } from '../../reducers/modalReducer';
 
@@ -43,7 +35,7 @@ class MainPage extends Component {
     handleKeyPress(event) {
         switch (event.keyCode) {
         case 13:
-            if (this.props.terminalInput === '') {
+            if (this.props.terminalInput === '' && this.props.filter === '') {
                 this.props.resetUserData();
                 this.props.logout();
             }
@@ -151,6 +143,7 @@ const mapStateToProps = state => {
             state.notification.purchaseNotificationStartTime,
         user: state.user,
         terminalInput: state.terminal.terminalInput,
+        filter: state.products.filter,
         modalVisibility: state.modal.modalVisibility  
     };
 };
