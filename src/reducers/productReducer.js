@@ -95,16 +95,6 @@ export const buyProduct = (product, quantity) => {
     };
 };
 
-export const setProductsInCategory = (category, products) => {
-    const productsInCategory = products.filter(product => 
-        product.product_group === category.category_id
-    );
-    return {
-        type: productActions.SET_PRODUCTS_IN_CATEGORY,
-        productsInCategory
-    };
-};
-
 /**
  * Product reducer.
  * @param {object} state
@@ -119,10 +109,6 @@ const productReducer = (state = initialState, action) => {
     case productActions.SET_GETTING_CATEGORIES:
         return Object.assign({}, state, {
             gettingCategories: true
-        });
-    case productActions.SET_GETTING_CATEGORIES:
-        return Object.assign({}, state, {
-            gettingCategories: true,
         });
     case productActions.SET_PRODUCTS:
         return Object.assign({}, state, {
@@ -141,10 +127,6 @@ const productReducer = (state = initialState, action) => {
     case productActions.SET_SELECTED_CATEGORY:
         return Object.assign({}, state, {
             selectedCategory: action.category
-        });
-    case productActions.SET_PRODUCTS_IN_CATEGORY:
-        return Object.assign({}, state, {
-            productsInCategory: action.productsInCategory
         });
     default:
         return state;
