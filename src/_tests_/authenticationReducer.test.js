@@ -8,7 +8,33 @@ describe('authenticationReducer', () => {
 
         const newState = authenticationReducer(state, action);
 
-        expect(newState.length).toBe(1);
-        expect(newState).toContainEqual(action.data);
+        expect(Object.keys(newState).length).toBeTruthy();
+    });
+
+    it('loggingIn-action changes state', () => {
+        const state = [];
+        const action = loggingIn();
+
+        const newState = authenticationReducer(state, action);
+        
+        expect(Object.keys(newState).length).toBeTruthy();
+    });
+
+    it('loggedIn-action changes state', () => {
+        const state = [];
+        const action = loggedIn();
+
+        const newState = authenticationReducer(state, action);
+
+        expect(Object.keys(newState).length).toBeFalsy();
+    });
+
+    it('loginFailed-action changes state', () => {
+        const state = [];
+        const action = loginFailed();
+
+        const newState = authenticationReducer(state, action);
+        
+        expect(Object.keys(newState).length).toBeTruthy();
     });
 });
