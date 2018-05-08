@@ -63,6 +63,10 @@ Use these scripts to help yourself in development.
 
 New features or fixes must have a branch. Pushing directly to develop or master is not allowed (though certain emergency cituations do not follow this rule) [See this link on how to use Git Flow.](DEVELOPMENT.md)
 
+### Testing practices
+
+When developing, update snapshot-tests regularly and create other tests when needed to do so. Use Jest to write tests and mocks.
+
 ## Build pipeline
 
 When code is pushed to GitHub and a pull request is made to either ```develop``` or ```master``` branch, Travis CI will run tests for the project and deploy it to Heroku, if all test have passed.
