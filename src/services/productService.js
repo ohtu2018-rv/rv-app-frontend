@@ -17,7 +17,7 @@ const buyProduct = (barcode, quantity, token) => {
 const getAllProducts = () => {
     return axios
         .get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/products`)
-        .then(res => res.data.products);
+        .then(res => res.data.products.filter(p => p.product_group !== 65535));
 };
 
 const getAllCategories = () => {
