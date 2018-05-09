@@ -15,7 +15,6 @@ import notificationReducer from './reducers/notificationReducer';
 import authenticationReducer, {
     authenticationActions
 } from './reducers/authenticationReducer';
-import shoppingCartReducer from './reducers/shoppingCartReducer';
 import registerReducer from './reducers/registerReducer';
 import loginReducer from './reducers/loginReducer';
 import terminalReducer from './reducers/terminalReducer';
@@ -29,7 +28,6 @@ import { reducer as formReducer } from 'redux-form';
 const reducer = combineReducers({
     notification: notificationReducer,
     authentication: authenticationReducer,
-    shoppingCart: shoppingCartReducer,
     register: registerReducer,
     login: loginReducer,
     terminal: terminalReducer,
