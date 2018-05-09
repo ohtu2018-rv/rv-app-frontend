@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders without crashing 1`] = `
+<div
+  className="confirm-overlay"
+>
+  <div
+    className="confirm"
+  >
+    Confirm
+     
+    <b>
+      NaN
+       
+      €
+    </b>
+     
+    deposit
+    <br />
+    <br />
+    <button
+      className="btn number cancel cancelBtn"
+      onClick={[Function]}
+    >
+      Cancel
+    </button>
+    <button
+      className="btn number success confirmBtn"
+      onClick={[Function]}
+    >
+      OK
+    </button>
+  </div>
+</div>
+`;

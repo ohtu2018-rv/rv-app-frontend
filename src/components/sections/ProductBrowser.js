@@ -108,7 +108,9 @@ const mapStateToProps = state => ({
     loading: state.products.gettingProducts,
     filter: state.products.filter,
     selectedCategory: state.products.selectedCategory,
-    categories: state.products.categories
+    categories: state.products.categories.filter(categ => 
+        categ.category_id !== 65535    
+    )
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductBrowser);
