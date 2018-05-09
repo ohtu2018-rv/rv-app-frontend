@@ -4,8 +4,8 @@ import './styles/Confirmation.css';
 export class Confirmation extends Component {
     render() {
         return (
-            <div class="confirm-overlay">
-                <div class="confirm">
+            <div className="confirm-overlay">
+                <div className="confirm">
                     Confirm{' '}
                     <b>
                         {parseFloat(this.props.depositAmount / 100).toFixed(2)}{' '}
@@ -15,7 +15,7 @@ export class Confirmation extends Component {
                     <br />
                     <br />
                     <button
-                        class="btn number cancel cancelBtn"
+                        className="btn number cancel cancelBtn"
                         onClick={() => {
                             this.props.toggleConfirmationVisibility(true);
                         }}
@@ -23,7 +23,7 @@ export class Confirmation extends Component {
                         Cancel
                     </button>
                     <button
-                        class="btn number success confirmBtn"
+                        className="btn number success confirmBtn"
                         onClick={() => {
                             this.props.increaseBalance(
                                 this.props.token,
