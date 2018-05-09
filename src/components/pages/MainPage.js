@@ -14,10 +14,7 @@ import {
     decreaseBalance,
     resetUserData
 } from './../../reducers/userReducer';
-import {
-    getProducts,
-    getCategories
-} from './../../reducers/productReducer';
+import { getProducts, getCategories } from './../../reducers/productReducer';
 import userService from '../../services/userService';
 import { closeModal } from '../../reducers/modalReducer';
 
@@ -26,7 +23,7 @@ class MainPage extends Component {
         super(props);
         this.state = {
             timeoutHandler: null,
-            notificationInterval: null,
+            notificationInterval: null
         };
         this.buy = this.buy.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -35,13 +32,16 @@ class MainPage extends Component {
     handleKeyPress(event) {
         switch (event.keyCode) {
         case 13:
-            if (this.props.terminalInput === '' && this.props.filter === '') {
+            if (
+                this.props.terminalInput === '' &&
+                    this.props.filter === ''
+            ) {
                 this.props.resetUserData();
                 this.props.logout();
             }
             break;
         default:
-            console.log(event.keyCode);
+            break;
         }
     }
 
@@ -101,7 +101,7 @@ class MainPage extends Component {
     }
 
     show() {
-        return (event) => {
+        return event => {
             event.preventDefault();
             this.props.toggleVisibility(this.props.modalVisibility);
         };
@@ -110,10 +110,7 @@ class MainPage extends Component {
     render() {
         return (
             <div className="mainpage">
-                <Header
-                    logout={this.props.logout}
-                    user={this.props.user}
-                />
+                <Header logout={this.props.logout} user={this.props.user} />
                 <Content />
             </div>
         );
@@ -144,7 +141,7 @@ const mapStateToProps = state => {
         user: state.user,
         terminalInput: state.terminal.terminalInput,
         filter: state.products.filter,
-        modalVisibility: state.modal.modalVisibility  
+        modalVisibility: state.modal.modalVisibility
     };
 };
 

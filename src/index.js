@@ -15,7 +15,6 @@ import notificationReducer from './reducers/notificationReducer';
 import authenticationReducer, {
     authenticationActions
 } from './reducers/authenticationReducer';
-import shoppingCartReducer from './reducers/shoppingCartReducer';
 import registerReducer from './reducers/registerReducer';
 import loginReducer from './reducers/loginReducer';
 import terminalReducer from './reducers/terminalReducer';
@@ -23,19 +22,20 @@ import userReducer from './reducers/userReducer';
 import productReducer from './reducers/productReducer';
 import depositReducer from './reducers/depositReducer';
 import modalReducer from './reducers/modalReducer';
+import { reducer as formReducer } from 'redux-form';
 
 // Combine reducers
 const reducer = combineReducers({
     notification: notificationReducer,
     authentication: authenticationReducer,
-    shoppingCart: shoppingCartReducer,
     register: registerReducer,
     login: loginReducer,
     terminal: terminalReducer,
     user: userReducer,
     products: productReducer,
     deposit: depositReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    form: formReducer
 });
 
 const rootReducer = (state, action) => {
