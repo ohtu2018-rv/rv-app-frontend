@@ -1,58 +1,67 @@
 import React from 'react';
-import { Row, Col } from 'react-flexbox-grid';
 import './styles/FeaturedProducts.css';
+import { connect } from 'react-redux';
+import { buyProduct } from '../../reducers/productReducer';
+import Loader from '../loaders/Loader';
 
-const placeholderProducts = [
-    {
-        barcode: '0000000000001',
-        product_name: 'Kahvi',
-        price: 50
-    },
-    {
-        barcode: '0000000000002',
-        product_name: 'Kokkelikola',
-        price: 180
-    },
-    {
-        barcode: '0000000000003',
-        product_name: 'Yhden tähden Jallu',
-        price: 700
-    },
-    {
-        barcode: '0000000000004',
-        product_name: 'Suolapähkinät',
-        price: 150
-    }
-];
+const FeaturedProductsList = props => {
+    const products = props.products;
 
-class FeaturedProductInfo extends React.Component {
+    const productsList = products.map((p) => 
+        <li key={p.product_id}>
+            <a
+                href="/"
+                role="button"
+                onClick={e => {
+                    e.preventDefault();
+                    props.buy(p);
+                }}
+            >
+                <div className="featured-name">
+                    {p.product_name}
+                </div>
+                <div className="featured-price">
+                    {(p.sellprice / 100).toFixed(2).replace('.', ',')} &euro;
+                </div>
+            </a>
+        </li>
+    );
+
+    return <ul>{productsList}</ul>;
+};
+
+
+export class FeaturedProducts extends React.Component {
     render() {
-        const product = this.props.product;
-
-        return (
-            <li>
-                <Row>
-                    <Col xs={8}>{product.product_name}</Col>
-                    <Col xs={4} className="product-price">
-                        {(product.price / 100).toFixed(2)} &euro;
-                    </Col>
-                </Row>
-            </li>
-        );
-    }
-}
-
-export default class FeaturedProducts extends React.Component {
-    render() {
-        const productList = placeholderProducts.map(product => (
-            <FeaturedProductInfo key={product.barcode} product={product} />
-        ));
+        // these will some day come from backend, hardcoded for now
+        const featuredProductIds = [56, 58, 54, 50, 52, 626, 344];
+        const featuredProducts = this.props.products
+            .filter(p => featuredProductIds.includes(p.product_id));
 
         return (
             <div className="featured-products">
-                <h2>Suositut tuotteet</h2>
-                <ul>{productList}</ul>
+                <div className="featured-header">
+                    <h2>Click 'n' Buy</h2>
+                </div>
+                {this.props.loading 
+                    ? <Loader/> : 
+                    <FeaturedProductsList 
+                        products={featuredProducts} 
+                        buy={p => this.props.buyProduct(p, 1)}
+                    />
+                }
             </div>
         );
     }
 }
+
+const mapDispatchToProps = {
+    buyProduct
+};
+
+const mapStateToProps = state => ({
+    products: state.products.products,
+    loading: state.products.gettingProducts
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeaturedProducts);

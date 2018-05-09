@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Header } from '../components/sections/Header';
 import Enzyme from 'enzyme';
-
+import renderer from 'react-test-renderer';
 /**
  * Mock
  */
@@ -14,4 +14,6 @@ const user = {
 it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(<Header user={user} />, div);
+    const cmpnt = renderer.create(<Header user={user} />).toJSON();
+    expect(cmpnt).toMatchSnapshot();
 });

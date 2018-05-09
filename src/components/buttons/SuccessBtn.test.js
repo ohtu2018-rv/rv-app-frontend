@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import SuccessBtn from './SuccessBtn';
 import Loader from './../loaders/Loader';
+import renderer from 'react-test-renderer';
 
 describe.only('<SuccessBtn />', () => {
     it('renders text correctly', () => {
@@ -15,12 +16,18 @@ describe.only('<SuccessBtn />', () => {
         console.log(successBtnComponent.debug());
         const contentDiv = successBtnComponent.find('.btnContent');
         expect(contentDiv.text()).toContain(data.text);
+        const cmpnt = renderer
+            .create(<SuccessBtn>{data.text}</SuccessBtn>)
+            .toJSON();
+        expect(cmpnt).toMatchSnapshot();
     });
 
     it('shows loader correctly', () => {
         const successBtnComponent = shallow(<SuccessBtn loader={true} />);
         console.log(successBtnComponent.debug());
         expect(successBtnComponent.contains(<Loader />)).toBe(true);
+        const cmpnt = renderer.create(<SuccessBtn loader />).toJSON();
+        expect(cmpnt).toMatchSnapshot();
     });
 
     it('onClick event works correctly', () => {
@@ -33,6 +40,11 @@ describe.only('<SuccessBtn />', () => {
         const successBtnComponent = shallow(
             <SuccessBtn onClick={mockHandler} />
         );
+
+        const cmpnt = renderer
+            .create(<SuccessBtn onClick={mockHandler} />)
+            .toJSON();
+        expect(cmpnt).toMatchSnapshot();
 
         const button = successBtnComponent.find('button');
 

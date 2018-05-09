@@ -1,39 +1,37 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-flexbox-grid';
-import LoginHeader from '../sections/LoginHeader';
+import { Row, Col } from 'react-flexbox-grid';
 import './styles/RegistrationPage.css';
 import RegisterForm from '../forms/RegisterForm';
-
+import Header from '../sections/Header';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { registerUser } from './../../reducers/registerReducer';
 
 class RegistrationPage extends React.Component {
+    submit = values => {
+        console.log(values);
+        this.props.registerUser(values);
+    };
     render() {
         if (this.props.loggedIn) {
-            return <Redirect to="/"/>;
+            return <Redirect to="/" />;
         }
 
         return (
             <div className="registrationPage">
-                <Grid fluid>
-                    <Row>
-                        <Col xs>
-                            <LoginHeader />
-                        </Col>
-                    </Row>
-                    <Row className="centered">
-                        <Col xs={5}>
-                            <RegisterForm shadow={true} />
-                        </Col>
-                    </Row>
-                </Grid>
+                <Header />
+                <Row className="centered">
+                    <Col xs={5}>
+                        <RegisterForm shadow={true} onSubmit={this.submit} />
+                    </Col>
+                </Row>
             </div>
         );
     }
 }
 
 const mapDispatchToProps = {
-
+    registerUser
 };
 
 const mapStateToProps = state => {

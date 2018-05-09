@@ -6,3 +6,30 @@
 .registerFieldValid::after {
   content: "trolol";
 }
+
+.error-msg {
+  margin: 5px;
+  display: block;
+  height: 25px;
+  line-height: 25px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  color: red;
+}
+
+.warning-msg {
+  margin: 5px;
+  display: block;
+  height: 25px;
+  line-height: 25px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  color: black;
+  background-color: yellow;
+}
+
+.error-field {
+  border: 1px solid red;
+}

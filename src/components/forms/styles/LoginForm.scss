@@ -1,12 +1,22 @@
 @import "vars";
 
 .form {
-  padding: $base-padding;
+  padding: 0 0 20px 0;
+  margin-top: 20px;
   display: inline-block;
   font-family: $base-font;
   width: 100%;
   color: $container-text-color;
   background-color: $container-background-color;
+  overflow: hidden;
+
+  a {
+    color: rgb(83, 83, 38);
+  }
+
+  button {
+    font-size: 1em;
+  }
 }
 
 .form-shadow {
@@ -18,8 +28,13 @@
 }
 
 .form legend {
-  font-weight: bold;
-  font-size: 16pt;
+  display: block;
+  font-weight: normal;
+  font-size: 1.3em;
+  background: #fc3;
+  width: 100%;
+  text-align: left;
+  padding: 16px;
 }
 
 .input {
@@ -31,7 +46,7 @@
   color: $input-text-color;
   background-color: transparent;
   text-align: center;
-  
+
   @if $input-box-shadow {
     box-shadow: $box_shadow;
   }
@@ -74,6 +89,7 @@
 .formControl {
   margin-top: 20px;
   margin-bottom: 20px;
+  padding: 0 16px;
   text-align: center;
 
   label {

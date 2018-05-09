@@ -8,7 +8,6 @@ import {
     handleInputEvent,
     handleTerminalSubmit
 } from './../../reducers/terminalReducer';
-
 class Terminal extends React.Component {
     constructor(props) {
         super(props);
@@ -34,7 +33,6 @@ class Terminal extends React.Component {
             : 'input fullWidth invalid';
         return (
             <div className="terminal">
-                Pepsi Max: 6413600013082
                 <form onSubmit={this.handleSubmit}>
                     <input
                         className={className}
@@ -53,7 +51,7 @@ class Terminal extends React.Component {
 
 const mapDispatchToProps = {
     handleInputEvent,
-    handleTerminalSubmit
+    handleTerminalSubmit,
 };
 
 const mapStateToProps = state => {

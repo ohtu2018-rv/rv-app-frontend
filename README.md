@@ -6,10 +6,11 @@
 
 This repository contains source code for the new RV, coded during University course 'Software development project, Spring 2018'
 
+![alt text](https://raw.githubusercontent.com/ohtu-ohjaajat/OhTuHistory/master/rv-tuoteselain.png)
+
 Production URL for the application is https://rv-frontend.herokuapp.com, while staging can be found at https://rv-frontend-dev.herokuapp.com.
 
 Please login with ```normal_user::hunter2``` to use the application.
-
 
 ## How to get started
 
@@ -61,6 +62,10 @@ Use these scripts to help yourself in development.
 ### Git Flow
 
 New features or fixes must have a branch. Pushing directly to develop or master is not allowed (though certain emergency cituations do not follow this rule) [See this link on how to use Git Flow.](DEVELOPMENT.md)
+
+### Testing practices
+
+When developing, update snapshot-tests regularly and create other tests when needed to do so. Use Jest to write tests and mocks.
 
 ## Build pipeline
 
